@@ -1,7 +1,7 @@
 @startuml
 
 node "Ubuntu Server 20.0" {
-node "Angular 12.1.4" <<Interfaz>> {
+node Angular_12.1.4 <<Interfaz>> {
 }
 }
 
@@ -14,13 +14,13 @@ file ormconfig.ts
 API - [FET CLI 2.2.1]
 }
 
-database "PostgreSQL 12" <<Digital Ocean>> {
+database PostgreSQL_12 <<Digital Ocean>> {
 }
 
-TypeScript --> PostgreSQL 12
+TypeScript --> PostgreSQL_12
 TypeScript --( API
 TypeScript -right-> Nginx_v1.21.4
-Angular 12.1.4 --( API
+Angular_12.1.4 --( API
 Nginx_v1.21.4 --( API
 
 @enduml
