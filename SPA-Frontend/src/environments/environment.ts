@@ -3,8 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  api: {
+    host: "localhost",
+    port: 5000,
+    name: "api",
+  }
 };
+
+export const apiUrl = `http://${environment.api.host}:${environment.api.port}/${environment.api.name}${`
 
 /*
  * For easier debugging in development mode, you can import the following file
