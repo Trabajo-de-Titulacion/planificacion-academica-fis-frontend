@@ -1,0 +1,16 @@
+<div class="barraSuperior">
+    Sistema de Planificación Académica
+    
+    <button class="menuUsuario" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Usuario">
+        <mat-icon>account_circle</mat-icon>
+    </button>
+    <span class="correoUsuario">{{usuario}}</span>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar sesión</span>
+        </button>
+    </mat-menu>
+</div>
+
+<router-outlet></router-outlet>
