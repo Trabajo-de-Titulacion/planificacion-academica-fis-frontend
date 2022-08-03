@@ -48,8 +48,9 @@
                         formGroup.get('constrasena')?.hasError('maxlength')">
                         La contraseña debe tener como máximo 16 caracteres</mat-error>
                 </mat-form-field>
-                <button mat-raised-button color="primary" class="buttonStyle" [disabled]="formGroup.invalid"
+                <button mat-raised-button color="primary" class="buttonStyle" [disabled]="formGroup.invalid || cargando"
                     (click)="login()">Ingresar</button>
+                <mat-spinner [diameter]="30" *ngIf="cargando"></mat-spinner>
                 <mat-error *ngIf="errorSesion">
                     Correo o contraseña incorrectos.</mat-error>
             </form>

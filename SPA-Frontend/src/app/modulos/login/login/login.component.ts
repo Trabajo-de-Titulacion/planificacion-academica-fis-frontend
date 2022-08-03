@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   errorSesion: boolean = false;
   sesionIniciada: boolean = false;
+  cargando: boolean = false;
 
   ngOnInit(): void {
     this.sesionIniciada = !!this.tokenService.obtenerToken();
@@ -37,7 +38,8 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.formGroup) {
-      if (this.formGroup.valid) {
+      if (this.formGroup.valid && !this.cargando) {
+        this.cargando = true;
         // Iniciar sesión con credenciales
         const correo = this.formGroup.get('correo')?.value;
         const clave = this.formGroup.get('constrasena')?.value;
@@ -65,6 +67,7 @@ export class LoginComponent implements OnInit {
           },
           error: err => {
             this.errorSesion = true;
+            this.cargando = false;
 
             const toast = Swal.mixin({
               toast: true,
