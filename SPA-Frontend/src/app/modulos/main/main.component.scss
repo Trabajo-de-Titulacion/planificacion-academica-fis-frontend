@@ -1,7 +1,18 @@
-.barraSuperior {
-    width: 100vw;
-    height: 10vh;
-    //border: black solid 1px;
+.menuAcciones {
+    position: absolute;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #eee;
+}
+
+mat-sidenav {
+    width: 20vw;
+}
+  
+.spacer {
+    flex: 1 1 auto;
 }
 
 .menuUsuario {

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './modulos/login/login/login.component';
+import { BienvenidoComponent } from './modulos/main/bienvenido/bienvenido.component';
 import { MainComponent } from './modulos/main/main.component';
 
 const routes: Routes = [
@@ -16,10 +17,17 @@ const routes: Routes = [
   {
     path: 'spa',
     component: MainComponent,
+    children: [
+      {
+        path: '',
+        component: BienvenidoComponent,
+      },
+    ]
   },
   {
     path: '**',
-    component: MainComponent,
+    redirectTo: 'spa',
+    pathMatch: 'full',
   },
 ];
 

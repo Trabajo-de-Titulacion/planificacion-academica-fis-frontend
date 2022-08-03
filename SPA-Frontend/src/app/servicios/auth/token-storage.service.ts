@@ -14,7 +14,7 @@ export class TokenStorageService {
   }
 
   obtenerToken() {
-    window.sessionStorage.getItem(TOKEN_KEY);
+    return window.sessionStorage.getItem(TOKEN_KEY);
   }
 
   cerrarSesion() {

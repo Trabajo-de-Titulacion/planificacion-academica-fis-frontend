@@ -1,16 +1,71 @@
-<div class="barraSuperior">
-    Sistema de Planificación Académica
-    
-    <button class="menuUsuario" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Usuario">
+<mat-toolbar color="primary">
+    <button mat-icon-button (click)="toogleMenuAcciones()" aria-label="Menú de acciones">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>Sistema de Planificación Académica</span>
+    <span class="spacer"></span>
+    <!-- Usuario -->
+    <span class="correoUsuario">{{usuario}}</span>
+    <!-- Menú de usuario -->
+    <button class="menuUsuario" mat-icon-button [matMenuTriggerFor]="menuUsuario" aria-label="Usuario">
         <mat-icon>account_circle</mat-icon>
     </button>
-    <span class="correoUsuario">{{usuario}}</span>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item>
+    <mat-menu #menuUsuario="matMenu">
+        <button mat-menu-item (click)="cerrarSesion()">
             <mat-icon>logout</mat-icon>
             <span>Cerrar sesión</span>
         </button>
     </mat-menu>
-</div>
+</mat-toolbar>
 
-<router-outlet></router-outlet>
+<mat-sidenav-container class="menuAcciones">
+    <!-- Acciones -->
+    <mat-sidenav mode="side" [(opened)]="mostrarMenuAcciones">
+        <mat-list>
+            <!-- Coordinador -->
+            <h3 matSubheader>Coordinador</h3>
+            <mat-nav-list>
+                <!-- Acción 1 -->
+                <mat-list-item>
+                   <a matLine [routerLink]="['/spa']">Acción 1</a>
+                   <button mat-icon-button>
+                      <mat-icon>person_add_alt</mat-icon>
+                   </button>
+                </mat-list-item>
+                <!-- Acción 2 -->
+                <mat-list-item>
+                    <a matLine [routerLink]="['/spa']">Acción 2</a>
+                    <button mat-icon-button>
+                       <mat-icon>info</mat-icon>
+                    </button>
+                 </mat-list-item>
+            </mat-nav-list>
+
+            <mat-divider></mat-divider>
+
+            <!-- Docente -->
+            <h3 matSubheader>Docente</h3>
+            <mat-nav-list>
+                <!-- Acción 1 -->
+                <mat-list-item>
+                    <a matLine [routerLink]="['/spa']">Acción 1</a>
+                    <button mat-icon-button>
+                       <mat-icon>create</mat-icon>
+                    </button>
+                 </mat-list-item>
+                 <!-- Acción 2 -->
+                 <mat-list-item>
+                     <a matLine [routerLink]="['/spa']">Acción 2</a>
+                     <button mat-icon-button>
+                        <mat-icon>info</mat-icon>
+                     </button>
+                  </mat-list-item>
+            </mat-nav-list>
+
+         </mat-list>
+    </mat-sidenav>
+    <!-- Contenido principal -->
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
