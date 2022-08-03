@@ -13,10 +13,6 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit {
 
-  formGroup?: FormGroup;
-  floatLabelControl = new FormControl('auto' as FloatLabelType);
-  errorSesion: boolean = false;
-
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly authService: AutenticacionService,
@@ -24,7 +20,18 @@ export class LoginComponent implements OnInit {
     private readonly router: Router,
   ) { }
 
+  formGroup?: FormGroup;
+  floatLabelControl = new FormControl('auto' as FloatLabelType);
+  errorSesion: boolean = false;
+  sesionIniciada: boolean = false;
+
   ngOnInit(): void {
+    this.sesionIniciada = !!this.tokenService.obtenerToken();
+    // Si ya ha iniciado sesión
+    if (this.sesionIniciada) {
+      this.router.navigate(['/spa']);
+      return;
+    }
     this.configurarFormulario();
   }
 
