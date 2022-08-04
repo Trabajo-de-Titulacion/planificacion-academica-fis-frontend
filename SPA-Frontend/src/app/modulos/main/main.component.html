@@ -7,8 +7,8 @@
     <!-- Usuario -->
     <span class="correoUsuario">{{usuario}}</span>
     <!-- Menú de usuario -->
-    <button class="menuUsuario" mat-icon-button [matMenuTriggerFor]="menuUsuario" aria-label="Usuario">
-        <mat-icon>account_circle</mat-icon>
+    <button mat-icon-button class="iconoUsuario" [matMenuTriggerFor]="menuUsuario" aria-label="Usuario">
+        <mat-icon [inline]="true">account_circle</mat-icon>
     </button>
     <mat-menu #menuUsuario="matMenu">
         <button mat-menu-item (click)="cerrarSesion()">
