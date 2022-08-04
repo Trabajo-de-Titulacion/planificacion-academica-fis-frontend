@@ -18,9 +18,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './modulos/login/login/login.component';
-import { AutenticacionService } from './servicios/auth/autenticacion.service';
+import { AuthService } from './servicios/auth/auth.service';
 import { MainComponent } from './modulos/main/main.component';
 import { BienvenidoComponent } from './modulos/main/bienvenido/bienvenido.component';
+import { authInterceptorProviders } from './servicios/auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { BienvenidoComponent } from './modulos/main/bienvenido/bienvenido.compon
     MatProgressSpinnerModule,
   ],
   providers: [
-    AutenticacionService
+    AuthService,
+    authInterceptorProviders,
   ],
   bootstrap: [AppComponent]
 })

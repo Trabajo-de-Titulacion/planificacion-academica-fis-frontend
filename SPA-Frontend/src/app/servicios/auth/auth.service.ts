@@ -10,7 +10,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class AutenticacionService {
+export class AuthService {
 
   constructor(
     private readonly httpClient: HttpClient

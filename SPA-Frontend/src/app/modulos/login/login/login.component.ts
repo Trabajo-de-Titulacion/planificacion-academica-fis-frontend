@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FloatLabelType } from '@angular/material/form-field';
 import { Router } from '@angular/router';
-import { AutenticacionService } from 'src/app/servicios/auth/autenticacion.service';
+import { AuthService } from 'src/app/servicios/auth/auth.service';
 import { TokenStorageService } from 'src/app/servicios/auth/token-storage.service';
 import Swal from 'sweetalert2';
 
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly authService: AutenticacionService,
+    private readonly authService: AuthService,
     private readonly tokenService: TokenStorageService,
     private readonly router: Router,
   ) { }
