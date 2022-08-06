@@ -22,6 +22,7 @@ import { AuthService } from './servicios/auth/auth.service';
 import { MainComponent } from './modulos/main/main.component';
 import { BienvenidoComponent } from './modulos/main/bienvenido/bienvenido.component';
 import { authInterceptorProviders } from './servicios/auth/auth.interceptor';
+import { LoggedGuard } from './servicios/auth/guards/logged.guard';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { authInterceptorProviders } from './servicios/auth/auth.interceptor';
   providers: [
     AuthService,
     authInterceptorProviders,
+    LoggedGuard,
   ],
   bootstrap: [AppComponent]
 })

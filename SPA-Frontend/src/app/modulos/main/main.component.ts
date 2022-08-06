@@ -20,28 +20,8 @@ export class MainComponent implements OnInit {
 
   usuario?: Usuario;
   mostrarMenuAcciones: boolean = true;
-  sesionIniciada: boolean = false;
 
   ngOnInit(): void {
-    this.sesionIniciada = !!this.tokenService.obtenerToken();
-    // Si no ha iniciado sesión
-    if (!this.sesionIniciada) {
-      const toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: false,
-      })
-      
-      this.router.navigate(['/login']);
-  
-      toast.fire({
-        icon: 'error',
-        title: '¡Acceso denegado!'
-      });
-      return;
-    }
     this.usuario = this.usuarioService.obtenerUsuario();
   }
 
