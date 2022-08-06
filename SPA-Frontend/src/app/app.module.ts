@@ -23,6 +23,9 @@ import { MainComponent } from './modulos/main/main.component';
 import { BienvenidoComponent } from './modulos/main/bienvenido/bienvenido.component';
 import { authInterceptorProviders } from './servicios/auth/auth.interceptor';
 import { LoggedGuard } from './servicios/auth/guards/logged.guard';
+import { EsCoordinadorGuard } from './servicios/auth/guards/es-coordinador.guard';
+import { EsDocenteGuard } from './servicios/auth/guards/es-docente.guard';
+import { EsSubdecanoGuard } from './servicios/auth/guards/es-subdecano.guard';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,9 @@ import { LoggedGuard } from './servicios/auth/guards/logged.guard';
     AuthService,
     authInterceptorProviders,
     LoggedGuard,
+    EsCoordinadorGuard,
+    EsDocenteGuard,
+    EsSubdecanoGuard,
   ],
   bootstrap: [AppComponent]
 })
