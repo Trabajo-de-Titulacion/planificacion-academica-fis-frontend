@@ -4,6 +4,7 @@ import { FloatLabelType } from '@angular/material/form-field';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/servicios/auth/auth.service';
 import { TokenStorageService } from 'src/app/servicios/auth/token-storage.service';
+import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly authService: AuthService,
     private readonly tokenService: TokenStorageService,
+    private readonly usuarioService: UsuarioStorageService,
     private readonly router: Router,
   ) { }
 
@@ -47,6 +49,8 @@ export class LoginComponent implements OnInit {
           next: data => {
             // Guardar Token
             this.tokenService.guardarToken(data.access_token);
+            // Guardar información del usuario
+            this.usuarioService.guardarUsuario(data.usuario);
             this.errorSesion = false;
 
             const toast = Swal.mixin({
@@ -118,19 +122,6 @@ export class LoginComponent implements OnInit {
         ]
       )
     });
-
-    const cambio$ = this.formGroup.valueChanges;
-    cambio$.subscribe({
-      next: (valor) => {
-        if (this.formGroup) {
-          if (this.formGroup.valid) {
-            console.log("VALIDO")
-          } else {
-            console.log("INVALIDO");
-          }
-        }
-      }
-    })
   }
 
   getFloatLabelValue(): FloatLabelType {
