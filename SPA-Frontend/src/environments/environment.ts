@@ -12,7 +12,6 @@ export const environment = {
 };
 
 export const apiUrl = `http://${environment.api.host}:${environment.api.port}/${environment.api.name}`
-export const TOKEN_KEY = 'access_token';
 
 /*
  * For easier debugging in development mode, you can import the following file

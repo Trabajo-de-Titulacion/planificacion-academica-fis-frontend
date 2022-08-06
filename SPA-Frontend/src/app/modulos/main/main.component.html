@@ -5,7 +5,7 @@
     <span>Sistema de Planificación Académica</span>
     <span class="spacer"></span>
     <!-- Usuario -->
-    <span class="correoUsuario">{{usuario}}</span>
+    <span class="correoUsuario">{{usuario!.correo}}</span>
     <!-- Menú de usuario -->
     <button mat-icon-button class="iconoUsuario" [matMenuTriggerFor]="menuUsuario" aria-label="Usuario">
         <mat-icon [inline]="true">account_circle</mat-icon>
@@ -22,9 +22,31 @@
     <!-- Acciones -->
     <mat-sidenav mode="side" [(opened)]="mostrarMenuAcciones">
         <mat-list>
+
+            <!-- Subdecano -->
+            <h3 matSubheader *ngIf="esSubdecano()">Subdecano</h3>
+            <mat-nav-list *ngIf="esSubdecano()">
+                <!-- Acción 1 -->
+                <mat-list-item>
+                    <a matLine [routerLink]="['/spa']">Acción 1</a>
+                    <button mat-icon-button>
+                       <mat-icon>create</mat-icon>
+                    </button>
+                 </mat-list-item>
+                 <!-- Acción 2 -->
+                 <mat-list-item>
+                     <a matLine [routerLink]="['/spa']">Acción 2</a>
+                     <button mat-icon-button>
+                        <mat-icon>info</mat-icon>
+                     </button>
+                  </mat-list-item>
+            </mat-nav-list>
+
+            <mat-divider *ngIf="esSubdecano() && (esCoordinador() || esDocente())"></mat-divider>
+
             <!-- Coordinador -->
-            <h3 matSubheader>Coordinador</h3>
-            <mat-nav-list>
+            <h3 matSubheader *ngIf="esCoordinador()">Coordinador</h3>
+            <mat-nav-list *ngIf="esCoordinador()">
                 <!-- Acción 1 -->
                 <mat-list-item>
                    <a matLine [routerLink]="['/spa']">Acción 1</a>
@@ -41,11 +63,11 @@
                  </mat-list-item>
             </mat-nav-list>
 
-            <mat-divider></mat-divider>
+            <mat-divider *ngIf="esCoordinador() && esDocente()"></mat-divider>
 
             <!-- Docente -->
-            <h3 matSubheader>Docente</h3>
-            <mat-nav-list>
+            <h3 matSubheader *ngIf="esDocente()">Docente</h3>
+            <mat-nav-list *ngIf="esDocente()">
                 <!-- Acción 1 -->
                 <mat-list-item>
                     <a matLine [routerLink]="['/spa']">Acción 1</a>
