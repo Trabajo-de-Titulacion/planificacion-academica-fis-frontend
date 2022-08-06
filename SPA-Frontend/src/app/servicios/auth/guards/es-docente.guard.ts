@@ -13,6 +13,9 @@ export class EsDocenteGuard implements CanActivate{
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
         const roles = this.userService.obtenerRoles();
+        if (!roles.includes("DOCENTE")) {
+            this.router.navigate(['/spa']);
+        }
         return roles.includes("DOCENTE");
     }
 

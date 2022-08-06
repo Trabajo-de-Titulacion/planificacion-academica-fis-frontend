@@ -13,6 +13,9 @@ export class EsCoordinadorGuard implements CanActivate{
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
         const roles = this.userService.obtenerRoles();
+        if (!roles.includes("COORDINADOR")) {
+            this.router.navigate(['/spa']);
+        }
         return roles.includes("COORDINADOR");
     }
 
