@@ -1,3 +1,5 @@
+@import '../../../themes/variables.scss';
+
 .menuAcciones {
     position: absolute;
     top: 64px;
@@ -25,4 +27,9 @@ mat-sidenav {
 
 .menuUsuario mat-icon {
     height: 20vh;
+}
+
+.active {
+    background-color: $accent;
+    color: $text_on_accent;
 }

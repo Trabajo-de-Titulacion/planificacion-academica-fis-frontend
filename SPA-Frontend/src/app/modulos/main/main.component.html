@@ -42,7 +42,7 @@
                   </mat-list-item>
             </mat-nav-list>
 
-            <mat-divider *ngIf="esSubdecano() && (esCoordinador() || esDocente())"></mat-divider>
+            <mat-divider *ngIf="esSubdecano() && (esCoordinador() || esDocente() || esGestorEspaciosFisicos())"></mat-divider>
 
             <!-- Coordinador -->
             <h3 matSubheader *ngIf="esCoordinador()">Coordinador</h3>
@@ -63,7 +63,21 @@
                  </mat-list-item>
             </mat-nav-list>
 
-            <mat-divider *ngIf="esCoordinador() && esDocente()"></mat-divider>
+            <mat-divider *ngIf="esCoordinador() && esGestorEspaciosFisicos()"></mat-divider>
+
+            <!-- Gestor de espacios físicos -->
+            <h3 matSubheader *ngIf="esGestorEspaciosFisicos()">Gestor de espacios físicos</h3>
+            <mat-nav-list *ngIf="esGestorEspaciosFisicos()">
+                <!-- Gestionar aulas y laboratorios -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/espacios_fisicos')">
+                   <a matLine [routerLink]="['/spa/espacios_fisicos']">Aulas y laboratorios</a>
+                   <button mat-icon-button>
+                      <mat-icon>door_sliding</mat-icon>
+                   </button>
+                </mat-list-item>
+            </mat-nav-list>
+
+            <mat-divider *ngIf="esGestorEspaciosFisicos() && esDocente()"></mat-divider>
 
             <!-- Docente -->
             <h3 matSubheader *ngIf="esDocente()">Docente</h3>
