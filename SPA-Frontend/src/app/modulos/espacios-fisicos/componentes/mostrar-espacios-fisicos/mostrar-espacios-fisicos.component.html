@@ -1,0 +1,54 @@
+<div class="contenedor">
+
+  <!-- Crear nuevo espacio físico -->
+  <button class="btnSuperior" mat-raised-button color="primary"
+    [routerLink]="[rutaActual, 'crear']">
+    Crear nuevo espacio físico
+  </button>
+
+  <!-- Crear múltiples espacios físicos con un archivo CSV -->
+  <button mat-raised-button color="accent" (click)="fileInput.click()">
+    {{ archivoSeleccionado ? 'Cambiar archivo CSV' : 'Subir archivo CSV' }}
+  </button>
+  <input hidden (change)="seleccionarArchivo($event)" onclick="this.value=null;" #fileInput type="file">
+  <span class="nombreArchivo">{{archivoSeleccionado?.name}}</span>
+
+  <mat-table [dataSource]="espaciosFisicos">
+      <!-- Nombre -->
+      <ng-container matColumnDef="nombre">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let espacio_fisico"> {{espacio_fisico.nombre}} </mat-cell>
+      </ng-container>
+    
+      <!-- Tipo -->
+      <ng-container matColumnDef="tipo">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+        <mat-cell *matCellDef="let espacio_fisico"> {{espacio_fisico.tipo}} </mat-cell>
+      </ng-container>
+    
+      <!-- Aforo -->
+      <ng-container matColumnDef="aforo">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Aforo </mat-header-cell>
+        <mat-cell *matCellDef="let espacio_fisico"> {{espacio_fisico.aforo}} </mat-cell>
+      </ng-container>
+
+      <!-- Acciones -->
+      <ng-container matColumnDef="acciones">
+          <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+          <mat-cell *matCellDef="let espacio_fisico">
+              <!-- Editar registro -->
+              <button mat-icon-button [routerLink]="[rutaActual, 'actualizar', espacio_fisico.id]">
+                <mat-icon color="primary">edit</mat-icon>
+              </button>
+              <!-- Eliminar registro -->
+              <button mat-icon-button (click)="eliminarEspacioFisico(espacio_fisico)">
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+          </mat-cell>
+      </ng-container>
+    
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+</div>

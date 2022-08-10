@@ -1,0 +1,19 @@
+.contenedor {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4vh;
+}
+
+.btnSuperior {
+    margin: 2vh;
+}
+
+mat-table {
+    height: 70vh;
+    overflow-y: scroll;
+}
+
+.nombreArchivo {
+    margin-left: 1rem; /* or whatever margin you require */
+}

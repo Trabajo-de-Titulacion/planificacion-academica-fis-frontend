@@ -24,6 +24,11 @@ const routes: Routes = [
         path: '',
         component: BienvenidoComponent,
       },
+      {
+        path: 'espacios_fisicos',
+        loadChildren: () => import("./modulos/espacios-fisicos/espacios-fisicos.module")
+          .then(m => m.EspaciosFisicosModule)
+      },
     ]
   },
   {
