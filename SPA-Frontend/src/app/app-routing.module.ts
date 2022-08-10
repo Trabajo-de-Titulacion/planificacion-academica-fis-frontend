@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './modulos/login/login/login.component';
 import { BienvenidoComponent } from './modulos/main/bienvenido/bienvenido.component';
 import { MainComponent } from './modulos/main/main.component';
+import { ParametrosInicialesComponent } from './modulos/parametros-inciales/pages/parametros-iniciales.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
         path: '',
         component: BienvenidoComponent,
       },
+      {
+        path: 'parametros-iniciales',
+        loadChildren: () => import('./modulos/parametros-inciales/paremtros-iniciales.module').then( m => m.ParametrosInicialesModule),
+      }
     ]
   },
   {
@@ -32,7 +37,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes, {useHash: true}), ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
