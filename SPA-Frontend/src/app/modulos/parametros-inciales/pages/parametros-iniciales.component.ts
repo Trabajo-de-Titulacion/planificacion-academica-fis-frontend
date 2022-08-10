@@ -7,4 +7,7 @@ import { Component } from "@angular/core";
 })
 export class ParametrosInicialesComponent{
     constructor() {}
+
+    semestres = [{abreviatura: "2022-a"}]
+
 }

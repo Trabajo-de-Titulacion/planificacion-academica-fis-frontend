@@ -1,0 +1,35 @@
+<mat-card>
+    <mat-card-title>Jornada Laboral</mat-card-title>
+    <mat-card-subtitle>Ingresa los días y horas laborables para la planificación académica.</mat-card-subtitle>
+    <mat-card-content>
+        <form>
+            <mat-card>
+                <div>
+                    <mat-label><strong>Horas:</strong></mat-label>
+                </div>
+                <mat-form-field class="example-form-field" appearance="fill">
+                    <mat-label>Hora inicio</mat-label>
+                    <input matInput type="time">
+                </mat-form-field>
+                <mat-form-field class="example-form-field" appearance="fill">
+                    <mat-label>Hora fin</mat-label>
+                    <input matInput type="time">
+                </mat-form-field>
+                <mat-form-field class="example-form-field" appearance="fill">
+                    <mat-label>Hora almuerzo</mat-label>
+                    <input matInput type="time">
+                </mat-form-field>
+            </mat-card>
+
+            <mat-card>
+                <mat-label><strong>Seleccione los días laborables.</strong></mat-label>
+                <mat-selection-list>
+                    <mat-list-option *ngFor="let dia of diasLaborables">
+                        {{dia}}
+                    </mat-list-option>
+                </mat-selection-list>
+            </mat-card>
+
+        </form>
+    </mat-card-content>
+</mat-card>

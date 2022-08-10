@@ -1,1 +1,13 @@
-<h1>Parámetros iniciales</h1>
+<mat-form-field appearance="fill">
+    <mat-label>Selecciona el semestre en curso</mat-label>
+    <mat-select>
+        <mat-option *ngFor="let semestre of semestres" [value]="semestre.abreviatura">
+            {{semestre.abreviatura}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+
+<app-jornada-laboral></app-jornada-laboral>
+<app-tipo-aulas></app-tipo-aulas>
+
