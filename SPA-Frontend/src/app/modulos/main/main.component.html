@@ -2,7 +2,7 @@
     <button mat-icon-button (click)="toogleMenuAcciones()" aria-label="Menú de acciones">
         <mat-icon>menu</mat-icon>
     </button>
-    <span>Sistema de Planificación Académica</span>
+    <a id="home" [routerLink]="['/spa']">Sistema de Planificación Académica</a>
     <span class="spacer"></span>
     <!-- Usuario -->
     <span class="correoUsuario">{{usuario!.correo}}</span>

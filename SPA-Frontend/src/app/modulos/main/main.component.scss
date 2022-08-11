@@ -9,6 +9,15 @@
     background: #eee;
 }
 
+#home {
+    color: $text_on_primary;
+    text-decoration: none;
+}
+#home:hover {
+    color: $accent;
+    text-decoration: underline;
+}
+
 mat-sidenav {
     width: 20vw;
 }
