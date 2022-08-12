@@ -1,5 +1,5 @@
 <div class="parametros-iniciales-page">
-    <div>
+    <div *ngIf="semestres.length >= 1; else noSemestres">
         <mat-form-field appearance="fill" class="select-semestre">
             <mat-label>Selecciona el semestre en curso</mat-label>
             <mat-select>
@@ -9,7 +9,7 @@
             </mat-select>
         </mat-form-field>
     </div>
-    <mat-tab-group mat-align-tabs="start" class="tabs">
+    <mat-tab-group *ngIf="semestres.length >= 1" mat-align-tabs="start" class="tabs">
         <mat-tab label="Jornada Laboral">
             <app-jornada-laboral></app-jornada-laboral>
         </mat-tab>
@@ -17,4 +17,14 @@
             <app-tipo-aulas></app-tipo-aulas>
         </mat-tab>
     </mat-tab-group>
+    <ng-template #noSemestres>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>No existen semestres registrados</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                Solicite al administrador del sistema la creación de un nuevo semestre para la planificación académica.
+            </mat-card-content>
+        </mat-card>
+    </ng-template>
 </div>
