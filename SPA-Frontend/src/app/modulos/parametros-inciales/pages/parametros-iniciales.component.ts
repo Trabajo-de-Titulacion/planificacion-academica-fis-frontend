@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import Semestre from "../models/semestre.interface";
+import { SemestreService } from "../services/semestre.service";
 
 
 @Component({
@@ -7,8 +9,19 @@ import { Component } from "@angular/core";
     styleUrls: ['./paremtros-iniciales.component.scss']
 })
 export class ParametrosInicialesComponent{
-    constructor() {}
 
-    semestres = [{abreviatura: "2022-a"}]
+    semestres : Semestre[] = []
 
+    constructor(
+        private servicioSemestre : SemestreService
+    ) {}
+
+    ngOnInit(): void {
+        this.servicioSemestre.obtenerSemestres().subscribe(
+            data => {
+                console.log(data);
+                this.semestres = data;
+            }
+        )
+    }
 }

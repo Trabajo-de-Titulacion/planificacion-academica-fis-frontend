@@ -16,6 +16,7 @@ import { JornadaLaboralComponent } from './components/jornada-laboral/jornada-la
 import { ParametrosInicialesComponent } from "./pages/parametros-iniciales.component";
 import { ParametrosInicialesRoutingModule } from "./parametros-inciales-routing.module";
 import { TipoAulasComponent } from './components/tipo-aulas/tipo-aulas.component';
+import { SemestreService } from "./services/semestre.service";
 
 
 @NgModule({
@@ -36,6 +37,9 @@ import { TipoAulasComponent } from './components/tipo-aulas/tipo-aulas.component
         MatTableModule,
         MatTabsModule,
         ParametrosInicialesRoutingModule,
+    ],
+    providers: [
+        SemestreService
     ]
 })
 export class ParametrosInicialesModule { }

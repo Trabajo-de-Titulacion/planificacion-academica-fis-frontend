@@ -1,4 +1,4 @@
 export default interface TipoAula {
-    tipo: string;
-    facultad: string;
-  }
+  tipo: string;
+  facultad: string;
+}
