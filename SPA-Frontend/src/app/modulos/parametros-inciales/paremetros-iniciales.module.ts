@@ -11,12 +11,12 @@ import { MatTabsModule } from "@angular/material/tabs"
 import { NgModule } from "@angular/core";
 
 
-
 import { JornadaLaboralComponent } from './components/jornada-laboral/jornada-laboral.component';
 import { ParametrosInicialesComponent } from "./pages/parametros-iniciales.component";
 import { ParametrosInicialesRoutingModule } from "./parametros-inciales-routing.module";
 import { TipoAulasComponent } from './components/tipo-aulas/tipo-aulas.component';
 import { SemestreService } from "./services/semestre.service";
+import { ReactiveFormsModule } from "@angular/forms";
 
 
 @NgModule({
@@ -37,6 +37,7 @@ import { SemestreService } from "./services/semestre.service";
         MatTableModule,
         MatTabsModule,
         ParametrosInicialesRoutingModule,
+        ReactiveFormsModule,
     ],
     providers: [
         SemestreService

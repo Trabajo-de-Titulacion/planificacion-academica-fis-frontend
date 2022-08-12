@@ -1,6 +1,7 @@
 import { DataSource } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
+import Semestre from '../../models/semestre.interface';
 import TipoAula from '../../models/tipo-aula.interface';
 
 
@@ -17,6 +18,8 @@ const DATA: TipoAula[] = [
   styleUrls: ['./tipo-aulas.component.scss', '../../styles/common.scss']
 })
 export class TipoAulasComponent implements OnInit {
+
+  @Input() semestre? : Semestre;
 
   constructor() { }
 

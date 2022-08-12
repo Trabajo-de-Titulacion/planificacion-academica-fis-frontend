@@ -11,6 +11,7 @@ import { SemestreService } from "../services/semestre.service";
 export class ParametrosInicialesComponent{
 
     semestres : Semestre[] = []
+    semestreSeleccionado? : Semestre
 
     constructor(
         private servicioSemestre : SemestreService
@@ -19,7 +20,6 @@ export class ParametrosInicialesComponent{
     ngOnInit(): void {
         this.servicioSemestre.obtenerSemestres().subscribe(
             data => {
-                console.log(data);
                 this.semestres = data;
             }
         )

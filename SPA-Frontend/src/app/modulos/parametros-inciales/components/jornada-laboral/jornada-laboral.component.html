@@ -1,66 +1,69 @@
-<mat-card class="tab-jornada tab">
-    <mat-card-title class="tab-titulo">
-        <div>Jornada Laboral</div>
-        <div>
-            <div class="tab-titulo-acciones">
-                <button mat-raised-button color="primary">Editar</button>
-                <button mat-raised-button color="accent">Guardar</button>
+<form [formGroup]="formularioJornadaLaboral" (ngSubmit)="sendData(formularioJornadaLaboral)">
+    <mat-card class="tab-jornada tab">
+        <mat-card-title class="tab-titulo">
+            <div>Jornada Laboral - {{semestre?.abreviatura}}</div>
+            <div>
+                <div class="tab-titulo-acciones">
+                    <button mat-raised-button type="submit"  color="primary">Crear</button>
+                    <button mat-raised-button color="primary">Editar</button>
+                    <button mat-raised-button color="accent">Guardar</button>
+                </div>
             </div>
-        </div>
-    </mat-card-title>
-    <mat-card-subtitle>Ingresa los días y horas laborables para la planificación académica.</mat-card-subtitle>
-    <mat-card-content>
-        <form>
-            <div class="tab-jornada-secciones tab-secciones">
+        </mat-card-title>
+        <mat-card-subtitle>Ingresa los días y horas laborables para la planificación académica.</mat-card-subtitle>
+        <mat-card-content>
+            <form>
+                <div class="tab-jornada-secciones tab-secciones">
 
-                <!-- Horas laborables -->
-                <mat-card class="tab-jornada-secciones-horas">
-                    <div>
-                        <mat-label><strong>Seleciona la hora de inicio de la jornada laboral:</strong></mat-label>
-                    </div>
+                    <!-- Horas laborables -->
+                    <mat-card class="tab-jornada-secciones-horas">
+                        <div>
+                            <mat-label><strong>Seleciona la hora de inicio de la jornada laboral:</strong></mat-label>
+                        </div>
 
-                    <!-- Hora de inicio -->
-                    <div>
-                        <mat-form-field class="tab-jornada-secciones-horas-inputs" appearance="fill">
-                            <mat-label>Hora inicio</mat-label>
-                            <input matInput type="time">
-                        </mat-form-field>
-                    </div>
+                        <!-- Hora de inicio -->
+                        <div>
+                            <mat-form-field class="tab-jornada-secciones-horas-inputs" appearance="fill">
+                                <mat-label>Hora inicio</mat-label>
+                                <input formControlName="horaInicio" matInput type="time">
+                            </mat-form-field>
+                        </div>
 
-                    <!-- Hora fin -->
-                    <div>
-                        <mat-label><strong>Seleciona la hora final de la jornada laboral:</strong></mat-label>
-                    </div>
-                    <div>
-                        <mat-form-field class="tab-jornada-secciones-horas-inputs" appearance="fill">
-                            <mat-label>Hora fin</mat-label>
-                            <input matInput type="time">
-                        </mat-form-field>
-                    </div>
+                        <!-- Hora fin -->
+                        <div>
+                            <mat-label><strong>Seleciona la hora final de la jornada laboral:</strong></mat-label>
+                        </div>
+                        <div>
+                            <mat-form-field class="tab-jornada-secciones-horas-inputs" appearance="fill">
+                                <mat-label>Hora fin</mat-label>
+                                <input formControlName="horaFin" matInput type="time">
+                            </mat-form-field>
+                        </div>
 
-                    <!-- Hora de almuerzo -->
-                    <div>
-                        <mat-label><strong>Seleciona la hora de almuerzo de la jornada laboral:</strong></mat-label>
-                    </div>
-                    <div>
-                        <mat-form-field class="tab-jornada-secciones-horas-inputs" appearance="fill">
-                            <mat-label>Hora almuerzo</mat-label>
-                            <input matInput type="time">
-                        </mat-form-field>
-                    </div>
-                </mat-card>
+                        <!-- Hora de almuerzo -->
+                        <div>
+                            <mat-label><strong>Seleciona la hora de almuerzo de la jornada laboral:</strong></mat-label>
+                        </div>
+                        <div>
+                            <mat-form-field class="tab-jornada-secciones-horas-inputs" appearance="fill">
+                                <mat-label>Hora almuerzo</mat-label>
+                                <input formControlName="horaAlmuerzo" matInput type="time">
+                            </mat-form-field>
+                        </div>
+                    </mat-card>
 
-                <!-- Días laborables -->
-                <mat-card class="tab-jornada-secciones-dias">
-                    <mat-label><strong>Seleccione los días laborables.</strong></mat-label>
-                    <mat-selection-list class="seleccion-dias">
-                        <mat-list-option *ngFor="let dia of diasLaborables">
-                            {{dia}}
-                        </mat-list-option>
-                    </mat-selection-list>
-                </mat-card>
-            </div>
+                    <!-- Días laborables -->
+                    <mat-card class="tab-jornada-secciones-dias">
+                        <mat-label><strong>Seleccione los días laborables.</strong></mat-label>
+                        <mat-selection-list formControlName="dias" class="seleccion-dias">
+                            <mat-list-option *ngFor="let dia of diasLaborables" [value]="dia">
+                                {{dia}}
+                            </mat-list-option>
+                        </mat-selection-list>
+                    </mat-card>
+                </div>
 
-        </form>
-    </mat-card-content>
-</mat-card>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</form>
