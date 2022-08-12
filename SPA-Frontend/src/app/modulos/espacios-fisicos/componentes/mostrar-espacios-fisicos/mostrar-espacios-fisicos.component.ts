@@ -1,33 +1,59 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { EspaciosFisicosApiService } from 'src/app/servicios/espacios_fisicos/espacios_fisicos_api.service';
 import { EspacioFisico } from 'src/app/servicios/espacios_fisicos/interfaces/espacio_fisico.interface';
+import { Facultad } from 'src/app/servicios/facultades/interfaces/facultad.interface';
+import { TiposAulasApiService } from 'src/app/servicios/tipos_aulas/tipos-aulas-api.service';
+import { TipoAula } from 'src/app/servicios/tipos_aulas/interfaces/tipo_aula.interface';
 
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
+
+interface FilaEspacioFisico {
+  id?: string, nombre: string, tipo: string, aforo: number, idFacultad: string, facultad: string
+}
 
 @Component({
   selector: 'app-mostrar-espacios-fisicos',
   templateUrl: './mostrar-espacios-fisicos.component.html',
   styleUrls: ['./mostrar-espacios-fisicos.component.scss']
 })
-export class MostrarEspaciosFisicosComponent implements OnInit {
+export class MostrarEspaciosFisicosComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private readonly espaciosFisicosService: EspaciosFisicosApiService,
+    private readonly tiposAulasService: TiposAulasApiService,
     private readonly router: Router,
   ) { }
 
-  espaciosFisicos = new MatTableDataSource<EspacioFisico>([]);
-  archivoSeleccionado?: File;
-  @ViewChild('fileInput')
-  fileInput: any;
+  facultadesFiltro: Facultad[] = [];
+  filtroSuscripcion$?: Subscription;
+  filtro?: FormControl;
+  filtrarTodas: string = "Todas";
+  
+  tiposExistentes: TipoAula[] = [];
 
-  displayedColumns: string[] = ['nombre', 'tipo', 'aforo', 'acciones'];
+  espaciosFisicosExistentes: EspacioFisico[] = [];
+  datoFilasEspaciosFisicos = new MatTableDataSource<FilaEspacioFisico>([]);
+  
+  archivoSeleccionado?: File;
+
+  displayedColumns: string[] = ['nombre', 'tipo', 'aforo', 'facultad', 'acciones'];
+  @ViewChild('tablaSort') tablaSort = new MatSort();
+  @ViewChild(MatPaginator) paginador?: MatPaginator;
   rutaActual = this.router.url;
 
   ngOnInit(): void {
     this.cargarRegistros();
+  }
+
+  ngAfterViewInit(): void {
+    this.datoFilasEspaciosFisicos.sort = this.tablaSort;
+    this.datoFilasEspaciosFisicos.paginator = this.paginador!;
   }
 
   cargarRegistros() {
@@ -36,7 +62,8 @@ export class MostrarEspaciosFisicosComponent implements OnInit {
       .subscribe({
         next: (data) => {
           const espacios_fisicos = data as EspacioFisico[];
-          this.espaciosFisicos.data = espacios_fisicos;
+          this.espaciosFisicosExistentes = espacios_fisicos;
+          //this.espaciosFisicos.data = espacios_fisicos;
         },
         error: () => {
           Swal.fire(
@@ -50,15 +77,57 @@ export class MostrarEspaciosFisicosComponent implements OnInit {
           });
         },
         complete: () => {
-          Swal.close();
+          //Swal.close();
+          this.obtenerFacultadesYTiposAulas();
         }
       });
   }
 
-  eliminarEspacioFisico(espacio_fisico: EspacioFisico) {
+  obtenerFacultadesYTiposAulas() {
+    this.tiposAulasService.obtenerTipoAulas().subscribe({
+      next: (data) => {
+        // Tipos existentes en la base de datos
+        this.tiposExistentes = data as TipoAula[];
+
+        // Tipos obtenidos solo entre los espacios fisicos que se muestran en pantalla
+        const tiposObtenidos = this.espaciosFisicosExistentes.map(ef => ef.tipo?.id);
+
+        // Se obtienen las facultades que deban aparecer en el Filtro
+        for (let tipo of this.tiposExistentes) {
+          const noEstaRepetido = this.facultadesFiltro.every(facultad => {
+            return facultad.id != tipo.facultad.id;
+          });
+          if (noEstaRepetido && tiposObtenidos.includes(tipo.id)) {
+            this.facultadesFiltro.push(tipo.facultad);
+          }
+        }
+
+        // 
+        for (let espacio of this.espaciosFisicosExistentes) {
+          const facultadPorId = this.tiposExistentes.find(tipo => {
+            return tipo.id == espacio.tipo?.id;
+          });
+          espacio.tipo!.facultad = facultadPorId!.facultad;
+        }
+
+        this.datoFilasEspaciosFisicos.data = this.mapearEspaciosFisicasAFilas(this.espaciosFisicosExistentes);
+        
+        // Se establece el control del Filtro y su valor inicial para mostrar todo
+        this.filtro = new FormControl(
+          { value: this.filtrarTodas , disabled: false }
+        );
+      },
+      complete: () => {
+        Swal.close();
+        //this.filtrarEspaciosFisicos();
+      }
+    });
+  }
+
+  eliminarEspacioFisico(espacio_fisico: FilaEspacioFisico) {
     Swal.fire({
       title: 'Eliminar espacio físico',
-      text: `¿Está seguro de eliminar el ${espacio_fisico.tipo_id} "${espacio_fisico.nombre}"?`,
+      text: `¿Está seguro de eliminar el ${espacio_fisico.tipo} "${espacio_fisico.nombre}"?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Eliminar',
@@ -74,20 +143,22 @@ export class MostrarEspaciosFisicosComponent implements OnInit {
             next: () => {
               Swal.fire(
                 'Eliminado',
-                `Se ha eliminado el ${espacio_fisico.tipo_id} "${espacio_fisico.nombre}"?`,
+                `Se ha eliminado el ${espacio_fisico.tipo} "${espacio_fisico.nombre}"?`,
                 'success'
               );
               // Quitar del arreglo
-              const indice = this.espaciosFisicos.data.indexOf(espacio_fisico);
-              const espacios_fisicos = this.espaciosFisicos.data;
+              const indice = this.datoFilasEspaciosFisicos.data.indexOf(
+                this.datoFilasEspaciosFisicos.data.find(fila => fila.id == espacio_fisico.id)!
+              );
+              const espacios_fisicos = this.datoFilasEspaciosFisicos.data;
               espacios_fisicos.splice(indice, 1)
-              this.espaciosFisicos.data = espacios_fisicos;
+              this.datoFilasEspaciosFisicos.data = espacios_fisicos;
             },
             // Error al eliminar
             error: (err) => {
               Swal.fire(
                 'Error',
-                `No se pudo eliminar el ${espacio_fisico.tipo_id} "${espacio_fisico.nombre}"?`,
+                `No se pudo eliminar el ${espacio_fisico.tipo} "${espacio_fisico.nombre}"?`,
                 'error'
               );
               console.error(err);
@@ -111,7 +182,7 @@ export class MostrarEspaciosFisicosComponent implements OnInit {
             ).then((result) => {
               if (result.isDismissed || result.isConfirmed) {
                 // Actualizar 
-                this.espaciosFisicos.data = [];
+                this.datoFilasEspaciosFisicos.data = [];
                 this.cargarRegistros();
               }
             });
@@ -152,4 +223,45 @@ export class MostrarEspaciosFisicosComponent implements OnInit {
 
   }
 
+  mapearEspaciosFisicasAFilas(arregloEspaciosFisicos: EspacioFisico[]) {
+    return arregloEspaciosFisicos.map(ef => {
+      const fila: FilaEspacioFisico = {
+        id: ef.id,
+        nombre: ef.nombre,
+        tipo: ef.tipo!.tipo,
+        aforo: ef.aforo,
+        idFacultad: ef.tipo!.facultad.id!,
+        facultad: ef.tipo!.facultad.nombre
+      }
+      return fila;
+    });
+  }
+
+  filtrarEspaciosFisicos() {
+    this.filtroSuscripcion$ = this.filtro!.valueChanges.subscribe({
+      next: (filtroFacultad) => {
+        if (filtroFacultad == this.filtrarTodas) {
+          this.datoFilasEspaciosFisicos.data = this.mapearEspaciosFisicasAFilas(this.espaciosFisicosExistentes);
+        } else {
+          // Filtra por ID de la Facultad
+          // this.datoFilasEspaciosFisicos.data = this.espaciosFisicosExistentes.filter(ef => {
+          //   const tiposDentroDeFaculadSeleccionada = this.tiposExistentes.filter(tipo => {
+          //     return tipo.facultad.id == filtroFacultad
+          //   });
+          //   return tiposDentroDeFaculadSeleccionada.map(t => t.id).includes(ef.tipo?.id);
+          // });
+          this.datoFilasEspaciosFisicos.data = this.datoFilasEspaciosFisicos.data.filter(dato => {
+            return dato.idFacultad == filtroFacultad;
+          });
+
+        }
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.filtroSuscripcion$) {
+      this.filtroSuscripcion$?.unsubscribe();
+    }
+  }
 }

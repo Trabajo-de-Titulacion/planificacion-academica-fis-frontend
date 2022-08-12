@@ -5,15 +5,39 @@
     margin-top: 4vh;
 }
 
+.parteSuperior {
+    display: flex;
+    justify-content: space-between;
+}
+
 .btnSuperior {
     margin: 2vh;
 }
 
-mat-table {
-    height: 70vh;
-    overflow-y: scroll;
+.nombreArchivo {
+    margin-left: 1rem;
 }
 
-.nombreArchivo {
-    margin-left: 1rem; /* or whatever margin you require */
+.filtroPlaceholder {
+    margin-right: 1vw;
+}
+
+#filtroField {
+    width: 20vw;
+}
+
+.mat-column-nombre {
+    flex: 0 0 24%;
+}
+
+.mat-column-tipo {
+    flex: 0 0 24%;
+}
+
+.mat-column-aforo {
+    flex: 0 0 12%;
+}
+
+.mat-column-acciones {
+    flex: 0 0 10%;
 }
