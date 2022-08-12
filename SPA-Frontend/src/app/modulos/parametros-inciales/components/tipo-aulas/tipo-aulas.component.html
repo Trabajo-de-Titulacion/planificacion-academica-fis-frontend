@@ -1,28 +1,49 @@
-<mat-card>
-    <mat-card-title>Tipos de aulas</mat-card-title>
-    <mat-card-subtitle>Ingresa los días y horas laborables para la planificación académica.</mat-card-subtitle>
-    <mat-card-content>
-        <form>
-            <mat-card>
-                <mat-card-content>
-        
-                      
-                      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<mat-card class="tab-tipos tab">
+  <mat-card-title class="tab-titulo">
+    <div>Tipos de aulas</div>
+    <div>
+      <div class="tab-titulo-acciones">
+        <button mat-raised-button color="primary">Añadir aula</button>
+        <button mat-raised-button color="accent">Guardar</button>
+      </div>
+    </div>
 
-                        <!--- Note that these columns can be defined in any order.
-                              The actual rendered columns are set as a property on the row definition" -->
-                      
-                        <!-- Position Column -->
-                        <ng-container matColumnDef="Tipo de aula">
-                          <th mat-header-cell *matHeaderCellDef> Tipo de aula </th>
-                          <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
-                        </ng-container>
-                      
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                      </table>
-                </mat-card-content>
-            </mat-card>
-        </form>
-    </mat-card-content>
+  </mat-card-title>
+  <mat-card-subtitle>Ingresa los días y horas laborables para la planificación académica.</mat-card-subtitle>
+  <mat-card-content>
+    <div class="tab-tipos-secciones tab-secciones">
+
+      <mat-table [dataSource]="dataSource" class="mat-elevation-z8 tab-tipos-secciones-aulas">
+
+        <!-- Tipo de aula -->
+        <ng-container matColumnDef="Tipo de aula">
+          <mat-header-cell *matHeaderCellDef> Tipo de aula </mat-header-cell>
+          <mat-cell *matCellDef="let data"> {{data.tipo}} </mat-cell>
+        </ng-container>
+
+        <!-- Facultad -->
+        <ng-container matColumnDef="Facultad">
+          <mat-header-cell *matHeaderCellDef> Facultad </mat-header-cell>
+          <mat-cell *matCellDef="let data"> {{data.facultad}} </mat-cell>
+        </ng-container>
+
+        <!-- Acciones -->
+        <ng-container matColumnDef="Acciones">
+          <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+          <mat-cell *matCellDef="let data">
+            <button mat-icon-button>
+              <mat-icon color="primary">edit</mat-icon>
+            </button>
+            <button mat-icon-button>
+              <mat-icon color="warn">delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+
+    </div>
+  </mat-card-content>
 </mat-card>
