@@ -1,13 +1,20 @@
-<mat-form-field appearance="fill">
-    <mat-label>Selecciona el semestre en curso</mat-label>
-    <mat-select>
-        <mat-option *ngFor="let semestre of semestres" [value]="semestre.abreviatura">
-            {{semestre.abreviatura}}
-        </mat-option>
-    </mat-select>
-</mat-form-field>
-
-
-<app-jornada-laboral></app-jornada-laboral>
-<app-tipo-aulas></app-tipo-aulas>
-
+<div class="parametros-iniciales-page">
+    <div>
+        <mat-form-field appearance="fill" class="select-semestre">
+            <mat-label>Selecciona el semestre en curso</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let semestre of semestres" [value]="semestre.abreviatura">
+                    {{semestre.abreviatura}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <mat-tab-group mat-align-tabs="start" class="tabs">
+        <mat-tab label="Jornada Laboral">
+            <app-jornada-laboral></app-jornada-laboral>
+        </mat-tab>
+        <mat-tab label="Tipos de aula">
+            <app-tipo-aulas></app-tipo-aulas>
+        </mat-tab>
+    </mat-tab-group>
+</div>

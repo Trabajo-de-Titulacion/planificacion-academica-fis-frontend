@@ -1,0 +1,41 @@
+.tab-jornada {
+    padding: 2rem;
+
+    &-titulo {
+        display: flex;
+        justify-content: space-between;
+
+        &-acciones {
+            padding: 0rem 0.5rem;
+
+            button {
+                margin: 0rem 0.5rem;
+            }
+        }
+    }
+
+    &-secciones {
+        display: flex;
+        justify-content: space-around;
+        padding: 1rem;
+
+        &-horas {
+            // sección horas
+            flex: 1;
+            margin-right: 1rem;
+            padding: 1rem;
+
+            &-inputs {
+                margin-top: 15px;
+            }
+        }
+
+        &-dias {
+            // sección días
+            flex: 1;
+            min-width: 175px;
+            padding: 1rem;
+            width: 20%;
+        }
+    }
+}

@@ -25,7 +25,7 @@ const routes: Routes = [
       },
       {
         path: 'parametros-iniciales',
-        loadChildren: () => import('./modulos/parametros-inciales/paremtros-iniciales.module').then( m => m.ParametrosInicialesModule),
+        loadChildren: () => import('./modulos/parametros-inciales/paremetros-iniciales.module').then( m => m.ParametrosInicialesModule),
       }
     ]
   },
