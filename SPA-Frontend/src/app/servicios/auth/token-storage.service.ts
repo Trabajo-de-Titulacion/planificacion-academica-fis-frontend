@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TOKEN_KEY } from 'src/environments/environment';
+
+const TOKEN_KEY = 'access_token';
 
 @Injectable({
   providedIn: 'root'

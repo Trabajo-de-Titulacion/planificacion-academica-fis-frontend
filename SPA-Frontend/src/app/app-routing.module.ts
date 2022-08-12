@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './modulos/login/login/login.component';
 import { BienvenidoComponent } from './modulos/main/bienvenido/bienvenido.component';
 import { MainComponent } from './modulos/main/main.component';
-import { ParametrosInicialesComponent } from './modulos/parametros-inciales/pages/parametros-iniciales.component';
+import { LoggedGuard } from './servicios/auth/guards/logged.guard';
 
 const routes: Routes = [
   {
@@ -18,6 +18,7 @@ const routes: Routes = [
   {
     path: 'spa',
     component: MainComponent,
+    canActivate: [LoggedGuard],
     children: [
       {
         path: '',

@@ -13,13 +13,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './modulos/login/login/login.component';
-import { AutenticacionService } from './servicios/auth/autenticacion.service';
+import { AuthService } from './servicios/auth/auth.service';
 import { MainComponent } from './modulos/main/main.component';
 import { BienvenidoComponent } from './modulos/main/bienvenido/bienvenido.component';
+import { authInterceptorProviders } from './servicios/auth/auth.interceptor';
+import { LoggedGuard } from './servicios/auth/guards/logged.guard';
+import { EsCoordinadorGuard } from './servicios/auth/guards/es-coordinador.guard';
+import { EsDocenteGuard } from './servicios/auth/guards/es-docente.guard';
+import { EsSubdecanoGuard } from './servicios/auth/guards/es-subdecano.guard';
 
 @NgModule({
   declarations: [
@@ -44,9 +50,15 @@ import { BienvenidoComponent } from './modulos/main/bienvenido/bienvenido.compon
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
-    AutenticacionService
+    AuthService,
+    authInterceptorProviders,
+    LoggedGuard,
+    EsCoordinadorGuard,
+    EsDocenteGuard,
+    EsSubdecanoGuard,
   ],
   bootstrap: [AppComponent]
 })

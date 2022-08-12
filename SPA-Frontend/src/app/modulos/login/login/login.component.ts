@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FloatLabelType } from '@angular/material/form-field';
 import { Router } from '@angular/router';
-import { AutenticacionService } from 'src/app/servicios/auth/autenticacion.service';
+import { AuthService } from 'src/app/servicios/auth/auth.service';
 import { TokenStorageService } from 'src/app/servicios/auth/token-storage.service';
+import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,24 +14,34 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent implements OnInit {
 
-  formGroup?: FormGroup;
-  floatLabelControl = new FormControl('auto' as FloatLabelType);
-  errorSesion: boolean = false;
-
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly authService: AutenticacionService,
+    private readonly authService: AuthService,
     private readonly tokenService: TokenStorageService,
+    private readonly usuarioService: UsuarioStorageService,
     private readonly router: Router,
   ) { }
 
+  formGroup?: FormGroup;
+  floatLabelControl = new FormControl('auto' as FloatLabelType);
+  errorSesion: boolean = false;
+  sesionIniciada: boolean = false;
+  cargando: boolean = false;
+
   ngOnInit(): void {
+    this.sesionIniciada = !!this.tokenService.obtenerToken();
+    // Si ya ha iniciado sesión
+    if (this.sesionIniciada) {
+      this.router.navigate(['/spa']);
+      return;
+    }
     this.configurarFormulario();
   }
 
   login() {
     if (this.formGroup) {
-      if (this.formGroup.valid) {
+      if (this.formGroup.valid && !this.cargando) {
+        this.cargando = true;
         // Iniciar sesión con credenciales
         const correo = this.formGroup.get('correo')?.value;
         const clave = this.formGroup.get('constrasena')?.value;
@@ -38,6 +49,8 @@ export class LoginComponent implements OnInit {
           next: data => {
             // Guardar Token
             this.tokenService.guardarToken(data.access_token);
+            // Guardar información del usuario
+            this.usuarioService.guardarUsuario(data.usuario);
             this.errorSesion = false;
 
             const toast = Swal.mixin({
@@ -58,6 +71,7 @@ export class LoginComponent implements OnInit {
           },
           error: err => {
             this.errorSesion = true;
+            this.cargando = false;
 
             const toast = Swal.mixin({
               toast: true,
@@ -108,19 +122,6 @@ export class LoginComponent implements OnInit {
         ]
       )
     });
-
-    const cambio$ = this.formGroup.valueChanges;
-    cambio$.subscribe({
-      next: (valor) => {
-        if (this.formGroup) {
-          if (this.formGroup.valid) {
-            console.log("VALIDO")
-          } else {
-            console.log("INVALIDO");
-          }
-        }
-      }
-    })
   }
 
   getFloatLabelValue(): FloatLabelType {
