@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FloatLabelType } from '@angular/material/form-field';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { EspaciosFisicosApiService } from 'src/app/servicios/espacios_fisicos/espacios_fisicos_api.service';
 import { EspacioFisico } from 'src/app/servicios/espacios_fisicos/interfaces/espacio_fisico.interface';
+import { FacultadesService } from 'src/app/servicios/facultades/facultades.service';
+import { Facultad } from 'src/app/servicios/facultades/interfaces/facultad.interface';
 import { TipoAula } from 'src/app/servicios/tipos_aulas/interfaces/tipo_aula.interface';
 import { TiposAulasApiService } from 'src/app/servicios/tipos_aulas/tipos-aulas-api.service';
 import Swal from 'sweetalert2';
@@ -13,23 +15,25 @@ import Swal from 'sweetalert2';
   templateUrl: './crear-espacio-fisico.component.html',
   styleUrls: ['./crear-espacio-fisico.component.scss']
 })
-export class CrearEspacioFisicoComponent implements OnInit {
+export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly espaciosFisicosService: EspaciosFisicosApiService,
     private readonly router: Router,
+    private readonly facultadesService: FacultadesService,
     private readonly tipoAulasService: TiposAulasApiService,
   ) { }
 
   formGroup?: FormGroup;
-  floatLabelControl = new FormControl('auto' as FloatLabelType);
   cargando: boolean = false;
+  facultades: Facultad[] = [];
+  facultadSuscripcion$?: Subscription;
   tipos: TipoAula[] = [];
 
   ngOnInit(): void {
-    this.obtenerTipoEspacioFisico();
     this.configurarFormulario();
+    this.obtenerFacultades();
   }
 
   crearEspacioFisico() {
@@ -43,8 +47,6 @@ export class CrearEspacioFisicoComponent implements OnInit {
           tipo_id: this.formGroup.get('tipo')?.value,
           aforo: Number(this.formGroup.get('aforo')?.value)
         };
-
-        console.log("NUEVO ESPACIO FISICO", nuevoEspacioFisico)
 
         this.espaciosFisicosService.crearEspacioFisico(nuevoEspacioFisico)
           .subscribe({
@@ -73,12 +75,38 @@ export class CrearEspacioFisicoComponent implements OnInit {
     }
   }
 
-  obtenerTipoEspacioFisico() {
-    this.tipoAulasService.obtenerTipoAulas().subscribe({
-      next: (res) => {
-        this.tipos = res as TipoAula[];
-      }
-    });
+  // Cargar facultades existentes
+  obtenerFacultades() {
+    this.facultadesService.obtenerFacultades()
+      .subscribe({
+        next: (res) => {
+          this.facultades = res as Facultad[];
+          this.obtenerTiposEspaciosFisicos();
+        }
+      });
+  }
+
+  obtenerTiposEspaciosFisicos() {
+    if (this.formGroup) {
+      // Comprobar cambios en la Facultad seleccionada por el usuario
+      this.facultadSuscripcion$ = this.formGroup.get('facultad')?.valueChanges
+        .subscribe({
+          next: (idFacultad) => {
+            // Habilita el campo Tipo
+            this.formGroup?.get('tipo')?.enable();
+            // Elimina el tipo anteriormente seleccionado
+            this.formGroup?.get('tipo')?.setValue('');
+            // Cargar tipos de aula
+            this.tipoAulasService.obtenerTipoAulas().subscribe({
+              next: (res) => {
+                const tiposExistentes = res as TipoAula[];
+                // Filtrar por facultad
+                this.tipos = tiposExistentes.filter(t => t.facultad.id == idFacultad);
+              }
+            }); 
+          }
+        });
+    }
   }
 
   configurarFormulario() {
@@ -91,8 +119,12 @@ export class CrearEspacioFisicoComponent implements OnInit {
           Validators.maxLength(15),
         ]
       ),
-      tipo: new FormControl(
+      facultad: new FormControl(
         { value: '', disabled: false },
+        [ Validators.required, ]
+      ),
+      tipo: new FormControl(
+        { value: '', disabled: true }, // Comienza deshabilitado
         [
           Validators.required,
           Validators.pattern(`${this.tipos.map(s => `(^${s}$)`).join('|')}`),
@@ -108,10 +140,13 @@ export class CrearEspacioFisicoComponent implements OnInit {
         ]
       )
     });
+    
   }
 
-  getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
+  ngOnDestroy(): void {
+    if (this.facultadSuscripcion$) {
+      this.facultadSuscripcion$.unsubscribe();
+    }
   }
 
 }
