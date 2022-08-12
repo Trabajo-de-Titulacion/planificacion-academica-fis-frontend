@@ -63,15 +63,18 @@ export class MostrarEspaciosFisicosComponent implements OnInit, OnDestroy, After
         next: (data) => {
           const espacios_fisicos = data as EspacioFisico[];
           this.espaciosFisicosExistentes = espacios_fisicos;
-          //this.espaciosFisicos.data = espacios_fisicos;
         },
         error: () => {
-          Swal.fire(
-            'Error',
-            'No se pudieron obtener los registros.',
-            'error'
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudieron obtener los registros.',
+            showCancelButton: true,
+            confirmButtonText: 'Reiniciar página',
+            cancelButtonText: 'Cerrar',
+            icon: 'error',
+          }
           ).then((result) => {
-            if (result.isDismissed || result.isConfirmed) {
+            if (result.isConfirmed) {
               window.location.reload();
             }
           });
@@ -119,7 +122,7 @@ export class MostrarEspaciosFisicosComponent implements OnInit, OnDestroy, After
       },
       complete: () => {
         Swal.close();
-        //this.filtrarEspaciosFisicos();
+        this.filtrarEspaciosFisicos();
       }
     });
   }
@@ -243,14 +246,14 @@ export class MostrarEspaciosFisicosComponent implements OnInit, OnDestroy, After
         if (filtroFacultad == this.filtrarTodas) {
           this.datoFilasEspaciosFisicos.data = this.mapearEspaciosFisicasAFilas(this.espaciosFisicosExistentes);
         } else {
+          
+          const datosTotales: FilaEspacioFisico[] = [];
+          this.mapearEspaciosFisicasAFilas(this.espaciosFisicosExistentes).forEach(fila => {
+            datosTotales.push(Object.assign({}, fila));
+          });
+
           // Filtra por ID de la Facultad
-          // this.datoFilasEspaciosFisicos.data = this.espaciosFisicosExistentes.filter(ef => {
-          //   const tiposDentroDeFaculadSeleccionada = this.tiposExistentes.filter(tipo => {
-          //     return tipo.facultad.id == filtroFacultad
-          //   });
-          //   return tiposDentroDeFaculadSeleccionada.map(t => t.id).includes(ef.tipo?.id);
-          // });
-          this.datoFilasEspaciosFisicos.data = this.datoFilasEspaciosFisicos.data.filter(dato => {
+          this.datoFilasEspaciosFisicos.data = datosTotales.filter(dato => {
             return dato.idFacultad == filtroFacultad;
           });
 
