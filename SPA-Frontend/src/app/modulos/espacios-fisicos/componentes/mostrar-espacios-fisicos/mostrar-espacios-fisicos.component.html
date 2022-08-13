@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <mat-table [dataSource]="datoFilasEspaciosFisicos" matSort #tablaSort="matSort">
+  <mat-table [dataSource]="datoFilasEspaciosFisicos" matSort #tablaSort="matSort" matSortActive="nombre" matSortDirection="asc">
       <!-- Nombre -->
       <ng-container matColumnDef="nombre">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
