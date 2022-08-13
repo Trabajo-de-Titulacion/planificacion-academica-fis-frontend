@@ -35,7 +35,16 @@ export class EspaciosFisicosApiService {
     return this.httpClient.get(url);
   }
 
+  obtenerEspacioFisicoPorId(id: string) {
+    const url = apiUrl + `${this.ruta}/obtenerEspaciosFisicos/${id}`;
+    return this.httpClient.get(url);
+  }
+
   /* Update */
+  actualizarEspacioFisicoPorId(id: string, espacioFisicoActualizado: EspacioFisico) {
+    const url = apiUrl + `${this.ruta}/actualizarEspacioFisico/${id}`;
+    return this.httpClient.put(url, espacioFisicoActualizado);
+  }
 
   /* Delete */
   eliminarEspacioFisico(id: string) {
