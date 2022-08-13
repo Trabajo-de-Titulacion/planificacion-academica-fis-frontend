@@ -3,4 +3,5 @@ export default interface JornadaLaboral {
     horaInicio: string,
     horaAlmuerzo: string,
     horaFin: string,
+    idSemestre: string,
 }

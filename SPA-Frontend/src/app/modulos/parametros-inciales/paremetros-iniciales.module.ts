@@ -8,6 +8,7 @@ import { MatListModule } from "@angular/material/list";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTableModule } from "@angular/material/table"
 import { MatTabsModule } from "@angular/material/tabs"
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { NgModule } from "@angular/core";
 
 
@@ -33,6 +34,7 @@ import { ReactiveFormsModule } from "@angular/forms";
         MatIconModule,
         MatInputModule,
         MatListModule,
+        MatProgressSpinnerModule,
         MatSelectModule,
         MatTableModule,
         MatTabsModule,
