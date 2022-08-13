@@ -31,6 +31,8 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
   facultadSuscripcion$?: Subscription;
   tipos: TipoAula[] = [];
 
+  configuracion = { minAforo: 3, maxAforo: 200 };
+
   ngOnInit(): void {
     this.configurarFormulario();
     this.obtenerFacultades();
@@ -51,22 +53,20 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
         this.espaciosFisicosService.crearEspacioFisico(nuevoEspacioFisico)
           .subscribe({
             next: (res: any) => {
-              Swal.fire(
-                'Registro creado',
-                `${res.mensaje}`,
-                'success'
-              ).then((result) => {
-                if (result.isConfirmed || result.isDismissed) {
-                  this.router.navigate(['/spa/espacios_fisicos']);
-                }
-              });
+              if (res.filas_alteradas == 0) {
+                Swal.fire('Hubo un problema', `${res.mensaje}`,'info');
+                this.cargando = false;
+              } else {
+                Swal.fire('Registro creado', `${res.mensaje}`,'success')
+                .then((result) => {
+                  if (result.isConfirmed || result.isDismissed) {
+                    this.router.navigate(['/spa/espacios_fisicos']);
+                  }
+                });
+              }
             },
             error: (res: any) => {
-              Swal.fire(
-                'Error',
-                `${res.error.message}`,
-                'error'
-              );
+              Swal.fire('Error', `${res.error.message}`, 'error');
               this.cargando = false;
             }
           });
@@ -92,6 +92,7 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
       this.facultadSuscripcion$ = this.formGroup.get('facultad')?.valueChanges
         .subscribe({
           next: (idFacultad) => {
+            this.tipos = [];
             // Habilita el campo Tipo
             this.formGroup?.get('tipo')?.enable();
             // Elimina el tipo anteriormente seleccionado
@@ -127,20 +128,18 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
         { value: '', disabled: true }, // Comienza deshabilitado
         [
           Validators.required,
-          Validators.pattern(`${this.tipos.map(s => `(^${s}$)`).join('|')}`),
         ]
       ),
       aforo: new FormControl(
         { value: '', disabled: false },
         [
           Validators.required,
-          Validators.min(10),
-          Validators.max(99),
+          Validators.min(this.configuracion.minAforo),
+          Validators.max(this.configuracion.maxAforo),
           Validators.pattern('^[0-9]*$'),
         ]
       )
     });
-    
   }
 
   ngOnDestroy(): void {
