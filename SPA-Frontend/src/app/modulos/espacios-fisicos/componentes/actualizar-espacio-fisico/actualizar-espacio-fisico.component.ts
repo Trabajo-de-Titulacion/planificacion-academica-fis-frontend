@@ -59,8 +59,6 @@ export class ActualizarEspacioFisicoComponent implements OnInit, OnDestroy {
           aforo: Number(this.formGroup.get('aforo')?.value)
         };
 
-        console.log("A ACTUALIZAR FISICO", nuevosDatosEspacioFisico);
-
         this.espaciosFisicosService.actualizarEspacioFisicoPorId(this.espacioFisico!.id!, nuevosDatosEspacioFisico)
           .subscribe({
             next: (res: any) => {
