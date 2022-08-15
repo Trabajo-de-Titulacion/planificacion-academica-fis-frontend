@@ -29,6 +29,11 @@ const routes: Routes = [
         loadChildren: () => import("./modulos/espacios-fisicos/espacios-fisicos.module")
           .then(m => m.EspaciosFisicosModule)
       },
+      {
+        path: 'docentes',
+        loadChildren: () => import("./modulos/docentes/docentes.module")
+          .then(m => m.DocentesModule)
+      },
     ]
   },
   {
@@ -39,7 +44,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
