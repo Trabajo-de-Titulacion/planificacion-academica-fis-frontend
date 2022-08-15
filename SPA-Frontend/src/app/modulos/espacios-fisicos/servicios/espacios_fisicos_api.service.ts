@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { apiUrl } from 'src/environments/environment';
-import { EspacioFisico } from './interfaces/espacio_fisico.interface';
+import { EspacioFisico } from '../modelos/espacio_fisico.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -32,12 +32,12 @@ export class EspaciosFisicosApiService {
   /* Read */
   obtenerEspaciosFisicos() {
     const url = apiUrl + `${this.ruta}/obtenerEspaciosFisicos`;
-    return this.httpClient.get(url);
+    return this.httpClient.get<EspacioFisico[]>(url);
   }
 
   obtenerEspacioFisicoPorId(id: string) {
     const url = apiUrl + `${this.ruta}/obtenerEspaciosFisicos/${id}`;
-    return this.httpClient.get(url);
+    return this.httpClient.get<EspacioFisico>(url);
   }
 
   /* Update */

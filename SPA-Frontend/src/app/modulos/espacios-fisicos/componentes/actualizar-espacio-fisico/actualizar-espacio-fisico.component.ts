@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { EspaciosFisicosApiService } from 'src/app/servicios/espacios_fisicos/espacios_fisicos_api.service';
-import { EspacioFisico } from 'src/app/servicios/espacios_fisicos/interfaces/espacio_fisico.interface';
+import { EspaciosFisicosApiService } from 'src/app/modulos/espacios-fisicos/servicios/espacios_fisicos_api.service';
+import { EspacioFisico } from 'src/app/modulos/espacios-fisicos/modelos/espacio_fisico.interface';
 import { Facultad } from 'src/app/servicios/facultades/interfaces/facultad.interface';
 import { TipoAula } from 'src/app/servicios/tipos_aulas/interfaces/tipo_aula.interface';
 import { TiposAulasApiService } from 'src/app/servicios/tipos_aulas/tipos-aulas-api.service';
@@ -58,8 +58,6 @@ export class ActualizarEspacioFisicoComponent implements OnInit, OnDestroy {
           tipo_id: this.formGroup.get('tipo')?.value,
           aforo: Number(this.formGroup.get('aforo')?.value)
         };
-
-        console.log("A ACTUALIZAR FISICO", nuevosDatosEspacioFisico);
 
         this.espaciosFisicosService.actualizarEspacioFisicoPorId(this.espacioFisico!.id!, nuevosDatosEspacioFisico)
           .subscribe({
