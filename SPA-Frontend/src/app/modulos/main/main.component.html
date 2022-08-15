@@ -2,13 +2,13 @@
     <button mat-icon-button (click)="toogleMenuAcciones()" aria-label="Menú de acciones">
         <mat-icon>menu</mat-icon>
     </button>
-    <span>Sistema de Planificación Académica</span>
+    <a id="home" [routerLink]="['/spa']">Sistema de Planificación Académica</a>
     <span class="spacer"></span>
     <!-- Usuario -->
     <span class="correoUsuario">{{usuario!.correo}}</span>
     <!-- Menú de usuario -->
     <button mat-icon-button class="iconoUsuario" [matMenuTriggerFor]="menuUsuario" aria-label="Usuario">
-        <mat-icon [inline]="true">account_circle</mat-icon>
+        <mat-icon id="cuentaIcono" [inline]="true">account_circle</mat-icon>
     </button>
     <mat-menu #menuUsuario="matMenu">
         <button mat-menu-item (click)="cerrarSesion()">
@@ -42,7 +42,7 @@
                   </mat-list-item>
             </mat-nav-list>
 
-            <mat-divider *ngIf="esSubdecano() && (esCoordinador() || esDocente())"></mat-divider>
+            <mat-divider *ngIf="esSubdecano() && (esCoordinador() || esDocente() || esGestorEspaciosFisicos())"></mat-divider>
 
             <!-- Coordinador -->
             <h3 matSubheader *ngIf="esCoordinador()">Coordinador</h3>
@@ -56,7 +56,21 @@
                 </mat-list-item>
             </mat-nav-list>
 
-            <mat-divider *ngIf="esCoordinador() && esDocente()"></mat-divider>
+            <mat-divider *ngIf="esCoordinador() && esGestorEspaciosFisicos()"></mat-divider>
+
+            <!-- Gestor de espacios físicos -->
+            <h3 matSubheader *ngIf="esGestorEspaciosFisicos()">Gestor de espacios físicos</h3>
+            <mat-nav-list *ngIf="esGestorEspaciosFisicos()">
+                <!-- Gestionar aulas y laboratorios -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/espacios_fisicos')" [routerLink]="['/spa/espacios_fisicos']">
+                   <a matLine>Aulas y laboratorios</a>
+                   <button mat-icon-button>
+                      <mat-icon>door_sliding</mat-icon>
+                   </button>
+                </mat-list-item>
+            </mat-nav-list>
+
+            <mat-divider *ngIf="esGestorEspaciosFisicos() && esDocente()"></mat-divider>
 
             <!-- Docente -->
             <h3 matSubheader *ngIf="esDocente()">Docente</h3>

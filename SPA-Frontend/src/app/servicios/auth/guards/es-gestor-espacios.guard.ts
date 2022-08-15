@@ -5,7 +5,7 @@ import { RolesEnum } from "../enum/roles.enum";
 import { UsuarioStorageService } from "../usuario-storage.service";
 
 @Injectable()
-export class EsSubdecanoGuard implements CanActivate{
+export class EsGestorEspaciosFisicosGuard implements CanActivate{
 
     constructor(
         private readonly userService: UsuarioStorageService,
@@ -17,10 +17,10 @@ export class EsSubdecanoGuard implements CanActivate{
         if (!roles) {
             return false;
         }
-        if (!roles.includes(RolesEnum.SUBDECANO)) {
+        if (!roles.includes(RolesEnum.GESTOR_ESPACIOS_FISICOS)) {
             this.router.navigate(['/spa']);
         }
-        return roles.includes(RolesEnum.SUBDECANO);
+        return roles.includes(RolesEnum.GESTOR_ESPACIOS_FISICOS);
     }
 
 }
