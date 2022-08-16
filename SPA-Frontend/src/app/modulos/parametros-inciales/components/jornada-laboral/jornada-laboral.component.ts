@@ -5,6 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import JornadaLaboral from '../../models/jornada-laboral.interface';
 import { JornadaLaboralService } from '../../services/jornada-laboral.service';
 import Semestre from '../../models/semestre.interface';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-jornada-laboral',
@@ -12,6 +13,7 @@ import Semestre from '../../models/semestre.interface';
   styleUrls: ['./jornada-laboral.component.scss', '../../styles/common.scss']
 })
 export class JornadaLaboralComponent implements OnInit {
+
 
   @Input() semestre?: Semestre;
 
@@ -22,28 +24,36 @@ export class JornadaLaboralComponent implements OnInit {
   disabled = false;
   inputType = 'number';
   isLoading = true;
+  intervalosHoras = this.crearIntervalos(5,23);
+  horasAlmuerzo = ["12:00", "13:00", "14:00"]
+  inputsDisabled = true;
+  edicionHabilitada = false;
 
   constructor(
     private servicioJornadaLaboral: JornadaLaboralService,
     private fb: FormBuilder,
   ) { }
 
-  ngOnInit(): void {
-      this.crearFormulario();
+  async ngOnInit() {
+      await this.obtenerJornadasDelSemestre(this.semestre?.id);
+      await this.crearFormulario();
   }
 
-  private crearFormulario() {
-    this.obtenerJornadasDelSemestre(this.semestre?.id);
-
+  sendDB(){
+    console.log('cjcj', this.formularioJornadaLaboral.value)
+  }
+  
+  private async crearFormulario() {
+    console.log('crearFormulario', this.jornadasSemestre);
     /* Cuando el semestre cuenta con horas y días laborables */
-    if (this.jornadasSemestre?.length) {
+    if ( this.jornadasSemestre && this.jornadasSemestre.length !== 0) {
       const jornada = this.jornadasSemestre[0];
       const dias = this.jornadasSemestre.map(jornada => jornada.dia)
       this.formularioJornadaLaboral = this.fb.group({
-        horaInicio: [jornada.horaInicio, [Validators.required]],
-        horaFin: [jornada.horaFin, [Validators.required]],
-        horaAlmuerzo: [jornada.horaAlmuerzo, Validators.required],
-        dias: [dias, [Validators.required]],
+        horaInicio: [{value: jornada.horaInicio, disabled: this.inputsDisabled}, [Validators.required]],
+        horaFin: [{value: jornada.horaFin, disabled: this.inputsDisabled}, [Validators.required]],
+        horaAlmuerzo: [{value: jornada.horaAlmuerzo, disabled: this.inputsDisabled}, [Validators.required]],
+        dias: [{value: dias, disabled: this.inputsDisabled}, [Validators.required]],
       });
     }
     /* Cuando el semestre cuenta con horas y días laborables */
@@ -55,19 +65,28 @@ export class JornadaLaboralComponent implements OnInit {
         dias: [[], [Validators.required]],
       });
     }
+    this.isLoading = false;
+  }
+  
+  habilitarEdicion(){
+    this.inputsDisabled = true;
+    this.edicionHabilitada = true;
+    this.formularioJornadaLaboral.enable();
   }
 
-  private obtenerJornadasDelSemestre(idSemestre?: string) {
+  private async obtenerJornadasDelSemestre(idSemestre?: string){
     if (idSemestre) {
-      this.servicioJornadaLaboral.obtenerJornadaLaboralPorSemestre(idSemestre).subscribe(
-        resp => {
-          this.isLoading = false;
-          this.jornadasSemestre = resp;
-          this.crearFormulario();
-        }
-      )
+      this.jornadasSemestre = await lastValueFrom(this.servicioJornadaLaboral.obtenerJornadaLaboralPorSemestre(idSemestre));
     }
   }
+
+  async ngOnChanges(changes: any) {
+    this.isLoading = true;
+    this.edicionHabilitada = false;
+    await this.obtenerJornadasDelSemestre(this.semestre?.id);
+    await this.crearFormulario();
+  }
+
 
   crearJornadaLaboral() {
 
@@ -130,5 +149,13 @@ export class JornadaLaboralComponent implements OnInit {
         })
       }
     }
+  }
+
+  private crearIntervalos(horaInicio : number, horaFin: number){
+    const intervalos = [];
+    for (let hora = horaInicio; hora <= horaFin; hora++) {
+      intervalos.push(`${hora < 10 ? '0'+hora : hora}:00`)
+    }
+    return intervalos;
   }
 }
