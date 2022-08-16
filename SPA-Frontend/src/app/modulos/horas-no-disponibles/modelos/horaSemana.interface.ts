@@ -1,0 +1,13 @@
+export type DISPONIBILIDAD = 'NO_DISPONIBLE' | 'ALMUERZO' | 'DISPONIBLE';
+
+export interface HoraSemana {
+    hora: number;
+    rangoHoras: string;
+    "LUNES": DISPONIBILIDAD;
+    "MARTES": DISPONIBILIDAD;
+    "MIÉRCOLES": DISPONIBILIDAD;
+    "JUEVES": DISPONIBILIDAD;
+    "VIERNES": DISPONIBILIDAD;
+    "SÁBADO": DISPONIBILIDAD;
+    "DOMINGO": DISPONIBILIDAD;
+}

@@ -82,20 +82,13 @@
             <!-- Docente -->
             <h3 matSubheader *ngIf="esDocente()">Docente</h3>
             <mat-nav-list *ngIf="esDocente()">
-                <!-- Acción 1 -->
-                <mat-list-item>
-                    <a matLine [routerLink]="['/spa']">Acción 1</a>
+                <!-- Horas no disponibles -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/horas_no_disponibles')" [routerLink]="['/spa/horas_no_disponibles']">
+                    <a matLine [routerLink]="['/spa']">Indicar horas no disponibles</a>
                     <button mat-icon-button>
-                       <mat-icon>create</mat-icon>
+                       <mat-icon>event_busy</mat-icon>
                     </button>
-                 </mat-list-item>
-                 <!-- Acción 2 -->
-                 <mat-list-item>
-                     <a matLine [routerLink]="['/spa']">Acción 2</a>
-                     <button mat-icon-button>
-                        <mat-icon>info</mat-icon>
-                     </button>
-                  </mat-list-item>
+                </mat-list-item>
             </mat-nav-list>
 
          </mat-list>

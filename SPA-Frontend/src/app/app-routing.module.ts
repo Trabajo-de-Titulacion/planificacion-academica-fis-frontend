@@ -30,6 +30,11 @@ const routes: Routes = [
           .then(m => m.EspaciosFisicosModule)
       },
       {
+        path: 'horas_no_disponibles',
+        loadChildren: () => import("./modulos/horas-no-disponibles/horas-no-disponibles.module")
+          .then(m => m.HorasNoDisponiblesModule)
+      },
+      {
         path: 'docentes',
         loadChildren: () => import("./modulos/docentes/docentes.module")
           .then(m => m.DocentesModule)
