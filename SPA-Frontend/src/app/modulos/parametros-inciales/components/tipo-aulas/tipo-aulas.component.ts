@@ -7,8 +7,8 @@ import TipoAula from '../../models/tipo-aula.interface';
 
 
 const DATA: TipoAula[] = [
-  {tipo: 'Aula regular', facultad: 'Facultad de Ingeniería de Sistemas'},
-  {tipo: 'Laboratorio', facultad: 'Facultad de Ingeniería de Sistemas'},
+  {tipo: 'Aula regular', facultad: { nombre: 'Facultad de Ingeniería de Sistemas'}},
+  {tipo: 'Laboratorio', facultad: { nombre: 'Facultad de Ingeniería de Sistemas' }},
 ];
 
 

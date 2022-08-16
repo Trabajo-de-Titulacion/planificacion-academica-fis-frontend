@@ -1,3 +1,5 @@
+@import '../../../themes/variables.scss';
+
 .menuAcciones {
     position: absolute;
     top: 64px;
@@ -7,6 +9,14 @@
     background: rgba(251, 251, 251, 0.613);
 }
 
+#home {
+    color: $text_on_primary;
+    text-decoration: none;
+}
+#home:hover {
+    color: $accent;
+    text-decoration: underline;
+}
 
 mat-sidenav {
     width: 20vw;
@@ -26,4 +36,13 @@ mat-sidenav {
 
 .menuUsuario mat-icon {
     height: 20vh;
+}
+
+.active {
+    background-color: $accent;
+    color: $text_on_accent;
+}
+
+#cuentaIcono:hover {
+    color: $accent;
 }

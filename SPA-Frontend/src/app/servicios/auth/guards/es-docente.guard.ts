@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { Observable } from "rxjs";
+import { RolesEnum } from "../enum/roles.enum";
 import { UsuarioStorageService } from "../usuario-storage.service";
 
 @Injectable()
@@ -13,10 +14,13 @@ export class EsDocenteGuard implements CanActivate{
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
         const roles = this.userService.obtenerRoles();
-        if (!roles.includes("DOCENTE")) {
+        if (!roles) {
+            return false;
+        }
+        if (!roles.includes(RolesEnum.DOCENTE)) {
             this.router.navigate(['/spa']);
         }
-        return roles.includes("DOCENTE");
+        return roles.includes(RolesEnum.DOCENTE);
     }
 
 }

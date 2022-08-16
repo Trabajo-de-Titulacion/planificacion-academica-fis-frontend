@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RolesEnum } from 'src/app/servicios/auth/enum/roles.enum';
 import { Usuario } from 'src/app/servicios/auth/models/usuario.model';
 import { TokenStorageService } from 'src/app/servicios/auth/token-storage.service';
 import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
@@ -48,16 +49,25 @@ export class MainComponent implements OnInit {
     this.mostrarMenuAcciones = !this.mostrarMenuAcciones;
   }
 
+  mostrarRutaActiva(ruta: string) {
+    const rutaActual = this.router.url;
+    return (rutaActual.includes(ruta))? 'active' : '';
+  }
+
   esCoordinador() {
-    return this.usuario!.roles.includes('COORDINADOR');
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.COORDINADOR);
   }
 
   esDocente() {
-    return this.usuario!.roles.includes('DOCENTE');
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.DOCENTE);
   }
 
   esSubdecano() {
-    return this.usuario!.roles.includes('SUBDECANO');
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.SUBDECANO);
+  }
+
+  esGestorEspaciosFisicos() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.GESTOR_ESPACIOS_FISICOS);
   }
 
 }

@@ -1,0 +1,23 @@
+@import '../../../../../themes/variables.scss';
+
+// .mat-checkbox .mat-checkbox-frame {
+//     transform: scale(20);
+// }
+
+// .mat-checkbox-checked .mat-checkbox-background {
+//     transform: scale(20);
+// }
+
+mat-checkbox {
+    //width: max-content;
+	::ng-deep .mat-checkbox-inner-container {
+        display: inline-block;
+        width: max-content;
+        //height: 30px;
+  	}
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: $accent !important;
+}

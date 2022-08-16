@@ -41,7 +41,9 @@ export class LoginComponent implements OnInit {
   login() {
     if (this.formGroup) {
       if (this.formGroup.valid && !this.cargando) {
+        Swal.showLoading();
         this.cargando = true;
+        this.errorSesion = false;
         // Iniciar sesión con credenciales
         const correo = this.formGroup.get('correo')?.value;
         const clave = this.formGroup.get('constrasena')?.value;
@@ -63,7 +65,7 @@ export class LoginComponent implements OnInit {
                 this.ingresarAlAplicativo();
               }
             })
-            
+
             toast.fire({
               icon: 'success',
               title: '¡Ha iniciado sesión!'
@@ -80,7 +82,7 @@ export class LoginComponent implements OnInit {
               timer: 3000,
               timerProgressBar: false,
             })
-            
+
             toast.fire({
               icon: 'error',
               title: 'Error en el inicio de sesión',
@@ -89,7 +91,7 @@ export class LoginComponent implements OnInit {
         });
       }
     }
-    
+
   }
 
   ingresarAlAplicativo() {
@@ -122,10 +124,6 @@ export class LoginComponent implements OnInit {
         ]
       )
     });
-  }
-
-  getFloatLabelValue(): FloatLabelType {
-    return this.floatLabelControl.value || 'auto';
   }
 
 }
