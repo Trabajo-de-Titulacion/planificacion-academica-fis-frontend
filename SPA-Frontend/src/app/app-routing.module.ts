@@ -27,7 +27,8 @@ const routes: Routes = [
       {
         path: 'parametros-iniciales',
         loadChildren: () => import('./modulos/parametros-inciales/paremetros-iniciales.module').then( m => m.ParametrosInicialesModule),
-      }
+      },
+      {
         path: 'espacios_fisicos',
         loadChildren: () => import("./modulos/espacios-fisicos/espacios-fisicos.module")
           .then(m => m.EspaciosFisicosModule)

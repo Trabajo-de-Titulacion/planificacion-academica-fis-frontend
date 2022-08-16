@@ -1,4 +1,4 @@
-import { TipoAula } from "../../../servicios/tipos_aulas/interfaces/tipo_aula.interface";
+import TipoAula from "../../parametros-inciales/models/tipo-aula.interface";
 
 export interface EspacioFisico {
     id?: string;
