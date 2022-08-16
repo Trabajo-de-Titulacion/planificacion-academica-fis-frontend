@@ -9,7 +9,7 @@ import JornadaLaboral from "../models/jornada-laboral.interface";
 @Injectable({
     providedIn: 'root'
 })
-export class JornadaLaboralService {
+export class JornadaLaboralApiService {
 
     private readonly ruta = '/jornadaLaboral';
     private readonly jornadaLaboralURL = `${apiUrl}${this.ruta}`;

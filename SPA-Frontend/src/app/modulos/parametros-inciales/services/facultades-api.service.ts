@@ -5,7 +5,7 @@ import { apiUrl } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class FacultadesService {
+export class FacultadesApiService {
 
   constructor(
     private readonly httpClient: HttpClient,

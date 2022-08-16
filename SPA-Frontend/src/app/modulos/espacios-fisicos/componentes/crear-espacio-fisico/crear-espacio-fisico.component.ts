@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EspaciosFisicosApiService } from 'src/app/modulos/espacios-fisicos/servicios/espacios_fisicos_api.service';
 import { EspacioFisico } from 'src/app/modulos/espacios-fisicos/modelos/espacio_fisico.interface';
-import { FacultadesService } from 'src/app/modulos/parametros-inciales/services/facultades.service';
+import { FacultadesApiService } from 'src/app/modulos/parametros-inciales/services/facultades-api.service';
 import { Facultad } from 'src/app/modulos/parametros-inciales/models/facultad.interface';
 import TipoAula from 'src/app/modulos/parametros-inciales/models/tipo-aula.interface';
 import { TiposAulasApiService } from 'src/app/modulos/parametros-inciales/services/tipos-aulas-api.service';
@@ -21,7 +21,7 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
     private readonly formBuilder: FormBuilder,
     private readonly espaciosFisicosService: EspaciosFisicosApiService,
     private readonly router: Router,
-    private readonly facultadesService: FacultadesService,
+    private readonly facultadesService: FacultadesApiService,
     private readonly tipoAulasService: TiposAulasApiService,
   ) { }
 

@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import Semestre from "../models/semestre.interface";
-import { SemestreService } from "../services/semestre.service";
+import { SemestreService } from "../services/semestre-api.service";
 
 
 @Component({

@@ -4,9 +4,14 @@
             <div>Jornada Laboral - {{semestre?.abreviatura}}</div>
             <div>
                 <div class="tab-titulo-acciones">
-                    <button mat-raised-button *ngIf="this.jornadasSemestre && this.jornadasSemestre.length === 0" (click)="sendDB()" color="primary">Crear</button>
-                    <button mat-raised-button *ngIf="this.jornadasSemestre && this.jornadasSemestre.length >= 1 && edicionHabilitada === false" (click)="habilitarEdicion()" color="primary">Editar</button>
-                    <button mat-raised-button  *ngIf="this.jornadasSemestre && this.jornadasSemestre.length >= 1 && edicionHabilitada === true" color="accent">Guardar</button>
+                    <button mat-raised-button *ngIf="this.jornadasSemestre && this.jornadasSemestre.length === 0"
+                        (click)="crearJornadaLaboral()" color="primary">Crear</button>
+                    <button mat-raised-button
+                        *ngIf="this.jornadasSemestre && this.jornadasSemestre.length >= 1 && edicionHabilitada === false"
+                        (click)="habilitarEdicion()" color="primary">Editar</button>
+                    <button mat-raised-button
+                        *ngIf="this.jornadasSemestre && this.jornadasSemestre.length >= 1 && edicionHabilitada === true"
+                        color="accent">Guardar</button>
                 </div>
             </div>
         </mat-card-title>
@@ -24,12 +29,15 @@
                         <!-- Hora de inicio -->
                         <div>
                             <mat-form-field class="tab-jornada-secciones-horas-inputs" appearance="fill">
-                                <mat-label>Hora inicio</mat-label>
-                                <mat-select formControlName="horaInicio" >
+                                <mat-label>Hora de inicio</mat-label>
+                                <mat-select formControlName="horaInicio">
                                     <mat-option *ngFor="let hora of intervalosHoras" [value]="hora">
                                         {{hora}}
                                     </mat-option>
                                 </mat-select>
+                                <mat-error *ngIf="this.formularioJornadaLaboral.get('horaInicio')?.invalid">
+                                    La hora de inicio es requerida.
+                                </mat-error>
                             </mat-form-field>
                         </div>
 
@@ -39,12 +47,15 @@
                         </div>
                         <div>
                             <mat-form-field class="tab-jornada-secciones-horas-inputs" appearance="fill">
-                                <mat-label>Hora fin</mat-label>
+                                <mat-label>Hora final</mat-label>
                                 <mat-select formControlName="horaFin">
                                     <mat-option *ngFor="let hora of intervalosHoras" [value]="hora">
                                         {{hora}}
                                     </mat-option>
                                 </mat-select>
+                                <mat-error *ngIf="this.formularioJornadaLaboral.get('horaFin')?.invalid">
+                                    La hora final es requerida.
+                                </mat-error>
                             </mat-form-field>
                         </div>
 
@@ -54,28 +65,31 @@
                         </div>
                         <div>
                             <mat-form-field class="tab-jornada-secciones-horas-inputs" appearance="fill">
-                                <mat-label>Hora almuerzo</mat-label>
+                                <mat-label>Hora de almuerzo</mat-label>
                                 <mat-select formControlName="horaAlmuerzo">
                                     <mat-option *ngFor="let hora of horasAlmuerzo" [value]="hora">
                                         {{hora}}
                                     </mat-option>
                                 </mat-select>
+                                <mat-error *ngIf="this.formularioJornadaLaboral.get('horaAlmuerzo')?.invalid">
+                                    La hora de almuerzo es requerida.
+                                </mat-error>
                             </mat-form-field>
                         </div>
                     </mat-card>
 
                     <!-- Días laborables -->
                     <mat-card class="tab-jornada-secciones-dias">
-                        <mat-label><strong>Seleccione los días laborables.</strong></mat-label>
-                        <mat-selection-list formControlName="dias" class="seleccion-dias" required="">
-                            <mat-list-option *ngFor="let dia of diasLaborables" [value]="dia">
-                                {{dia}}
-                            </mat-list-option>
-                        </mat-selection-list>
+                            <mat-label><strong>Seleccione los días laborables.</strong></mat-label>
+                            <mat-selection-list formControlName="dias" class="seleccion-dias" required="">
+                                <mat-list-option *ngFor="let dia of diasLaborables" [value]="dia">
+                                    {{dia}}
+                                </mat-list-option>
+                            </mat-selection-list>
                     </mat-card>
                 </div>
             </form>
-            
+
         </mat-card-content>
     </mat-card>
 </form>
