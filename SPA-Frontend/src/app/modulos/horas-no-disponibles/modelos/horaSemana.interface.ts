@@ -1,4 +1,8 @@
-export type DISPONIBILIDAD = 'NO_DISPONIBLE' | 'ALMUERZO' | 'DISPONIBLE';
+export enum DISPONIBILIDAD {
+    NO_DISPONIBLE = 'NO_DISPONIBLE',
+    ALMUERZO = 'ALMUERZO',
+    DISPONIBLE = 'DISPONIBLE',
+}
 
 export interface HoraSemana {
     hora: number;
