@@ -14,24 +14,22 @@ import { lastValueFrom } from 'rxjs';
 })
 export class JornadaLaboralComponent implements OnInit {
 
-
   @Input() semestre?: Semestre;
-
-  formularioJornadaLaboral: FormGroup = new FormGroup({});
-  jornadasSemestre?: JornadaLaboral[]
 
   diasLaborables: string[] = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
   disabled = false;
-  inputType = 'number';
-  isLoading = true;
-  intervalosHoras = this.crearIntervalos(5, 23);
+  edicionHabilitada = false;
+  formularioJornadaLaboral: FormGroup = new FormGroup({});
+  jornadasSemestre?: JornadaLaboral[]
   horasAlmuerzo = ["12:00", "13:00", "14:00"]
   inputsDisabled = true;
-  edicionHabilitada = false;
+  inputType = 'number';
+  intervalosHoras = this.crearIntervalos(5, 23);
+  isLoading = true;
 
   constructor(
-    private servicioJornadaLaboral: JornadaLaboralApiService,
     private fb: FormBuilder,
+    private servicioJornadaLaboral: JornadaLaboralApiService,
   ) { }
 
   async ngOnInit() {
@@ -39,12 +37,14 @@ export class JornadaLaboralComponent implements OnInit {
     await this.crearFormulario();
   }
 
-  sendDB() {
-    console.log('cjcj', this.formularioJornadaLaboral.value)
+  async ngOnChanges(changes: any) {
+    this.isLoading = true;
+    this.edicionHabilitada = false;
+    await this.obtenerJornadasDelSemestre(this.semestre?.id);
+    await this.crearFormulario();
   }
 
   private async crearFormulario() {
-    console.log('crearFormulario', this.jornadasSemestre);
     /* Cuando el semestre cuenta con horas y días laborables */
     if (this.jornadasSemestre && this.jornadasSemestre.length !== 0) {
       const jornada = this.jornadasSemestre[0];
@@ -68,25 +68,13 @@ export class JornadaLaboralComponent implements OnInit {
     this.isLoading = false;
   }
 
-  habilitarEdicion() {
-    this.inputsDisabled = true;
-    this.edicionHabilitada = true;
-    this.formularioJornadaLaboral.enable();
-  }
-
-  private async obtenerJornadasDelSemestre(idSemestre?: string) {
-    if (idSemestre) {
-      this.jornadasSemestre = await lastValueFrom(this.servicioJornadaLaboral.obtenerJornadaLaboralPorSemestre(idSemestre));
+  private crearIntervalos(horaInicio: number, horaFin: number) {
+    const intervalos = [];
+    for (let hora = horaInicio; hora <= horaFin; hora++) {
+      intervalos.push(`${hora < 10 ? '0' + hora : hora}:00`)
     }
+    return intervalos;
   }
-
-  async ngOnChanges(changes: any) {
-    this.isLoading = true;
-    this.edicionHabilitada = false;
-    await this.obtenerJornadasDelSemestre(this.semestre?.id);
-    await this.crearFormulario();
-  }
-
 
   async crearJornadaLaboral() {
 
@@ -120,7 +108,7 @@ export class JornadaLaboralComponent implements OnInit {
                 idSemestre
               };
               this.servicioJornadaLaboral.crearJornadaLaboral(jornada).subscribe(
-               async _ => {
+                async _ => {
                   Swal.fire({
                     icon: 'success',
                     title: 'Jornada laboral creada',
@@ -159,11 +147,15 @@ export class JornadaLaboralComponent implements OnInit {
     }
   }
 
-  private crearIntervalos(horaInicio: number, horaFin: number) {
-    const intervalos = [];
-    for (let hora = horaInicio; hora <= horaFin; hora++) {
-      intervalos.push(`${hora < 10 ? '0' + hora : hora}:00`)
+  habilitarEdicion() {
+    this.inputsDisabled = true;
+    this.edicionHabilitada = true;
+    this.formularioJornadaLaboral.enable();
+  }
+
+  private async obtenerJornadasDelSemestre(idSemestre?: string) {
+    if (idSemestre) {
+      this.jornadasSemestre = await lastValueFrom(this.servicioJornadaLaboral.obtenerJornadaLaboralPorSemestre(idSemestre));
     }
-    return intervalos;
   }
 }

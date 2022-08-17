@@ -1,0 +1,29 @@
+.dialog {
+
+    padding: 2rem;
+    
+    &-title {
+        width: 100%;
+    }
+
+    &-subtitle{
+        margin: 1rem 0rem;
+    }
+
+    &-field {
+        width: 100%;
+    }
+
+    &-field3{
+        background-color: purple;
+        padding: 10p;
+        width: 100%;
+    }
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+}

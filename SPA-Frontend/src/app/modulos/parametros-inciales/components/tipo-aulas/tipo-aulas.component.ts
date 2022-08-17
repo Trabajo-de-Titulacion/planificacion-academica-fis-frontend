@@ -44,13 +44,14 @@ export class TipoAulasComponent implements OnInit {
 
   abrirCrearTipoAulaDialog(){
     const dialogRef = this.dialog.open(CrearTipoAulaDialogComponent, {
-      width: '450px',
+      width: '30rem',
+
       data: {}
     })
 
     dialogRef.afterClosed().subscribe( result => {
+      console.log(result);
       console.log('The dialog was closed');
-
     })
   }
 
