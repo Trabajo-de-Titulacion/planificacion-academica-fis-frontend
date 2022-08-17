@@ -15,7 +15,7 @@ export class UsuarioStorageService {
     window.sessionStorage.setItem(USUARIO_KEY, JSON.stringify(usuario));
   }
 
-  obtenerUsuario() {
+  obtenerUsuario(): Usuario {
     const usuario = window.sessionStorage.getItem(USUARIO_KEY);
     return (usuario)? JSON.parse(usuario) : {};
   }

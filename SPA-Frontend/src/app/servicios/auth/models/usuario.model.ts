@@ -1,4 +1,6 @@
+import { RolesEnum } from "../enum/roles.enum";
+
 export interface Usuario {
     correo: string,
-    roles: ("DOCENTE" | "COORDINADOR" | "SUBDECANO" | "GESTOR_ESPACIOS_FISICOS")[],
+    roles: RolesEnum[]
 }
