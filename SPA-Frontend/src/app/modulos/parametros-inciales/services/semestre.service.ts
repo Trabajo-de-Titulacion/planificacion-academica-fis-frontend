@@ -20,4 +20,8 @@ export class SemestreService {
     obtenerSemestres(): Observable<Semestre[]> {
         return this.httpClient.get<Semestre[]>(`${this.semetreURL}/obtenerSemestres`);
     }
+
+    obtenerSemestreConPlanificacionEnProgreso(): Observable<Semestre> {
+        return this.httpClient.get<Semestre>(`${this.semetreURL}/obtenerSemestreConPlanificacionEnProgreso`);
+    }
 }
