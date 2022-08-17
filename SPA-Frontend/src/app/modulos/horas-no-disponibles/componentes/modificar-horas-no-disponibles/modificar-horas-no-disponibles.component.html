@@ -1,47 +1,51 @@
-<p>Seleccione únicamente aquellas horas en las que NO pueda llevar a cabo sus actividades de docencia.</p>
-
 <div class="contenedor">
-    <mat-table [dataSource]="datoFilasTabla" [formGroup]="formGroup">
-        <!-- Hora -->
-        <ng-container matColumnDef="HORA">
-          <mat-header-cell *matHeaderCellDef> HORA </mat-header-cell>
-          <mat-cell *matCellDef="let fila"> {{fila.rangoHoras}} </mat-cell>
-        </ng-container>
-      
-        <!-- Días -->
-        <ng-container *ngFor="let dia of columnasTabla.slice(1, columnasTabla.length)"
-          [matColumnDef]="dia"
-        >
-          <mat-header-cell *matHeaderCellDef>{{dia}}</mat-header-cell>
-          <mat-cell *matCellDef="let fila">
-            <!-- No hay hora que seleccionar -->
-            <div *ngIf="fila[dia] == 'NO_DISPONIBLE'"></div>
-            <!-- Almuerzo -->
-            <div *ngIf="fila[dia] == 'ALMUERZO'">Almuerzo</div>
-            <!-- Seleccionar hora -->
-            <mat-checkbox *ngIf="fila[dia] == 'DISPONIBLE'"
-              [formControlName]="obtenerNombreControl(dia, fila.hora)">
-            </mat-checkbox>
-          </mat-cell>
-        </ng-container>
-      
-        <mat-header-row *matHeaderRowDef="columnasTabla"></mat-header-row>
-        <mat-row *matRowDef="let fila; columns: columnasTabla;"></mat-row>
-    </mat-table>
-
-    <div class="parteInferior">
-        <!-- Botones -->
-        <div>
-          <!-- Desmarcar todas las opciones -->
-          <button mat-raised-button color="warn" (click)="desmarcarTodo()">
-            Desmarcar todo
-          </button>
+  <mat-card>
+    Seleccione únicamente aquellas horas en las que <strong>NO</strong> pueda llevar a cabo sus actividades de docencia.
+  </mat-card>
+  <!-- Matriz con días de la semana -->
+  <mat-table [dataSource]="datoFilasTabla" [formGroup]="formGroup">
+      <!-- Hora -->
+      <ng-container matColumnDef="HORA">
+        <mat-header-cell *matHeaderCellDef> HORA </mat-header-cell>
+        <mat-cell *matCellDef="let fila"> {{fila.rangoHoras}} </mat-cell>
+      </ng-container>
     
-          <!-- Guardar cambios -->
-          <button mat-raised-button color="primary">
-            Guardar cambios
-          </button>
-        </div>
-      </div>
-  
+      <!-- Días -->
+      <ng-container *ngFor="let dia of columnasTabla.slice(1, columnasTabla.length)"
+        [matColumnDef]="dia"
+      >
+        <mat-header-cell *matHeaderCellDef>{{dia}}</mat-header-cell>
+        <mat-cell *matCellDef="let fila">
+          <!-- No hay hora que seleccionar -->
+          <div *ngIf="fila[dia] == disponibilidad.NO_DISPONIBLE"></div>
+          <!-- Almuerzo -->
+          <div *ngIf="fila[dia] == disponibilidad.ALMUERZO">Almuerzo</div>
+          <!-- Seleccionar hora -->
+          <mat-checkbox *ngIf="fila[dia] == disponibilidad.DISPONIBLE"
+            [formControlName]="obtenerNombreControl(dia, fila.hora)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+    
+      <mat-header-row *matHeaderRowDef="columnasTabla"></mat-header-row>
+      <mat-row *matRowDef="let fila; columns: columnasTabla;"></mat-row>
+  </mat-table>
+
+  <!-- Botones -->
+  <div class="parteInferior">
+    <!-- Botones -->
+    <div>
+      <!-- Desmarcar todas las opciones -->
+      <button mat-raised-button color="warn" (click)="desmarcarTodo()"
+        [disabled]="!btnDesmarcarHabilitado">
+        Desmarcar todo
+      </button>
+
+      <!-- Guardar cambios -->
+      <button mat-raised-button color="primary" (click)="guardarCambios()"
+        [disabled]="!btnGuardarHabilitado">
+        Guardar cambios
+      </button>
+    </div>
+  </div>
 </div>
