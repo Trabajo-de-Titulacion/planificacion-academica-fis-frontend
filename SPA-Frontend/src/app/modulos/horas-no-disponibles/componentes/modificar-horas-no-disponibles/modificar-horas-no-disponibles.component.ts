@@ -262,7 +262,7 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
             this.horasNoDisponiblesPrevias = registrosACrear;
             this.btnGuardarHabilitado = false;
           },
-          error: (res) => {
+          error: (res: any) => {
             Swal.fire('Error', `${res.error.message}`, 'error');
             this.btnGuardarHabilitado = true;
           }
@@ -278,7 +278,7 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
             this.horasNoDisponiblesPrevias = [];
             this.btnGuardarHabilitado = false;
           },
-          error: (res) => {
+          error: (res: any) => {
             Swal.fire('Error', `${res.error.message}`, 'error');
             this.btnGuardarHabilitado = true;
           }
