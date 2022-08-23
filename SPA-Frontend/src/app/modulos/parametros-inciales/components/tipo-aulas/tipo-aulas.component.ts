@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, ReplaySubject } from 'rxjs';
 import Semestre from '../../models/semestre.interface';
-import TipoAula from '../../models/tipo-aula.interface';
+import { TipoAula } from '../../models/tipo-aula.interface';
 import { TiposAulasApiService } from '../../services/tipos-aulas-api.service';
 import { CrearTipoAulaDialogComponent } from './crear-tipo-aula-dialog/crear-tipo-aula-dialog.component';
 
@@ -34,6 +34,10 @@ export class TipoAulasComponent implements OnInit {
   dataSource : TipoAula[] = []
 
   ngOnInit(): void {
+    this.obtenerTipoAulas();
+  }
+
+  obtenerTipoAulas(){
     this.servicioTiposAulas.obtenerTipoAulas().subscribe(
       resp  => {
         this.dataSource = resp;
@@ -50,8 +54,7 @@ export class TipoAulasComponent implements OnInit {
     })
 
     dialogRef.afterClosed().subscribe( result => {
-      console.log(result);
-      console.log('The dialog was closed');
+      this.obtenerTipoAulas();
     })
   }
 

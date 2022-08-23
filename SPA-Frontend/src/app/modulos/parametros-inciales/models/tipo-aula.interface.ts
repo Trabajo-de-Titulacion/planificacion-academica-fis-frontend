@@ -1,7 +1,12 @@
 import { Facultad } from "./facultad.interface";
 
-export default interface TipoAula {
+export interface TipoAula {
   id?: string;
   tipo: string;
   facultad: Facultad;
+}
+
+export interface TipoAulaPorCrear {
+  tipo: string;
+  idFacultad: string;
 }

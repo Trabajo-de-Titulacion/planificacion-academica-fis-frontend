@@ -1,5 +1,11 @@
 .tab-jornada {
-    
+
+    &-semestres {
+        .mat-form-field {
+            width: 100%;
+        }
+    }
+
     &-secciones {
 
         &-horas {

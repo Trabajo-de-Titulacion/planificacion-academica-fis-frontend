@@ -1,13 +1,15 @@
 <mat-card class="dialog">
     <mat-card-title class="dialog-title">Crear un tipo de aula</mat-card-title>
-    <mat-card-subtitle class="dialog-subtitle">Ingrese la información necesaria para crear un tipo de aula.</mat-card-subtitle>
+    <mat-card-subtitle class="dialog-subtitle">Ingrese la información necesaria para crear un tipo de aula.
+    </mat-card-subtitle>
     <mat-card-content>
-        <form class="dialog-field">
+        <form [formGroup]="formularioTiposAulas" class="dialog-field">
             <!-- Selección de facultad -->
             <div class="dialog-field1" *ngIf="facultades.length >= 1; else noFacultades">
-                <mat-form-field style="width: 100%" class="dialog-field" appearance="fill" class="select-semestre">
+                <mat-form-field *ngIf="this.facultades.length !== 0" style="width: 100%" class="dialog-field"
+                    appearance="fill" class="select-semestre">
                     <mat-label>Selecciona el nombre de la facultad</mat-label>
-                    <mat-select [(value)]="facultadSeleccionada">
+                    <mat-select formControlName="facultad" [(value)]="facultadSeleccionada">
                         <mat-option *ngFor="let facultad of facultades" [value]="facultad">
                             {{facultad.nombre}}
                         </mat-option>
@@ -15,19 +17,19 @@
                 </mat-form-field>
             </div>
             <div>
-            <mat-form-field class="dialog-field "  appearance="fill">
-                <mat-label>Ingrese el tipo de aula</mat-label>
-                <input type="text" matInput>
-                <mat-error *ngIf="">
-                    Email is d <strong>required</strong>
-                </mat-error>
-            </mat-form-field>
-        </div>
-
-                <button mat-raised-button color="primary">Añadir</button>
+                <mat-form-field *ngIf="this.facultades.length !== 0" class="dialog-field " appearance="fill">
+                    <mat-label>Ingrese el tipo de aula</mat-label>
+                    <input formControlName="tipoAula" type="text" matInput>
+                    <mat-error *ngIf="this.formularioTiposAulas.get('tipoAula')?.invalid">
+                        El tipo de aula es requerida.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <button class="dialog__boton" *ngIf="this.facultades.length !== 0" mat-raised-button color="primary"
+                (click)="crearTipoAula()">Añadir</button>
         </form>
     </mat-card-content>
-
+    
     <!-- En caso de que no se hayan registrados semestres-->
     <ng-template #noFacultades>
         <mat-label>

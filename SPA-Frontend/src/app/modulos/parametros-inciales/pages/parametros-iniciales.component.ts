@@ -9,19 +9,6 @@ import { SemestreService } from "../services/semestre-api.service";
     styleUrls: ['./paremtros-iniciales.component.scss']
 })
 export class ParametrosInicialesComponent{
-
-    semestres : Semestre[] = []
-    semestreSeleccionado? : Semestre
-
     constructor(
-        private servicioSemestre : SemestreService
     ) {}
-
-    ngOnInit(): void {
-        this.servicioSemestre.obtenerSemestres().subscribe(
-            data => {
-                this.semestres = data;
-            }
-        )
-    }
 }

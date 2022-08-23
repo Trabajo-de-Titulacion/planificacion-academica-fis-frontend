@@ -8,7 +8,7 @@ import { EspaciosFisicosApiService } from 'src/app/modulos/espacios-fisicos/serv
 import { EspacioFisico } from 'src/app/modulos/espacios-fisicos/modelos/espacio_fisico.interface';
 import { Facultad } from 'src/app/modulos/parametros-inciales/models/facultad.interface';
 import { TiposAulasApiService } from 'src/app/modulos/parametros-inciales/services/tipos-aulas-api.service';
-import TipoAula from 'src/app/modulos/parametros-inciales/models/tipo-aula.interface';
+import { TipoAula  } from 'src/app/modulos/parametros-inciales/models/tipo-aula.interface';
 
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
