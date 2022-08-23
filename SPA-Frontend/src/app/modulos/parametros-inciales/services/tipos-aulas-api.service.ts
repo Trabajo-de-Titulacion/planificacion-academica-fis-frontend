@@ -23,6 +23,12 @@ export class TiposAulasApiService {
 
   crearTipoAula( tipoAula : TipoAulaPorCrear ) {
     const url = apiUrl + `${this.ruta}/crearTipoAula`;
-    this.httpClient.post( url, tipoAula );
+    return this.httpClient.post( url, tipoAula )
+  }
+
+  eliminarTipoAula( id: string ){
+    const url = apiUrl + `${this.ruta}/eliminarTipoAula/${id}`;
+    console.log(url);
+    return this.httpClient.delete(url);
   }
 }

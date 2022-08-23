@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs';
+import Swal from 'sweetalert2';
 import { Facultad } from '../../../models/facultad.interface';
 import { FacultadesApiService } from '../../../services/facultades-api.service';
 import { TiposAulasApiService } from '../../../services/tipos-aulas-api.service';
@@ -54,12 +55,35 @@ export class CrearTipoAulaDialogComponent implements OnInit {
   }
 
   crearTipoAula(){
-    if(this.formularioTiposAulas.valid){
+
+    const facultad : Facultad = this.formularioTiposAulas.get('facultad')?.value;
+    if(this.formularioTiposAulas.valid && facultad.id){
          const tipoAula = {
           tipo: this.formularioTiposAulas.get('tipoAula')?.value,
-          idFacultad: this.formularioTiposAulas.get('facultad')?.value.id,
+          idFacultad: facultad.id,
         }
-        this.tipoAulaServicio.crearTipoAula(tipoAula);
+        this.tipoAulaServicio.crearTipoAula(tipoAula).subscribe(
+          {
+            next: () => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Se ha creado un tipo de aula',
+                text: `Se correctamente el tipo de aula ${tipoAula.tipo.toUpperCase()} de la ${facultad.nombre.toUpperCase()}.`,
+              }).then(
+                _ => {
+                  this.dialogRef.close();
+                }
+              )
+      
+            },
+            error: err => {
+              Swal.fire({
+                icon: 'error',
+                title: 'No se ha podido crear el tipo de aula.',
+              })
+            }
+          }
+        );
       }
   }
 }
