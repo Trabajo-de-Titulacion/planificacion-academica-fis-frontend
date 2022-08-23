@@ -1,11 +1,3 @@
-.contenedorForm {
-    width: 45vw;
-    padding: 5vh;
-    border-radius: 10px;
-    background-color: white;
-    box-shadow: 0 0 10px 1px gray ;
-}
-
 form {
     display: flex;
     flex-direction: column;
@@ -37,10 +29,14 @@ h1 {
 .buttonStyle {
     font-family: 'Roboto', sans-serif;
     height: 5vh;
-    width: 20vw;
     font-size: 2vh;
     font-weight: 500;
-    margin: 5vh 0;
+    margin: 5vh 1vw;
+}
+
+.botones {
+    display: flex;
+    justify-content: space-around;
 }
 
 .mitad {

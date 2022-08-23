@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { EspaciosFisicosApiService } from 'src/app/modulos/espacios-fisicos/servicios/espacios_fisicos_api.service';
 import { EspacioFisico } from 'src/app/modulos/espacios-fisicos/modelos/espacio_fisico.interface';
@@ -20,9 +20,9 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly espaciosFisicosService: EspaciosFisicosApiService,
-    private readonly router: Router,
     private readonly facultadesService: FacultadesService,
     private readonly tipoAulasService: TiposAulasApiService,
+    private readonly dialogoRef: MatDialogRef<CrearEspacioFisicoComponent>,
   ) { }
 
   formGroup?: FormGroup;
@@ -60,7 +60,7 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
                 Swal.fire('Registro creado', `${res.mensaje}`,'success')
                 .then((result) => {
                   if (result.isConfirmed || result.isDismissed) {
-                    this.router.navigate(['/spa/espacios_fisicos']);
+                    this.cerrarDialogo();
                   }
                 });
               }
@@ -81,7 +81,11 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.facultades = res as Facultad[];
+          // Obtener tipos de espacios fisicos
           this.obtenerTiposEspaciosFisicos();
+          // Establecer una facultad por defecto
+          this.formGroup!.get('facultad')!.setValue(this.facultades[0].nombre);
+          this.formGroup!.get('facultad')!.setValue(this.facultades[0].id!, { emitModelToViewChange: false });
         }
       });
   }
@@ -103,6 +107,9 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
                 const tiposExistentes = res as TipoAula[];
                 // Filtrar por facultad
                 this.tipos = tiposExistentes.filter(t => t.facultad.id == idFacultad);
+                // Establecer un tipo por defecto
+                this.formGroup!.get('tipo')!.setValue(this.tipos[0].tipo);
+                this.formGroup!.get('tipo')!.setValue(this.tipos[0].id!, { emitModelToViewChange: false });
               }
             }); 
           }
@@ -125,7 +132,7 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
         [ Validators.required, ]
       ),
       tipo: new FormControl(
-        { value: '', disabled: true }, // Comienza deshabilitado
+        { value: '', disabled: false }, // Comienza deshabilitado
         [
           Validators.required,
         ]
@@ -140,6 +147,10 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
         ]
       )
     });
+  }
+
+  cerrarDialogo() {
+    this.dialogoRef.close();
   }
 
   ngOnDestroy(): void {
