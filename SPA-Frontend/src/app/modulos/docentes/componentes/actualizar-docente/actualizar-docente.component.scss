@@ -26,13 +26,27 @@ h1 {
     font-weight: 500;
 }
 
-.buttonStyle {
+.buttonStyleConfirm {
     font-family: 'Roboto', sans-serif;
     height: 5vh;
-    width: 20vw;
+    width: 10vw;
     font-size: 2vh;
     font-weight: 500;
     margin: 5vh 0;
+}
+
+.buttonStyleCancel {
+    font-family: 'Roboto', sans-serif;
+    height: 5vh;
+    width: 10vw;
+    font-size: 2vh;
+    font-weight: 500;
+    margin: 5vh 0;
+}
+
+.title {
+    font-family: 'Roboto', sans-serif;
+    margin: 2vh;
 }
 
 .mitad {
