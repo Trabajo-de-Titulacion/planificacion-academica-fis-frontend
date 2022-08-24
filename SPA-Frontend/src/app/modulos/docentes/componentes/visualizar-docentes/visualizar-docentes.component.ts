@@ -4,10 +4,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 import Swal from 'sweetalert2';
 import { DocenteApiService } from 'src/app/modulos/docentes/servicios/docentes_api.service';
 import { Docente } from 'src/app/modulos/docentes/modelos/docente.interface';
+import { CrearDocenteComponent } from '../crear-docente/crear-docente.component';
+import { ActualizarDocenteComponent } from '../actualizar-docente/actualizar-docente.component';
 
 @Component({
   selector: 'app-visualizar-docentes',
@@ -18,7 +21,8 @@ export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterView
 
   constructor(
     private readonly docenteService: DocenteApiService,
-    private readonly router: Router
+    private readonly router: Router,
+    public readonly dialog: MatDialog,
   ) { }
 
   docentesExistentes: Docente[] = [];
@@ -31,6 +35,13 @@ export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterView
   @ViewChild('tablaSort') tablaSort = new MatSort();
   @ViewChild(MatPaginator) paginador?: MatPaginator;
   rutaActual = this.router.url;
+
+  // Filtrar entre todos los elementos de la tabla
+
+  filtrarTabla(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.datosFilaDocentes.filter = filterValue.trim().toLowerCase();
+  }
 
   ngOnInit(): void {
     this.cargarRegistros();
@@ -87,7 +98,7 @@ export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterView
             next: () => {
               Swal.fire(
                 'Eliminado',
-                `Se ha eliminado el docente ${docente.nombreCompleto}`,
+                `Se ha eliminado el docente ${docente.nombreCompleto}.`,
                 'success'
               );
               // Quitar del arreglo
@@ -102,7 +113,7 @@ export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterView
             error: (err) => {
               Swal.fire(
                 'Error',
-                `No se pudo eliminar el docente ${docente.nombreCompleto}`,
+                `No se pudo eliminar el docente ${docente.nombreCompleto}.`,
                 'error'
               );
             }
@@ -117,17 +128,32 @@ export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterView
       this.docenteService.crearVariosDocentes(this.archivoSeleccionado)
         .subscribe({
           next: (result: any) => {
-            Swal.fire(
-              '¡Archivo cargado exitosamente!',
-              result.mensaje,
-              'success'
-            ).then((result) => {
-              if (result.isDismissed || result.isConfirmed) {
-                // Actualizar
-                this.datosFilaDocentes.data = [];
-                this.cargarRegistros();
-              }
-            });
+            const substring = String(result.mensaje);
+            if (substring.substr(-2) == "s.") {
+              Swal.fire(
+                'Archivo cargado exitosamente',
+                result.mensaje,
+                'success'
+              ).then((result) => {
+                if (result.isDismissed || result.isConfirmed) {
+                  // Actualizar
+                  this.datosFilaDocentes.data = [];
+                  this.cargarRegistros();
+                }
+              });
+            } else {
+              Swal.fire(
+                'Archivo cargado incompletamente',
+                result.mensaje,
+                'info'
+              ).then((result) => {
+                if (result.isDismissed || result.isConfirmed) {
+                  // Actualizar
+                  this.datosFilaDocentes.data = [];
+                  this.cargarRegistros();
+                }
+              });
+            }
           },
           error: (result: any) => {
             Swal.fire(
@@ -146,6 +172,30 @@ export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterView
         })
     }
   }
+
+  abrirCreacionDocente() {
+    const dialogRef = this.dialog.open(CrearDocenteComponent, {
+      width: 'auto',
+      height: 'auto',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.cargarRegistros();
+    });
+  }
+
+  abrirActualizacionDocente(docente: Docente) {
+    const dialogRef = this.dialog.open(ActualizarDocenteComponent, {
+      width: 'auto',
+      height: 'auto',
+      data: docente.id,
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.cargarRegistros();
+    });
+  }
+
 
   seleccionarArchivo(event: any): void {
     this.archivoSeleccionado = event.target.files[0] ?? undefined;

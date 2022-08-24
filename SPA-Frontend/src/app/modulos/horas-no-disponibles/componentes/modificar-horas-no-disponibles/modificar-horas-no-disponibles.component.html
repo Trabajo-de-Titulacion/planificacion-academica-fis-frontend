@@ -1,13 +1,19 @@
 <div class="contenedor">
-  <mat-card>
-    Seleccione únicamente aquellas horas en las que <strong>NO</strong> pueda llevar a cabo sus actividades de docencia.
-  </mat-card>
+  <div class="tarjetas">
+    <mat-card id="advertencia">
+      Seleccione únicamente aquellas horas en las que <strong>NO</strong> pueda llevar a cabo sus actividades de docencia.
+    </mat-card>
+    <mat-card id="info">
+      <span><strong>Horas totales a la semana:</strong> {{controles.length}}</span>
+      <span><strong>Horas no disponibles:</strong> {{totalSeleccionados}}</span>
+    </mat-card>
+  </div>
   <!-- Matriz con días de la semana -->
   <mat-table [dataSource]="datoFilasTabla" [formGroup]="formGroup">
       <!-- Hora -->
       <ng-container matColumnDef="HORA">
         <mat-header-cell *matHeaderCellDef> HORA </mat-header-cell>
-        <mat-cell *matCellDef="let fila"> {{fila.rangoHoras}} </mat-cell>
+        <mat-cell *matCellDef="let fila" (click)="marcarODesmarcarFila(fila)"> {{fila.rangoHoras}} </mat-cell>
       </ng-container>
     
       <!-- Días -->

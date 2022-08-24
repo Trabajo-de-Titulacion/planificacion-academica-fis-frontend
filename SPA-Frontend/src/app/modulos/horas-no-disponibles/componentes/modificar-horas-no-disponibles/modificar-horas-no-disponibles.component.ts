@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { DISPONIBILIDAD, HoraSemana } from '../../modelos/horaSemana.interface';
 import Swal from 'sweetalert2';
@@ -36,6 +36,8 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
   
   formGroup: FormGroup = new FormGroup({});
   controles: FormControl[] = [];
+  totalSeleccionados: number = 0;
+
   cambiosForm$?: Subscription;
   btnDesmarcarHabilitado: boolean = false;
   btnGuardarHabilitado: boolean = false;
@@ -87,6 +89,7 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
               horasNoDisponibles.forEach(hora => {
                 const nombreControl = this.obtenerNombreControl(hora.dia!.dia, hora.hora_inicio);
                 this.formGroup.get(nombreControl)!.setValue(true);
+                this.totalSeleccionados += 1;
               });
             },
             error: () => {
@@ -217,6 +220,9 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
 
         // El botón de desmarcar se habilita solo si hay al menos un control seleccionado
         this.btnDesmarcarHabilitado = this.controles.some(c => c.value);
+
+        // Actualizar total de controles seleccionados
+        this.totalSeleccionados = this.controles.filter(c => c.value).length;
       }
     });
   }
@@ -227,6 +233,22 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
         control.setValue(false);
       });
       this.btnDesmarcarHabilitado = false;
+    }
+  }
+
+  marcarODesmarcarFila(fila: HoraSemana) {
+    const controlesFila: AbstractControl[] = [];
+    Object.entries(this.formGroup.value).forEach(([nombreControl, seleccionado]) => {
+      const { hora } = this.obtenerDiaYHoraDelNombreControl(nombreControl);
+      if (hora == fila.hora) {
+        controlesFila.push(this.formGroup!.get(nombreControl)!);
+      }
+    });
+    // Si toda la fila está seleccionada
+    if (controlesFila.every(c => c.value)) {
+      controlesFila.forEach(c => c.setValue(false)); // Se deselecciona la fila
+    } else {
+      controlesFila.forEach(c => c.setValue(true));  // Se selecciona la fila
     }
   }
 

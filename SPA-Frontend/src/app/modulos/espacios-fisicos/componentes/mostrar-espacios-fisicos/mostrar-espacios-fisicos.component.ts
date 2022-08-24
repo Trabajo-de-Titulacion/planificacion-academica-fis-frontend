@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { EspaciosFisicosApiService } from 'src/app/modulos/espacios-fisicos/servicios/espacios_fisicos_api.service';
 import { EspacioFisico } from 'src/app/modulos/espacios-fisicos/modelos/espacio_fisico.interface';
@@ -12,6 +13,8 @@ import { TipoAula  } from 'src/app/modulos/parametros-iniciales/models/tipo-aula
 
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
+import { CrearEspacioFisicoComponent } from '../crear-espacio-fisico/crear-espacio-fisico.component';
+import { ActualizarEspacioFisicoComponent } from '../actualizar-espacio-fisico/actualizar-espacio-fisico.component';
 
 
 interface FilaEspacioFisico {
@@ -29,6 +32,7 @@ export class MostrarEspaciosFisicosComponent implements OnInit, OnDestroy, After
     private readonly espaciosFisicosService: EspaciosFisicosApiService,
     private readonly tiposAulasService: TiposAulasApiService,
     private readonly router: Router,
+    private readonly dialogo: MatDialog,
   ) { }
 
   facultadesFiltro: Facultad[] = [];
@@ -179,11 +183,22 @@ export class MostrarEspaciosFisicosComponent implements OnInit, OnDestroy, After
       this.espaciosFisicosService.crearMultiplesEspaciosFisicos(this.archivoSeleccionado)
         .subscribe({
           next: (res: any) => {
-            Swal.fire(
-              'Archivo cargado exitosamente!',
-              res.mensaje,
-              'success'
-            ).then((result) => {
+            const mensaje = `Se han creado ${res.registros_creados.length} registros. Hay ${res.registros_repetidos.length} repetidos.`;
+            let numColumnas = (res.registros_repetidos.length > 8)? 4 : 2;
+            numColumnas = (res.registros_repetidos.length <= 4)? 1 : numColumnas;
+            const repetidos = `<div style="column-count: ${numColumnas};">` + 
+                                '<p>' +
+                                  res.registros_repetidos.map((r: EspacioFisico) => {
+                                    return r.nombre
+                                  }).join('</p><p>') +
+                                '</p>' + 
+                              '</div>'
+            Swal.fire({
+              title: 'Archivo cargado exitosamente!',
+              icon: 'success',
+              html: '<h2>' + mensaje + '</h2>' + repetidos,
+              width: '50vw'
+            }).then((result) => {
               if (result.isDismissed || result.isConfirmed) {
                 // Actualizar 
                 this.datoFilasEspaciosFisicos.data = [];
@@ -260,6 +275,29 @@ export class MostrarEspaciosFisicosComponent implements OnInit, OnDestroy, After
 
         }
       }
+    });
+  }
+
+  abrirDialogoCrear() {
+    const dialogoRef = this.dialogo.open(CrearEspacioFisicoComponent, {
+      width: 'auto', height: 'auto',
+      disableClose: true,
+    });
+
+    dialogoRef.afterClosed().subscribe(() => {
+      this.cargarRegistros();
+    });
+  }
+
+  abrirDialogoActualizar(id: string) {
+    const dialogoRef = this.dialogo.open(ActualizarEspacioFisicoComponent, {
+      width: 'auto', height: 'auto',
+      disableClose: true,
+      data: id,
+    });
+
+    dialogoRef.afterClosed().subscribe(() => {
+      this.cargarRegistros();
     });
   }
 

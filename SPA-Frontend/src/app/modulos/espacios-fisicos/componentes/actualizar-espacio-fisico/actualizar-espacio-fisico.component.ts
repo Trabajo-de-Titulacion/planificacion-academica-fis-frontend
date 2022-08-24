@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EspaciosFisicosApiService } from 'src/app/modulos/espacios-fisicos/servicios/espacios_fisicos_api.service';
 import { EspacioFisico } from 'src/app/modulos/espacios-fisicos/modelos/espacio_fisico.interface';
@@ -8,6 +7,7 @@ import { Facultad } from 'src/app/modulos/parametros-iniciales/models/facultad.i
 import { TipoAula } from 'src/app/modulos/parametros-iniciales/models/tipo-aula.interface';
 import { TiposAulasApiService } from 'src/app/modulos/parametros-iniciales/services/tipos-aulas-api.service';
 import Swal from 'sweetalert2';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-actualizar-espacio-fisico',
@@ -19,9 +19,9 @@ export class ActualizarEspacioFisicoComponent implements OnInit, OnDestroy {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly espaciosFisicosService: EspaciosFisicosApiService,
-    private readonly router: Router,
-    private readonly ruta: ActivatedRoute,
     private readonly tipoAulasService: TiposAulasApiService,
+    private readonly dialogoRef: MatDialogRef<ActualizarEspacioFisicoComponent>,
+    @Inject(MAT_DIALOG_DATA) public id: string,
   ) { }
 
   formGroup?: FormGroup;
@@ -32,19 +32,9 @@ export class ActualizarEspacioFisicoComponent implements OnInit, OnDestroy {
   espacioFisico?: EspacioFisico;
   configuracion = { minAforo: 3, maxAforo: 200 };
 
-  params$?: Subscription;
-
   ngOnInit(): void {
     Swal.showLoading();
-    this.params$ = this.ruta.params.subscribe({
-      next: (params) => {
-        const idEspacioFisico = String(params['id']);
-        this.obtenerEspacioFisico(idEspacioFisico);
-      },
-      error: (res) => {
-        this.redireccionarTrasError(res);
-      }
-    });
+    this.obtenerEspacioFisico(this.id);
   }
 
   actualizarEspacioFisico() {
@@ -71,7 +61,7 @@ export class ActualizarEspacioFisicoComponent implements OnInit, OnDestroy {
                 Swal.fire('Registro actualizado', `${res.mensaje}`, 'success')
                 .then((result) => {
                   if (result.isConfirmed || result.isDismissed) {
-                    this.router.navigate(['/spa', 'espacios_fisicos']);
+                    this.cerrarDialogo();
                   }
                 });
               }
@@ -100,7 +90,12 @@ export class ActualizarEspacioFisicoComponent implements OnInit, OnDestroy {
         this.obtenerTiposYFacultades();
       },
       error: (res) => {
-        this.redireccionarTrasError(res);
+        Swal.fire('Error', res.error.message,'error')
+        .then((result) => {
+          if (result.isConfirmed || result.isDismissed) {
+            this.cerrarDialogo();
+          }
+        });
       }
     });
   }
@@ -200,19 +195,11 @@ export class ActualizarEspacioFisicoComponent implements OnInit, OnDestroy {
     Swal.close();
   }
 
-  redireccionarTrasError(res: any) {
-    Swal.fire('Error', res.error.message,'error')
-    .then((result) => {
-      if (result.isConfirmed || result.isDismissed) {
-        this.router.navigate(['/spa', 'espacios_fisicos']);
-      }
-    });
+  cerrarDialogo() {
+    this.dialogoRef.close();
   }
 
   ngOnDestroy(): void {
-    if (this.params$) {
-      this.params$.unsubscribe();
-    }
     if (this.facultadSuscripcion$) {
       this.facultadSuscripcion$.unsubscribe();
     }

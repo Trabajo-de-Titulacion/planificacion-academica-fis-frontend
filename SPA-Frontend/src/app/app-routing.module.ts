@@ -47,6 +47,7 @@ const routes: Routes = [
       },
       {
         path: 'docentes',
+        canActivateChild: [EsCoordinadorGuard],
         loadChildren: () => import("./modulos/docentes/docentes.module")
           .then(m => m.DocentesModule)
       },
