@@ -5,7 +5,7 @@
     <div>
       <!-- Crear nuevo espacio físico -->
       <button class="btnSuperior" mat-raised-button color="primary"
-        [routerLink]="[rutaActual, 'crear']">
+        (click)="abrirDialogoCrear()">
         Crear nuevo espacio físico
       </button>
 
@@ -62,11 +62,11 @@
           <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
           <mat-cell *matCellDef="let fila">
               <!-- Editar registro -->
-              <button mat-icon-button [routerLink]="[rutaActual, 'actualizar', fila.id]">
+              <button mat-icon-button (click)="abrirDialogoActualizar(fila.id)" matTooltip="Actualizar">
                 <mat-icon color="primary">edit</mat-icon>
               </button>
               <!-- Eliminar registro -->
-              <button mat-icon-button (click)="eliminarEspacioFisico(fila)">
+              <button mat-icon-button (click)="eliminarEspacioFisico(fila)" matTooltip="Eliminar">
                 <mat-icon color="warn">delete</mat-icon>
               </button>
           </mat-cell>

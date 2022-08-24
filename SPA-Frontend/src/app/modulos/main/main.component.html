@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
     <button mat-icon-button (click)="toogleMenuAcciones()" aria-label="Menú de acciones">
-        <mat-icon>menu</mat-icon>
+        <mat-icon [inline]="true">menu</mat-icon>
     </button>
     <a id="home" [routerLink]="['/spa']">Sistema de Planificación Académica</a>
     <span class="spacer"></span>
@@ -77,7 +77,7 @@
             <mat-nav-list *ngIf="esDocente()">
                 <!-- Horas no disponibles -->
                 <mat-list-item [ngClass]="mostrarRutaActiva('/spa/horas_no_disponibles')" [routerLink]="['/spa/horas_no_disponibles']">
-                    <a matLine [routerLink]="['/spa']">Indicar horas no disponibles</a>
+                    <a matLine>Indicar horas no disponibles</a>
                     <button mat-icon-button>
                        <mat-icon>event_busy</mat-icon>
                     </button>

@@ -8,10 +8,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ActualizarEspacioFisicoComponent } from './componentes/actualizar-espacio-fisico/actualizar-espacio-fisico.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -32,10 +33,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatIconModule,
     MatButtonModule,
     MatInputModule,
-    MatGridListModule,
     MatSelectModule,
     MatSortModule,
     MatPaginatorModule,
+    MatDialogModule,
+    MatTooltipModule,
   ]
 })
 export class EspaciosFisicosModule { }
