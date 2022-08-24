@@ -30,9 +30,11 @@
         <ng-container matColumnDef="Acciones">
           <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
           <mat-cell *matCellDef="let data">
-            <button mat-icon-button>
+            <!-- Editar -->
+            <button mat-icon-button (click)="abrirEditarTipoAulaDialog(data)">
               <mat-icon color="primary">edit</mat-icon>
             </button>
+            <!-- Eliminar -->
             <button mat-icon-button (click)="eliminarTipoAula(data.id)">
               <mat-icon color="warn">delete</mat-icon>
             </button>

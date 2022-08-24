@@ -7,6 +7,7 @@ import Semestre from '../../models/semestre.interface';
 import { TipoAula } from '../../models/tipo-aula.interface';
 import { TiposAulasApiService } from '../../services/tipos-aulas-api.service';
 import { CrearTipoAulaDialogComponent } from './crear-tipo-aula-dialog/crear-tipo-aula-dialog.component';
+import { EditarTipoAulaDialogComponent } from './editar-tipo-aula-dialog/editar-tipo-aula-dialog.component';
 
 
 
@@ -83,10 +84,19 @@ export class TipoAulasComponent implements OnInit {
   abrirCrearTipoAulaDialog(){
     const dialogRef = this.dialog.open(CrearTipoAulaDialogComponent, {
       width: '30rem',
-
       data: {}
     })
 
+    dialogRef.afterClosed().subscribe( result => {
+      this.obtenerTipoAulas();
+    })
+  }
+
+  abrirEditarTipoAulaDialog(tipoAula : TipoAula){
+    const dialogRef = this.dialog.open(EditarTipoAulaDialogComponent, {
+      width: '30rem',
+      data: tipoAula
+    })
     dialogRef.afterClosed().subscribe( result => {
       this.obtenerTipoAulas();
     })
