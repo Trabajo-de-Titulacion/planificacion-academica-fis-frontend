@@ -17,7 +17,7 @@ export class JornadaLaboralComponent implements OnInit {
 
   diasLaborables: string[] = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
   disabled = false;
-  edicionHabilitada = false;
+  eliminacionHabilitada = false;
   formularioJornadaLaboral: FormGroup = new FormGroup({});
   jornadasSemestre?: JornadaLaboral[]
   horasAlmuerzo = ["12:00", "13:00", "14:00"]
@@ -46,7 +46,7 @@ export class JornadaLaboralComponent implements OnInit {
 
   async ngOnChanges(changes: any) {
     this.isLoading = true;
-    this.edicionHabilitada = false;
+    this.eliminacionHabilitada = false;
     await this.obtenerJornadasDelSemestre(this.semestreSeleccionado?.id);
     await this.crearFormulario();
   }
@@ -121,7 +121,7 @@ export class JornadaLaboralComponent implements OnInit {
                     text: `Se ha creado correctamente la jornada laboral del semestre ${this.semestreSeleccionado?.abreviatura}`
                   })
                   this.isLoading = true;
-                  this.edicionHabilitada = false;
+                  this.eliminacionHabilitada = false;
                   this.inputsDisabled = true;
                   await this.obtenerJornadasDelSemestre(this.semestreSeleccionado?.id);
                   await this.crearFormulario();
@@ -153,9 +153,10 @@ export class JornadaLaboralComponent implements OnInit {
     }
   }
 
-  habilitarEdicion() {
+  eliminarJornada() {
+    console.log('elef', this.semestreSeleccionado?.estado);
     this.inputsDisabled = true;
-    this.edicionHabilitada = true;
+    this.eliminacionHabilitada = true;
     this.formularioJornadaLaboral.enable();
   }
 

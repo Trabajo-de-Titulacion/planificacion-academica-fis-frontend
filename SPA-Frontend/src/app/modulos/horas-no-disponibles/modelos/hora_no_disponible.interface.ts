@@ -1,5 +1,5 @@
 import { Docente } from "../../docentes/modelos/docente.interface";
-import JornadaLaboral from "../../parametros-inciales/models/jornada-laboral.interface";
+import JornadaLaboral from "../../parametros-iniciales/models/jornada-laboral.interface";
 
 export interface HoraNoDisponible {
     id?: string;

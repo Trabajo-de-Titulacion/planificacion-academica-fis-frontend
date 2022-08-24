@@ -48,7 +48,7 @@
             <h3 matSubheader *ngIf="esCoordinador()">Coordinador</h3>
             <mat-nav-list *ngIf="esCoordinador()">
                 <!-- Acción 1 -->
-                <mat-list-item [routerLink]="['/spa/parametros-iniciales']">
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/parametros-iniciales')" [routerLink]="['/spa/parametros-iniciales']">
                    <a matLine >Parametros iniciales</a>
                    <button mat-icon-button>
                       <mat-icon>settings_applications</mat-icon>

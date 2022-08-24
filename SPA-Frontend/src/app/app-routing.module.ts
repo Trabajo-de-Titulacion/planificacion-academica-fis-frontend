@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './modulos/login/login/login.component';
 import { BienvenidoComponent } from './modulos/main/bienvenido/bienvenido.component';
 import { MainComponent } from './modulos/main/main.component';
+import { EsCoordinadorGuard } from './servicios/auth/guards/es-coordinador.guard';
 import { EsDocenteGuard } from './servicios/auth/guards/es-docente.guard';
 import { EsGestorEspaciosFisicosGuard } from './servicios/auth/guards/es-gestor-espacios.guard';
 import { LoggedGuard } from './servicios/auth/guards/logged.guard';
@@ -28,7 +29,9 @@ const routes: Routes = [
       },
       {
         path: 'parametros-iniciales',
-        loadChildren: () => import('./modulos/parametros-inciales/paremetros-iniciales.module').then( m => m.ParametrosInicialesModule),
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import('./modulos/parametros-iniciales/paremetros-iniciales.module')
+          .then( m => m.ParametrosInicialesModule),
       },
       {
         path: 'espacios_fisicos',
