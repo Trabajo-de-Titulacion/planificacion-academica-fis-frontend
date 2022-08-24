@@ -71,4 +71,9 @@ export class DocenteApiService {
         const url = apiUrl + `${this.ruta}/obtenerDocentePorID/${id}`;
         return this.httpCliente.get(url);
     }
+
+    visualizarDocentePorCorreoElectronico(correo: string) {
+        const url = apiUrl + `${this.ruta}/obtenerDocentePorCorreoElectronico/${correo}`;
+        return this.httpCliente.get<Docente>(url);
+    }
 }

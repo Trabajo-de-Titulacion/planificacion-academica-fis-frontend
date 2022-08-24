@@ -1,23 +1,62 @@
 @import '../../../../../themes/variables.scss';
 
-// .mat-checkbox .mat-checkbox-frame {
-//     transform: scale(20);
-// }
+.contenedor {
+    margin: 0 2vw;
+}
 
-// .mat-checkbox-checked .mat-checkbox-background {
-//     transform: scale(20);
-// }
+mat-card {
+    background-color: $warn;
+    color: $text_on_warn;
+    margin: 3vh 0;
+}
 
+.parteInferior {
+    margin-top: 3vh;
+    text-align: center;
+}
+
+.parteInferior button {
+    margin: 0 2vw;
+}
+
+// Filas
+.mat-row {
+    min-height: 30px;
+}
+
+.mat-row:hover {
+    background-color: $row_hover;
+}
+
+// Columnas
+.mat-column-HORA {
+    flex: 0 0 10%;
+}
+
+// Checkboxes
 mat-checkbox {
-    //width: max-content;
-	::ng-deep .mat-checkbox-inner-container {
-        display: inline-block;
-        width: max-content;
-        //height: 30px;
-  	}
+    width: 100%;
+	::ng-deep label {
+        width: calc(100% - 1vw);
+    }
+    ::ng-deep span {
+        width: 100%;
+    }
 }
 
 ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
 .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
     background-color: $accent !important;
+}
+
+::ng-deep .mat-checkbox-frame { 
+    border-color: $gray;
+}
+
+mat-cell {
+    text-align: center;
+}
+
+mat-header-cell, mat-cell {
+    justify-content: center;
 }

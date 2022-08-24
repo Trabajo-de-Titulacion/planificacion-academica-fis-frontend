@@ -27,4 +27,9 @@ export class AuthService {
     );
   }
 
+  verificarToken(access_token: string): Observable<any> {
+    const url = apiUrl + '/auth/verificarToken/' + access_token;
+    return this.httpClient.get(url);
+  }
+
 }
