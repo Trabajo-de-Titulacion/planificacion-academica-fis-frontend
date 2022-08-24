@@ -18,7 +18,7 @@ export class DocenteApiService {
     /* ======================= CREAR UN DOCENTE ======================= */
     /* ================================================================ */
 
-    crearDocente(docente: Docente) {
+    crearUnDocente(docente: Docente) {
         const url = apiUrl + `${this.ruta}/crearUnDocente`;
         return this.httpCliente.post(url, docente);
     }
