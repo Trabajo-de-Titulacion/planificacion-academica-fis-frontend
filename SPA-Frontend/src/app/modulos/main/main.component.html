@@ -48,15 +48,17 @@
             <!-- Coordinador -->
             <h3 matSubheader *ngIf="esCoordinador()">Coordinador</h3>
             <mat-nav-list *ngIf="esCoordinador()">
-                <!-- Acción 1 -->
-                <mat-list-item [routerLink]="['/spa/parametros-iniciales']">
-                    <a matLine>Parametros iniciales</a>
+                <!-- Parámetros iniciales -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/parametros-iniciales')"
+                    [routerLink]="['/spa/parametros-iniciales']">
+                    <a matLine>Parámetros iniciales</a>
                     <button mat-icon-button>
                         <mat-icon>settings_applications</mat-icon>
                     </button>
                 </mat-list-item>
                 <!-- Módulo de gestión de docentes -->
-                <mat-list-item [routerLink]="['/spa/docentes']">
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/docentes')"
+                    [routerLink]="['/spa/docentes']">
                     <a matLine>Docentes</a>
                     <button mat-icon-button>
                         <mat-icon>school</mat-icon>
