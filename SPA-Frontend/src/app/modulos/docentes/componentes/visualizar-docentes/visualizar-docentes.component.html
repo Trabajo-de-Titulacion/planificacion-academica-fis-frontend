@@ -2,8 +2,8 @@
     <div class="parteSuperior">
         <!-- BOTONES DE CREACIÓN -->
         <div>
-            <!-- CREAR UN DOCENTE -->
-            <button class="btnSuperior" mat-raised-button color="primary" [routerLink]="[rutaActual, 'crear']">
+            <!-- CREAR UN DOCENTE "[routerLink]="[rutaActual, 'crear']" -->
+            <button class="btnSuperior" mat-raised-button color="primary" (click)="abrirCreacionDocente()">
                 Crear nuevo docente
             </button>
             <!-- CREAR VARIOS DOCENTES -->
@@ -12,6 +12,12 @@
             </button>
             <input hidden (change)="seleccionarArchivo($event)" onclick="this.value = null;" #fileInput type="file">
             <span class="nombreArchivo">{{archivoSeleccionado?.name}}</span>
+        </div>
+        <div>
+            <mat-form-field appearance="standard">
+                <mat-label>Filtro: </mat-label>
+                <input matInput (keyup)="filtrarTabla($event)" placeholder="Ingrese el texto a buscar" #input>
+            </mat-form-field>
         </div>
     </div>
 
@@ -35,7 +41,8 @@
             <mat-header-cell *matHeaderCellDef>Acciones </mat-header-cell>
             <mat-cell *matCellDef="let fila">
                 <!-- ACTUALIZAR DOCENTE -->
-                <button mat-icon-button [routerLink]="[rutaActual, 'actualizar', fila.id]">
+                <button mat-icon-button (click)="abrirActualizacionDocente(fila)">
+
                     <mat-icon color="primary">edit</mat-icon>
                 </button>
                 <!-- ELIMINAR DOCENTE -->
