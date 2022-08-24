@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DISPONIBILIDAD, HoraSemana } from '../../modelos/horaSemana.interface';
 import Swal from 'sweetalert2';
 import { HoraNoDisponible } from '../../modelos/hora_no_disponible.interface';
-import { SemestreService } from 'src/app/modulos/parametros-inciales/services/semestre.service';
+import { SemestreService } from 'src/app/modulos/parametros-inciales/services/semestre-api.service';
 import { HorasNoDisponiblesApiService } from '../../servicios/horas-no-disponibles-api.service';
 import { DocenteApiService } from 'src/app/modulos/docentes/servicios/docentes_api.service';
 import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
