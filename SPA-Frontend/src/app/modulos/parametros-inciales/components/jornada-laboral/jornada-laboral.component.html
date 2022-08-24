@@ -31,7 +31,7 @@
             <div class="tab-jornada-semestres" *ngIf="semestres.length >= 1; else noSemestres">
                 <mat-form-field appearance="fill" class="select-semestre">
                     <mat-label>Selecciona el semestre en curso</mat-label>
-                    <mat-select [(value)]="semestreSeleccionado" (selectionChange)="changeCuac()">
+                    <mat-select [(value)]="semestreSeleccionado" (selectionChange)="seleccionarSemestre()">
                         <mat-option *ngFor="let semestre of semestres" [value]="semestre">
                             {{semestre.abreviatura}}
                         </mat-option>

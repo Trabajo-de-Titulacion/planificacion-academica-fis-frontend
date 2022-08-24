@@ -1,12 +1,12 @@
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { Component, Input, OnInit } from '@angular/core';
 
-import JornadaLaboral from '../../models/jornada-laboral.interface';
 import { JornadaLaboralApiService } from '../../services/jornada-laboral-api.service';
-import Semestre from '../../models/semestre.interface';
+import JornadaLaboral from '../../models/jornada-laboral.interface';
 import { lastValueFrom } from 'rxjs';
 import { SemestreService } from '../../services/semestre-api.service';
+import Semestre from '../../models/semestre.interface';
 
 @Component({
   selector: 'app-jornada-laboral',
@@ -26,22 +26,22 @@ export class JornadaLaboralComponent implements OnInit {
   intervalosHoras = this.crearIntervalos(5, 23);
   isLoading = true;
 
-  semestres : Semestre[] = []
-  semestreSeleccionado? : Semestre
+  semestres: Semestre[] = []
+  semestreSeleccionado?: Semestre
 
   constructor(
     private fb: FormBuilder,
+    private servicioSemestre: SemestreService,
     private servicioJornadaLaboral: JornadaLaboralApiService,
-    private servicioSemestre : SemestreService
   ) { }
 
   async ngOnInit() {
     this.servicioSemestre.obtenerSemestres().subscribe(
       data => {
-          this.semestres = data;
-          this.isLoading = false;
+        this.semestres = data;
+        this.isLoading = false;
       }
-  )
+    )
   }
 
   async ngOnChanges(changes: any) {
@@ -84,7 +84,6 @@ export class JornadaLaboralComponent implements OnInit {
   }
 
   async crearJornadaLaboral() {
-
     // Propiedades de jornada laboral
     const dias = this.formularioJornadaLaboral.value.dias;
     const horaAlmuerzo = this.formularioJornadaLaboral.value.horaAlmuerzo;
@@ -118,8 +117,8 @@ export class JornadaLaboralComponent implements OnInit {
                 async _ => {
                   Swal.fire({
                     icon: 'success',
-                    title: 'Jornada laboral creada',
-                    text: `Se ha creado la jornada laboral del semestre ${this.semestreSeleccionado?.abreviatura}`
+                    title: 'Registro exitoso',
+                    text: `Se ha creado correctamente la jornada laboral del semestre ${this.semestreSeleccionado?.abreviatura}`
                   })
                   this.isLoading = true;
                   this.edicionHabilitada = false;
@@ -133,15 +132,15 @@ export class JornadaLaboralComponent implements OnInit {
 
             Swal.fire({
               icon: 'error',
-              title: 'Seleccione días para jornada laboral',
+              title: 'Seleccione los días para la jornada laboral',
               text: 'La hora de almuerzo no debe ser cercana a la hora de inicio o la hora final de la jornada.',
             })
           }
         } else {
           Swal.fire({
             icon: 'error',
-            title: 'Ingrese correctamente la hora de almuerzo',
-            text: 'La hora de almuerzo no debe ser cercana a la hora de inicio o la hora final de la jornada.',
+            title: 'Ingrese correctamente la hora final',
+            text: 'La hora de fin no debe ser menor a la hora de inicio de la jornada.',
           })
         }
       } else {
@@ -154,18 +153,17 @@ export class JornadaLaboralComponent implements OnInit {
     }
   }
 
-  async changeCuac(){
-    this.isLoading = true;
-    await this.obtenerJornadasDelSemestre(this.semestreSeleccionado?.id);
-    await this.crearFormulario();
-    this.isLoading = false;
-
-  }
-
   habilitarEdicion() {
     this.inputsDisabled = true;
     this.edicionHabilitada = true;
     this.formularioJornadaLaboral.enable();
+  }
+
+  async seleccionarSemestre() {
+    this.isLoading = true;
+    await this.obtenerJornadasDelSemestre(this.semestreSeleccionado?.id);
+    await this.crearFormulario();
+    this.isLoading = false;
   }
 
   private async obtenerJornadasDelSemestre(idSemestre?: string) {

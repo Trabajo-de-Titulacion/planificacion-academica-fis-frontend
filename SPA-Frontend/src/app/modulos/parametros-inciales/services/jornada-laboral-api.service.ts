@@ -12,17 +12,18 @@ import JornadaLaboral from "../models/jornada-laboral.interface";
 export class JornadaLaboralApiService {
 
     private readonly ruta = '/jornadaLaboral';
-    private readonly jornadaLaboralURL = `${apiUrl}${this.ruta}`;
 
     constructor(
         private readonly httpClient: HttpClient,
     ) { }
 
-    obtenerJornadaLaboralPorSemestre(idSemestre: string): Observable<JornadaLaboral[]>{
-        return this.httpClient.get<JornadaLaboral[]>(`${this.jornadaLaboralURL}/obtenerJornadaLaboralPorSemestre/${idSemestre}`)
+    crearJornadaLaboral(jornada : JornadaLaboral){
+        const url = apiUrl + `${this.ruta}/crearJornadaLaboral`;
+        return this.httpClient.post(url, jornada);
     }
 
-    crearJornadaLaboral(jornada : JornadaLaboral){
-        return this.httpClient.post(`${this.jornadaLaboralURL}/crearJornadaLaboral`, jornada);
+    obtenerJornadaLaboralPorSemestre(idSemestre: string): Observable<JornadaLaboral[]>{
+        const url = apiUrl + `${this.ruta}/obtenerJornadaLaboralPorSemestre/${idSemestre}`;
+        return this.httpClient.get<JornadaLaboral[]>(url);
     }
 }

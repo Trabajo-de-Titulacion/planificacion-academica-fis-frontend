@@ -9,11 +9,11 @@ import { Facultad } from '../models/facultad.interface';
 })
 export class FacultadesApiService {
 
+  private readonly ruta = '/facultades';
+
   constructor(
     private readonly httpClient: HttpClient,
   ) { }
-
-  ruta = '/facultades';
 
   obtenerFacultades() : Observable<Facultad[]> {
     const url = apiUrl + `${this.ruta}/obtenerFacultades`;

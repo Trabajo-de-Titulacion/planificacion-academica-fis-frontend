@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
-import { Facultad } from '../../../models/facultad.interface';
+
 import { FacultadesApiService } from '../../../services/facultades-api.service';
+import { Facultad } from '../../../models/facultad.interface';
 import { TiposAulasApiService } from '../../../services/tipos-aulas-api.service';
 
 @Component({
@@ -21,27 +22,20 @@ export class CrearTipoAulaDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<CrearTipoAulaDialogComponent>,
     private facultadServicio: FacultadesApiService,
-    private tipoAulaServicio : TiposAulasApiService,
     private fb: FormBuilder,
+    private tipoAulaServicio : TiposAulasApiService,
   ) { }
 
   async ngOnInit() {
     await this.obtenerFacultades()
     this.crearFormulario();
   }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  async obtenerFacultades() {
-    this.facultades = await lastValueFrom<Facultad[]>(this.facultadServicio.obtenerFacultades());
-  }
-
+  
   private crearFormulario() {
     const facultadSistemas = this.facultades.filter(facultad => facultad.nombre.toUpperCase().includes("SISTEMAS"))[0];
     const valorInicial = '';
     if(facultadSistemas){
+        // En caso de que la facultad de Sistemas exista se auto completa la opción de selección
       this.formularioTiposAulas = this.fb.group({
         facultad: [facultadSistemas, [Validators.required]],
         tipoAula: [valorInicial, [Validators.required]],
@@ -55,35 +49,42 @@ export class CrearTipoAulaDialogComponent implements OnInit {
   }
 
   crearTipoAula(){
-
     const facultad : Facultad = this.formularioTiposAulas.get('facultad')?.value;
     if(this.formularioTiposAulas.valid && facultad.id){
          const tipoAula = {
-          tipo: this.formularioTiposAulas.get('tipoAula')?.value,
+          tipo: this.formularioTiposAulas.get('tipoAula')?.value, 
           idFacultad: facultad.id,
-        }
+        }  
         this.tipoAulaServicio.crearTipoAula(tipoAula).subscribe(
           {
             next: () => {
               Swal.fire({
                 icon: 'success',
-                title: 'Creación exitosa',
+                title: 'Registro exitoso',
                 text: `Se ha creado correctamente el tipo de aula ${tipoAula.tipo.toUpperCase()} de la ${facultad.nombre.toUpperCase()}.`,
               }).then(
                 _ => {
                   this.dialogRef.close();
-                }
-              )
+                }  
+              )  
       
-            },
+            },  
             error: err => {
               Swal.fire({
                 icon: 'error',
                 title: 'No se ha podido crear el tipo de aula.',
-              })
-            }
-          }
-        );
-      }
+              })  
+            }  
+          }  
+        );  
+      }  
+  }    
+  
+  private async obtenerFacultades() {
+    this.facultades = await lastValueFrom<Facultad[]>(this.facultadServicio.obtenerFacultades());
+  }  
+  
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

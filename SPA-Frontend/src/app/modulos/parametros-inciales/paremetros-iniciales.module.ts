@@ -6,10 +6,10 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon"
 import { MatInputModule } from "@angular/material/input";
 import { MatListModule } from "@angular/material/list";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTableModule } from "@angular/material/table"
 import { MatTabsModule } from "@angular/material/tabs"
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 
@@ -20,6 +20,7 @@ import { ParametrosInicialesComponent } from "./pages/parametros-iniciales.compo
 import { ParametrosInicialesRoutingModule } from "./parametros-inciales-routing.module";
 import { TipoAulasComponent } from './components/tipo-aulas/tipo-aulas.component';
 import { SemestreService } from "./services/semestre-api.service";
+import { EditarTipoAulaDialogComponent } from './components/tipo-aulas/editar-tipo-aula-dialog/editar-tipo-aula-dialog.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { SemestreService } from "./services/semestre-api.service";
         ParametrosInicialesComponent,
         TipoAulasComponent,
         CrearTipoAulaDialogComponent,
+        EditarTipoAulaDialogComponent,
     ],
     imports: [
         CommonModule,

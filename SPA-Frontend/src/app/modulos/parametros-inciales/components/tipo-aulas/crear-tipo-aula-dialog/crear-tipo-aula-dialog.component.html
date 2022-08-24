@@ -16,6 +16,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+            <!-- Tipo de aula -->
             <div>
                 <mat-form-field *ngIf="this.facultades.length !== 0" class="dialog-field " appearance="fill">
                     <mat-label>Ingrese el tipo de aula</mat-label>
@@ -29,8 +30,8 @@
                 (click)="crearTipoAula()">Añadir</button>
         </form>
     </mat-card-content>
-    
-    <!-- En caso de que no se hayan registrados semestres-->
+
+    <!-- En caso de que no se hayan registrados facultades -->
     <ng-template #noFacultades>
         <mat-label>
             No existen facultades registradas.
