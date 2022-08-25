@@ -142,11 +142,23 @@ export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterView
                 }
               });
             } else {
-              Swal.fire(
-                'Archivo cargado incompletamente',
-                result.mensaje,
-                'info'
-              ).then((result) => {
+              const mensaje = `Se han creado ${result.docentesIngresados.length} registros. Hay ${result.docentesNoIngresados.length} repetidos.`;
+              let numColumnas = (result.docentesNoIngresados.length > 8) ? 2 : 1;
+              let anchoSwal = (result.docentesNoIngresados.length <= 4) ? '50vw' : '75vw';
+              numColumnas = (result.docentesNoIngresados.length <= 4) ? 1 : numColumnas;
+              const repetidos = `<div style="column-count: ${numColumnas};">` +
+                '<p>' +
+                result.docentesNoIngresados.map((r: Docente) => {
+                  return r.nombreCompleto
+                }).join('</p><p>') +
+                '</p>' +
+                '</div>'
+              Swal.fire({
+                title: 'Archivo cargado incompletamente',
+                icon: 'info',
+                html: '<h2>' + mensaje + '</h2>' + repetidos,
+                width: anchoSwal
+              }).then((result) => {
                 if (result.isDismissed || result.isConfirmed) {
                   // Actualizar
                   this.datosFilaDocentes.data = [];
