@@ -41,12 +41,12 @@
             <mat-header-cell *matHeaderCellDef>Acciones </mat-header-cell>
             <mat-cell *matCellDef="let fila">
                 <!-- ACTUALIZAR DOCENTE -->
-                <button mat-icon-button (click)="abrirActualizacionDocente(fila)">
+                <button mat-icon-button (click)="abrirActualizacionDocente(fila)" matTooltip="Actualizar">
 
                     <mat-icon color="primary">edit</mat-icon>
                 </button>
                 <!-- ELIMINAR DOCENTE -->
-                <button mat-icon-button (click)="eliminarDocente(fila)">
+                <button mat-icon-button (click)="eliminarDocente(fila)" matTooltip="Eliminar">
                     <mat-icon color="warn">delete</mat-icon>
                 </button>
             </mat-cell>
