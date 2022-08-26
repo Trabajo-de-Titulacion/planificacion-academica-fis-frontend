@@ -57,11 +57,17 @@
                     </button>
                 </mat-list-item>
                 <!-- Módulo de gestión de docentes -->
-                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/docentes')"
-                    [routerLink]="['/spa/docentes']">
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/docentes')" [routerLink]="['/spa/docentes']">
                     <a matLine>Docentes</a>
                     <button mat-icon-button>
                         <mat-icon>school</mat-icon>
+                    </button>
+                </mat-list-item>
+                <!-- Módulo de gestión de asignaturas -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/asignaturas')" [routerLink]="['/spa/asignaturas']">
+                    <a matLine>Asignatura</a>
+                    <button mat-icon-button>
+                        <mat-icon>book</mat-icon>
                     </button>
                 </mat-list-item>
             </mat-nav-list>

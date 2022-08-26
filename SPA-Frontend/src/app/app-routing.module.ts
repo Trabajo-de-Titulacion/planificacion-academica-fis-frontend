@@ -49,6 +49,12 @@ const routes: Routes = [
         loadChildren: () => import("./modulos/docentes/docentes.module")
           .then(m => m.DocentesModule)
       },
+      {
+        path: 'asignaturas',
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import("./modulos/asignaturas/asignatura.module")
+          .then(m => m.AsignaturasModule)
+      },
     ]
   },
   {
