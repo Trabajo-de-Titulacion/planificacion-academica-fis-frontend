@@ -2,7 +2,7 @@
     <div class="parteSuperior">
         <!-- BOTONES DE CREACIÓN -->
         <div>
-            <!-- CREAR UN DOCENTE "[routerLink]="[rutaActual, 'crear']" -->
+            <!-- CREAR UN DOCENTE -->
             <button class="btnSuperior" mat-raised-button color="primary" (click)="abrirCreacionDocente()">
                 Crear nuevo docente
             </button>
@@ -42,7 +42,6 @@
             <mat-cell *matCellDef="let fila">
                 <!-- ACTUALIZAR DOCENTE -->
                 <button mat-icon-button (click)="abrirActualizacionDocente(fila)" matTooltip="Actualizar">
-
                     <mat-icon color="primary">edit</mat-icon>
                 </button>
                 <!-- ELIMINAR DOCENTE -->
