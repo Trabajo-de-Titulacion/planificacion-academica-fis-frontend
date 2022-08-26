@@ -1,8 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 
 import Swal from 'sweetalert2';
 import { Docente } from '../../modelos/docente.interface';
@@ -18,18 +16,14 @@ export class ActualizarDocenteComponent implements OnInit {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly docenteService: DocenteApiService,
-    private readonly router: Router,
-    private readonly ruta: ActivatedRoute,
-    public dialogReference: MatDialogRef<ActualizarDocenteComponent>,
-    @Inject(MAT_DIALOG_DATA) public idDocente: string,
+    private readonly dialogoReferencia: MatDialogRef<ActualizarDocenteComponent>,
+    @Inject(MAT_DIALOG_DATA) private readonly idDocente: string,
   ) { }
 
   formGroup?: FormGroup;
   cargando: boolean = false;
   docente?: Docente;
   formateoNombre?: string;
-
-  parametros$?: Subscription;
 
   ngOnInit(): void {
     Swal.showLoading();
@@ -58,13 +52,13 @@ export class ActualizarDocenteComponent implements OnInit {
 
         this.docenteService.actualizarDocentePorID(this.docente!.id!, nuevoDocente)
           .subscribe({
-            next: (res: any) => {
+            next: () => {
               Swal.fire(
                 'Docente actualizado',
                 'Se ha actualizado el docente existosamente.',
                 'success'
-              ).then((result) => {
-                this.dialogReference.close();
+              ).then(() => {
+                this.dialogoReferencia.close();
               });
             },
             error: (res: any) => {
@@ -100,7 +94,7 @@ export class ActualizarDocenteComponent implements OnInit {
             'error'
           )
         }
-      })
+      });
   }
 
   configurarFormulario() {
@@ -127,7 +121,7 @@ export class ActualizarDocenteComponent implements OnInit {
 
 
   cancelar(): void {
-    this.dialogReference.close();
+    this.dialogoReferencia.close();
   }
 
 }

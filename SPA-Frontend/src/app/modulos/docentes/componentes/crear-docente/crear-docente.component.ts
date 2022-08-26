@@ -1,8 +1,6 @@
-import { Component, Inject, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import Swal from 'sweetalert2';
 import { Docente } from '../../modelos/docente.interface';
@@ -16,10 +14,9 @@ import { DocenteApiService } from '../../servicios/docentes_api.service';
 export class CrearDocenteComponent implements OnInit {
 
   constructor(
-    private readonly router: Router,
     private readonly formBuilder: FormBuilder,
     private readonly docenteService: DocenteApiService,
-    public dialogReference: MatDialogRef<CrearDocenteComponent>
+    private dialogReference: MatDialogRef<CrearDocenteComponent>
   ) { }
 
   formGroup?: FormGroup;
@@ -59,7 +56,7 @@ export class CrearDocenteComponent implements OnInit {
                   'Registro creado',
                   `${result.mensaje}`,
                   'success'
-                ).then((result) => {
+                ).then(() => {
                   this.dialogReference.close();
                 });
               } else {
@@ -69,7 +66,6 @@ export class CrearDocenteComponent implements OnInit {
                   'info'
                 )
               }
-
             },
             error: (result: any) => {
               Swal.fire(
@@ -103,7 +99,6 @@ export class CrearDocenteComponent implements OnInit {
         ]
       )
     });
-
   }
 
   cancelar(): void {

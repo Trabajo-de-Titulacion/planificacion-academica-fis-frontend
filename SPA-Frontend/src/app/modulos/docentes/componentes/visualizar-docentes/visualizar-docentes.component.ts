@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -17,12 +17,12 @@ import { ActualizarDocenteComponent } from '../actualizar-docente/actualizar-doc
   templateUrl: './visualizar-docentes.component.html',
   styleUrls: ['./visualizar-docentes.component.scss']
 })
-export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterViewInit {
+export class VisualizarDocentesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private readonly docenteService: DocenteApiService,
     private readonly router: Router,
-    public readonly dialog: MatDialog,
+    private readonly dialog: MatDialog,
   ) { }
 
   docentesExistentes: Docente[] = [];
@@ -84,7 +84,7 @@ export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterView
   eliminarDocente(docente: Docente) {
     Swal.fire({
       title: 'Eliminar docente',
-      text: `¿Está seguro de eliminar el ${docente.nombreCompleto}?`,
+      text: `¿Está seguro de eliminar el docente ${docente.nombreCompleto}?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Eliminar',
@@ -181,7 +181,7 @@ export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterView
           complete: () => {
             this.archivoSeleccionado = undefined;
           }
-        })
+        });
     }
   }
 
@@ -191,7 +191,7 @@ export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterView
       height: 'auto',
       disableClose: true,
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       this.cargarRegistros();
     });
   }
@@ -203,7 +203,7 @@ export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterView
       data: docente.id,
       disableClose: true,
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       this.cargarRegistros();
     });
   }
@@ -221,7 +221,4 @@ export class VisualizarDocentesComponent implements OnInit, OnDestroy, AfterView
     }
   }
 
-  ngOnDestroy(): void {
-
-  }
 }
