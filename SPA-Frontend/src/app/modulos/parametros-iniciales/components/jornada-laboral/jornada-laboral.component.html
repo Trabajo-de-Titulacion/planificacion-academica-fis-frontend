@@ -16,8 +16,10 @@
                     <button mat-raised-button *ngIf="this.jornadasSemestre && this.jornadasSemestre.length === 0"
                         (click)="crearJornadaLaboral()" color="primary">Crear</button>
                     <button mat-raised-button
-                        *ngIf=" this.semestreSeleccionado && this.semestreSeleccionado.estado === 'PLANIFICACION_CULMINADA' && eliminacionHabilitada === false"
-                        (click)="eliminarJornada()" color="primary">Eliminar</button>
+                        *ngIf="this.jornadasSemestre && this.jornadasSemestre.length !== 0
+                        &&                       
+                        this.semestreSeleccionado && this.semestreSeleccionado.estado !== 'PLANIFICACION_CULMINADA'"
+                        (click)="eliminarJornada()" color="primary">Eliminar</button> 
                 </div>
             </div>
         </mat-card-title>

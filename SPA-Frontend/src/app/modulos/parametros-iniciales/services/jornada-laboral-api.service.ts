@@ -26,4 +26,9 @@ export class JornadaLaboralApiService {
         const url = apiUrl + `${this.ruta}/obtenerJornadaLaboralPorSemestre/${idSemestre}`;
         return this.httpClient.get<JornadaLaboral[]>(url);
     }
+
+    eliminarJornadaLaboral(idSemestre : string){
+        const url = apiUrl + `${this.ruta}/jornadaLaboral/${idSemestre}`;
+        return this.httpClient.delete(url);
+    }
 }

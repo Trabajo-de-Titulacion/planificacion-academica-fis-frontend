@@ -17,7 +17,6 @@ export class JornadaLaboralComponent implements OnInit {
 
   diasLaborables: string[] = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
   disabled = false;
-  eliminacionHabilitada = false;
   formularioJornadaLaboral: FormGroup = new FormGroup({});
   jornadasSemestre?: JornadaLaboral[]
   horasAlmuerzo = ["12:00", "13:00", "14:00"]
@@ -44,14 +43,8 @@ export class JornadaLaboralComponent implements OnInit {
     )
   }
 
-  async ngOnChanges(changes: any) {
-    this.isLoading = true;
-    this.eliminacionHabilitada = false;
-    await this.obtenerJornadasDelSemestre(this.semestreSeleccionado?.id);
-    await this.crearFormulario();
-  }
-
   private async crearFormulario() {
+    this.inputsDisabled = true;
     /* Cuando el semestre cuenta con horas y días laborables */
     if (this.jornadasSemestre && this.jornadasSemestre.length !== 0) {
       const jornada = this.jornadasSemestre[0];
@@ -63,16 +56,16 @@ export class JornadaLaboralComponent implements OnInit {
         dias: [{ value: dias, disabled: this.inputsDisabled }, [Validators.required]],
       });
     }
-    /* Cuando el semestre cuenta con horas y días laborables */
+    /* Cuando el semestre no cuenta con horas y días laborables */
     else {
+      this.inputsDisabled = false;
       this.formularioJornadaLaboral = this.fb.group({
-        horaInicio: ['', [Validators.required]],
-        horaFin: ['', [Validators.required]],
-        horaAlmuerzo: ['', Validators.required],
-        dias: [[], [Validators.required]],
+        horaInicio: [{ value: '', disabled: this.inputsDisabled }, [Validators.required]],
+        horaFin: [{ value: '', disabled: this.inputsDisabled }, [Validators.required]],
+        horaAlmuerzo: [{ value: '', disabled: this.inputsDisabled }, [Validators.required]],
+        dias: [{ value: [], disabled: this.inputsDisabled }, [Validators.required]],
       });
     }
-    this.isLoading = false;
   }
 
   private crearIntervalos(horaInicio: number, horaFin: number) {
@@ -114,20 +107,25 @@ export class JornadaLaboralComponent implements OnInit {
                 idSemestre
               };
               this.servicioJornadaLaboral.crearJornadaLaboral(jornada).subscribe(
-                async _ => {
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'Registro exitoso',
-                    text: `Se ha creado correctamente la jornada laboral del semestre ${this.semestreSeleccionado?.abreviatura}`
-                  })
-                  this.isLoading = true;
-                  this.eliminacionHabilitada = false;
-                  this.inputsDisabled = true;
-                  await this.obtenerJornadasDelSemestre(this.semestreSeleccionado?.id);
-                  await this.crearFormulario();
+                {
+                  next: async () => {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Registro exitoso',
+                      text: `Se ha creado correctamente la jornada laboral del semestre ${this.semestreSeleccionado?.abreviatura}`
+                    })
+                    this.isLoading = true;
+                    await this.obtenerJornadasDelSemestre(this.semestreSeleccionado?.id);
+                    await this.crearFormulario();
+                  }
                 }
               );
             });
+            while(this.jornadasSemestre?.length !== dias.length){
+              await this.obtenerJornadasDelSemestre(this.semestreSeleccionado?.id);
+            }
+            await this.crearFormulario();
+            this.isLoading = false;
           } else {
 
             Swal.fire({
@@ -154,10 +152,40 @@ export class JornadaLaboralComponent implements OnInit {
   }
 
   eliminarJornada() {
-    console.log('elef', this.semestreSeleccionado?.estado);
-    this.inputsDisabled = true;
-    this.eliminacionHabilitada = true;
-    this.formularioJornadaLaboral.enable();
+    Swal.fire({
+      title: `¿Está seguro de eliminar la jornada laboral del semestre ${this.semestreSeleccionado?.abreviatura}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.servicioJornadaLaboral.eliminarJornadaLaboral(this.semestreSeleccionado!!.id).subscribe(
+          {
+            complete: async () => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Jornada laboral eliminada correctamente',
+                text: `Se ha eliminado la jornada laboral del semestre ${this.semestreSeleccionado?.abreviatura}.`,
+              })
+              await this.obtenerJornadasDelSemestre(this.semestreSeleccionado?.id);
+              this.formularioJornadaLaboral.reset();
+              this.formularioJornadaLaboral.enable();
+            },
+            error: () => {
+              Swal.fire({
+                icon: 'error',
+                title: `No se ha podido elminar la jornada laboral del semestre ${this.semestreSeleccionado?.abreviatura}`,
+              })
+            }
+          }
+        )
+      } else if (result.isDenied) {
+      }
+    })
+
   }
 
   async seleccionarSemestre() {
