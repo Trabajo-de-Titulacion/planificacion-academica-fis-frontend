@@ -52,9 +52,15 @@ const routes: Routes = [
       {
         path: 'asignaturas',
         canActivateChild: [EsCoordinadorGuard],
-        loadChildren: () => import("./modulos/asignaturas/asignatura.module")
+        loadChildren: () => import("./modulos/asignaturas/asignaturas.module")
           .then(m => m.AsignaturasModule)
       },
+      {
+        path: 'carreras',
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import("./modulos/carreras/carrera.module")
+          .then(m => m.CarreraModule)
+      }
     ]
   },
   {
