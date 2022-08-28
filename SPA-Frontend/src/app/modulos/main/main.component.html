@@ -70,6 +70,13 @@
                         <mat-icon>book</mat-icon>
                     </button>
                 </mat-list-item>
+                <!-- Módulo de gestión de carreras -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/carreras')" [routerLink]="['/spa/carreras']">
+                    <a matLine>Carrera</a>
+                    <button mat-icon-button>
+                        <mat-icon>schema</mat-icon>
+                    </button>
+                </mat-list-item>
             </mat-nav-list>
 
             <mat-divider *ngIf="esCoordinador() && esGestorEspaciosFisicos()"></mat-divider>
