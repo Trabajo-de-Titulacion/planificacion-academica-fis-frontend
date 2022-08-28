@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { Asignatura } from '../../modelos/asignatura.interface';
-import { AsignaturaApiService } from '../../servicios/asignatura_api.service';
+import { AsignaturaApiService } from '../../servicios/asignaturas_api.service';
 
 @Component({
   selector: 'app-crear-asignatura',
@@ -15,13 +15,13 @@ export class CrearAsignaturaComponent implements OnInit {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly asignaturaService: AsignaturaApiService,
-    private dialogReference: MatDialogRef<CrearAsignaturaComponent>
+    private dialogReference: MatDialogRef<CrearAsignaturaComponent>,
   ) { }
 
   formGroup?: FormGroup;
   cargando: boolean = false;
   formateoNombre?: string;
-  formateCodigo?: string;
+  formateoCodigo?: string;
 
   configuracion = { minCredito: 1, maxCredito: 5 };
 
@@ -39,9 +39,9 @@ export class CrearAsignaturaComponent implements OnInit {
 
   formatearTextoCodigo(event: Event) {
     const lectura = (event.target as HTMLInputElement).value;
-    if (this.formateCodigo != lectura) {
-      this.formateCodigo = lectura.toUpperCase();
-      this.formGroup?.get('codigo')?.setValue(this.formateCodigo);
+    if (this.formateoCodigo != lectura) {
+      this.formateoCodigo = lectura.toUpperCase();
+      this.formGroup?.get('codigo')?.setValue(this.formateoCodigo);
     }
   }
 
@@ -50,7 +50,7 @@ export class CrearAsignaturaComponent implements OnInit {
       if (this.formGroup.valid && !this.cargando) {
         Swal.showLoading();
         this.cargando = true;
-        //Obtener valores
+        // Obtener valores
         const nuevaAsignatura: Asignatura = {
           codigo: this.formGroup.get('codigo')?.value,
           nombre: this.formGroup.get('nombre')?.value,

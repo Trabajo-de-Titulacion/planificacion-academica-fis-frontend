@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { Asignatura } from '../../modelos/asignatura.interface';
-import { AsignaturaApiService } from '../../servicios/asignatura_api.service';
+import { AsignaturaApiService } from '../../servicios/asignaturas_api.service';
 
 @Component({
   selector: 'app-actualizar-asignatura',
@@ -53,7 +53,7 @@ export class ActualizarAsignaturaComponent implements OnInit {
       if (this.formGroup.valid && !this.cargando) {
         Swal.showLoading();
         this.cargando = true;
-        // Obtener valores de docete
+        // Obtener valores
         const nuevaAsignatura: Asignatura = {
           codigo: this.formGroup.get('codigo')?.value,
           nombre: this.formGroup.get('nombre')?.value,

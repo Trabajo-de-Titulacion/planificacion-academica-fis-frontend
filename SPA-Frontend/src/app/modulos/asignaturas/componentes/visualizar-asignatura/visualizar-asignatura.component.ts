@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 
 import Swal from 'sweetalert2';
 import { Asignatura } from '../../modelos/asignatura.interface';
-import { AsignaturaApiService } from '../../servicios/asignatura_api.service';
+import { AsignaturaApiService } from '../../servicios/asignaturas_api.service';
 import { ActualizarAsignaturaComponent } from '../actualizar-asignatura/actualizar-asignatura.component';
 import { CrearAsignaturaComponent } from '../crear-asignatura/crear-asignatura.component';
 @Component({
@@ -108,7 +108,7 @@ export class VisualizarAsignaturaComponent implements OnInit, AfterViewInit {
               this.datosFilaAsignatura.data = asignaturas;
             },
             //Error al eliminar
-            error: (err) => {
+            error: () => {
               Swal.fire(
                 'Error',
                 `No se pudo eliminar la asignatura ${asignatura.nombre}`,
