@@ -1,0 +1,43 @@
+.contenedor {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4vh;
+}
+
+.parteSuperior {
+    display: flex;
+    justify-content: end;
+}
+
+.btnSuperior {
+    margin: 2vh;
+}
+
+.nombreArchivo {
+    margin-left: 1rem;
+}
+
+.filtroPlaceholder {
+    margin-right: 1vw;
+}
+
+#filtroField {
+    width: 20vw;
+}
+
+.mat-column-fechaCreacion {
+    flex: 0 0 20%;
+}
+
+.mat-column-correoUsuario {
+    flex: 0 0 25%;
+}
+
+.mat-column-descripcion {
+    flex: 0 0 40%;
+}
+
+.mat-column-acciones {
+    flex: 0 0 5%;
+}

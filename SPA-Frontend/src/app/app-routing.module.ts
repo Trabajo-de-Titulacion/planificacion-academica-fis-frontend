@@ -60,7 +60,13 @@ const routes: Routes = [
         canActivateChild: [EsCoordinadorGuard],
         loadChildren: () => import("./modulos/carreras/carrera.module")
           .then(m => m.CarreraModule)
-      }
+      },
+      {
+        path: 'horarios',
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import("./modulos/horarios/horario.module")
+          .then(m => m.HorarioModule)
+      },
     ]
   },
   {
