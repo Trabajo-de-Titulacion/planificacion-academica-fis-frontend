@@ -17,7 +17,7 @@ import { CrearCarreraComponent } from '../crear-carrera/crear-carrera.component'
   templateUrl: './visualizar-carrera.component.html',
   styleUrls: ['./visualizar-carrera.component.scss']
 })
-export class VisualizarCarreraComponent implements OnInit {
+export class VisualizarCarreraComponent implements OnInit, AfterViewInit {
 
   constructor(
     private readonly carreraService: CarreraApiService,

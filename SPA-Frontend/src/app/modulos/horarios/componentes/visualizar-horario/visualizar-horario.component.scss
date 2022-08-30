@@ -4,10 +4,6 @@
     margin: 0 2vw;
 }
 
-mat-card {
-    margin: 1vh 0;
-}
-
 .filtros {
     display: flex;
     justify-content: space-between;
@@ -31,19 +27,11 @@ mat-card {
     width: 25%;
 }
 
-#advertencia {
-    background-color: $warn;
-    color: $text_on_warn;
-    width: 54%;
-}
-
-#info {
-    background-color: $accent;
-    color: $text_on_accent;
-    margin-left: 2%;
-    width: 44%;
-    display: flex;
-    justify-content: space-between;
+.horario {
+    font-size: 0.5vh;
+    top: 0;
+    left: 0;
+    margin: 0;
 }
 
 .parteInferior {
@@ -58,17 +46,19 @@ mat-card {
 // Filas
 .mat-row,
 .mat-header-row {
-    min-height: 30px;
+    top: 0;
+    left: 0;
+    margin: 0;
 }
 
 // Columnas
 .mat-column-HORA {
-    flex: 0 0 10%;
+    flex: 0 0 7%;
+    font-size: 1vh;
 }
 
 mat-cell {
     text-align: center;
-    cursor: pointer;
 }
 
 mat-header-cell,

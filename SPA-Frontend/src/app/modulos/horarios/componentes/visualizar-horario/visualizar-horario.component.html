@@ -1,9 +1,9 @@
-<div class="contenedor">
-    <div class="filtros">
-        <div class="columna">
+<div class="contenedor" *ngIf="formGroup">
+    <form class="filtros" [formGroup]="formGroup">
+        <div class="columna" *ngIf="formGroup">
             <mat-form-field appearance="fill" class="filtroDocente">
                 <mat-label>Filtrar el horario por docente:</mat-label>
-                <mat-select name="arregloDocentes">
+                <mat-select name="arregloDocentes" formControlName="filtroDocente">
                     <mat-option *ngFor="let docente of arregloDocentes" [value]="docente.nombreCompleto">
                         {{docente.nombreCompleto}}
                     </mat-option>
@@ -13,14 +13,14 @@
         <div class="columna">
             <mat-form-field appearance="fill" class="filtroGrupo">
                 <mat-label>Filtrar por grupo:</mat-label>
-                <mat-select name="arregloGrupos">
+                <mat-select name="arregloGrupos" formControlName="filtroGrupo">
                     <mat-option *ngFor="let grupo of arregloGrupos" [value]="grupo.nombre">
                         {{grupo.nombre}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
-    </div>
+    </form>
     <!-- Matriz con días de la semana -->
     <mat-table [dataSource]="datoFilasTabla">
         <!-- Hora -->
@@ -33,7 +33,24 @@
         <ng-container *ngFor="let dia of columnasTabla.slice(1, columnasTabla.length)" [matColumnDef]="dia">
             <mat-header-cell *matHeaderCellDef>{{dia}}</mat-header-cell>
             <mat-cell *matCellDef="let fila">
-                <div></div>
+                <!-- DOCENTE -->
+                <div *ngIf="fila.horarioFilaDocente.length > 0">
+                    <div *ngIf="obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)" class="celda">
+                        <p class="horario">{{obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)!.asignatura}}</p>
+                        <p class="horario">{{obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)!.tipoAula}}
+                            {{obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)!.aula}}</p>
+
+                    </div>
+                </div>
+                <!-- GRUPO -->
+                <div *ngIf="fila.horarioFilaGrupo.length > 0">
+                    <div *ngIf="obtenerHorarioPorDiaGrupo(fila.horarioFilaGrupo, dia)" class="celda">
+                        <p class="horario">{{obtenerHorarioPorDiaGrupo(fila.horarioFilaGrupo, dia)!.asignatura}}</p>
+                        <p class="horario">{{obtenerHorarioPorDiaGrupo(fila.horarioFilaGrupo, dia)!.docente}}</p>
+                        <p class="horario">{{obtenerHorarioPorDiaGrupo(fila.horarioFilaGrupo, dia)!.tipoAula}}
+                            {{obtenerHorarioPorDiaGrupo(fila.horarioFilaGrupo, dia)!.aula}}</p>
+                    </div>
+                </div>
             </mat-cell>
         </ng-container>
 
@@ -43,6 +60,7 @@
 
     <!-- Botones -->
     <div class="parteInferior">
-        <button mat-button mat-raised-button color="warn" class="buttonStyleCancel">Regresar</button>
+        <button mat-button mat-raised-button color="warn" [routerLink]="['..']"
+            class="buttonStyleCancel">Regresar</button>
     </div>
 </div>

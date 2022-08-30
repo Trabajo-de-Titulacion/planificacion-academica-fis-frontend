@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -11,11 +12,14 @@ import { SemestreService } from 'src/app/modulos/parametros-inciales/services/se
 import Swal from 'sweetalert2';
 import { Horario } from '../../modelos/horario.interface';
 import { HorarioGrupo } from '../../modelos/horarioGrupo.interface';
+import { HorarioDocente } from '../../modelos/horarioDocente.interface';
 import { HorarioApiService } from '../../servicios/horarios_api.service';
 
 interface Hora {
   hora: number,
-  rangoHoras: string
+  rangoHoras: string,
+  horarioFilaDocente: HorarioDocente[],
+  horarioFilaGrupo: HorarioGrupo[],
 }
 
 @Component({
@@ -28,6 +32,7 @@ export class VisualizarHorarioComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly ruta: ActivatedRoute,
+    private readonly formBuilder: FormBuilder,
     private readonly horarioService: HorarioApiService,
     private readonly docenteService: DocenteApiService,
     private readonly semestresService: SemestreService,
@@ -40,26 +45,26 @@ export class VisualizarHorarioComponent implements OnInit {
 
   horarioJSON?: Horario;
   arregloDocentes?: Docente[];
-
   arregloGrupos?: Grupo[];
 
   params$?: Subscription;
+  filtroDocenteSuscripcion$?: Subscription;
+  filtroGrupoSuscripcion$?: Subscription;
+  filtroSeleccionado?: string;
 
   cargando: boolean = false;
 
+  formGroup?: FormGroup;
+  idHorario?: string;
+
   ngOnInit(): void {
     Swal.showLoading();
-    this.params$ = this.ruta.params.subscribe({
-      next: (params) => {
-        const idHorario = String(params['id']);
-        this.obtenerDocentes();
-        this.obtenerGrupos();
-      },
-      error: (res) => {
-        this.redireccionarTrasError(res);
-      }
-    });
+    this.cargarDatosSelect();
+    this.cargarMatrizHorario();
+    this.formularioControl();
+  }
 
+  cargarMatrizHorario() {
     this.semestresService.obtenerSemestreConPlanificacionEnProgreso().subscribe({
       next: (semestre) => {
         // Se obtienen las jornadas laborales
@@ -76,11 +81,23 @@ export class VisualizarHorarioComponent implements OnInit {
         });
         // Crear filas en la tabla
         this.crearFilasTabla();
-        Swal.close()
       },
       error: () => {
         this.mostrarMensajeError();
       },
+    });
+  }
+
+  cargarDatosSelect() {
+    this.params$ = this.ruta.params.subscribe({
+      next: (params) => {
+        this.idHorario = String(params['id']);
+        this.obtenerDocentes();
+        this.obtenerGrupos();
+      },
+      error: (res) => {
+        this.redireccionarTrasError(res);
+      }
     });
   }
 
@@ -102,18 +119,121 @@ export class VisualizarHorarioComponent implements OnInit {
       const horaSemana = {
         hora: hora,
         rangoHoras: `${hora}:00 - ${hora + 1}:00`,
+        horarioFilaDocente: [],
+        horarioFilaGrupo: [],
       };
       this.datoFilasTabla.data.push(horaSemana);
     }
+
+    Swal.close();
+    this.cargando = true;
   }
 
+  formularioControl() {
+    this.formGroup = this.formBuilder.group({
+      filtroDocente: new FormControl(
+        { value: '', disabled: false },
+      ),
+      filtroGrupo: new FormControl(
+        { value: '', disabled: false }
+      )
+    });
+
+    this.filtroDocenteSuscripcion$ = this.formGroup.get('filtroDocente')!.valueChanges
+      .subscribe({
+        next: (nombreDocente) => {
+          if (this.formGroup!.get('filtroDocente')!.value != "") {
+            this.datoFilasTabla.data.forEach((fila) => {
+              fila.horarioFilaGrupo = [];
+              fila.horarioFilaDocente = [];
+            });
+
+            Swal.showLoading();
+
+            this.horarioService.obtenerHorarioDocente(nombreDocente, this.idHorario!)
+              .subscribe({
+                next: (arregloDocentes) => {
+                  for (let i = 0; i < this.datoFilasTabla.data.length; i++) {
+                    const filtroDeHorario = arregloDocentes.filter(horario => {
+                      return Number(horario.horario.split(":")[0]) == this.datoFilasTabla.data[i].hora;
+                    });
+                    filtroDeHorario.forEach((h) => {
+                      this.datoFilasTabla.data[i].horarioFilaDocente?.push(h);
+                    });
+                  }
+                },
+                error: (error) => {
+                  Swal.fire('Error', `${error.message}`, 'error')
+                },
+                complete: () => {
+                  Swal.close();
+                }
+              })
+            this.formGroup?.get('filtroGrupo')!.setValue('');
+          }
+        }
+      })
+
+    this.filtroGrupoSuscripcion$ = this.formGroup.get('filtroGrupo')!.valueChanges
+      .subscribe({
+        next: (nombreGrupo) => {
+          if (this.formGroup!.get('filtroGrupo')!.value != "") {
+            this.datoFilasTabla.data.forEach((fila) => {
+              fila.horarioFilaGrupo = [];
+              fila.horarioFilaDocente = [];
+            });
+
+            Swal.showLoading();
+
+            this.horarioService.obtenerHorarioGrupo(nombreGrupo, this.idHorario!)
+              .subscribe({
+                next: (arregloGrupos) => {
+                  for (let i = 0; i < this.datoFilasTabla.data.length; i++) {
+                    const filtroDeHorario = arregloGrupos.filter(horario => {
+                      return Number(horario.horario.split(":")[0]) == this.datoFilasTabla.data[i].hora;
+                    });
+                    filtroDeHorario.forEach((h) => {
+                      this.datoFilasTabla.data[i].horarioFilaGrupo?.push(h);
+                    });
+                  }
+                },
+                error: (error) => {
+                  Swal.fire('Error', `${error.message}`, 'error')
+                },
+                complete: () => {
+                  Swal.close();
+                }
+              })
+
+            this.formGroup?.get('filtroDocente')!.setValue('');
+          }
+        }
+      })
+  }
+
+  obtenerHorarioPorDiaDocente(arregloHorario: HorarioDocente[], dia: string) {
+    if (arregloHorario) {
+      return arregloHorario.find((horario) => {
+        return horario.dia == dia;
+      })
+    }
+    return undefined;
+  }
+
+  obtenerHorarioPorDiaGrupo(arregloHorario: HorarioGrupo[], dia: string) {
+    if (arregloHorario) {
+      return arregloHorario.find((horario) => {
+        return horario.dia == dia;
+      })
+    }
+    return undefined;
+  }
 
   obtenerDocentes() {
     this.docenteService.visualizarDocentes()
       .subscribe({
         next: (result) => {
           this.arregloDocentes = result as Docente[];
-          console.log(this.arregloGrupos)
         },
         error: (error) => {
           Swal.fire(
@@ -170,5 +290,12 @@ export class VisualizarHorarioComponent implements OnInit {
     if (this.params$) {
       this.params$.unsubscribe();
     }
+    if (this.filtroGrupoSuscripcion$) {
+      this.filtroGrupoSuscripcion$.unsubscribe();
+    }
+    if (this.filtroDocenteSuscripcion$) {
+      this.filtroDocenteSuscripcion$.unsubscribe();
+    }
   }
+
 }
