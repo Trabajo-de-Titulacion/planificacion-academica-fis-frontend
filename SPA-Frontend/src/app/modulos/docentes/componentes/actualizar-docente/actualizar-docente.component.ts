@@ -105,7 +105,7 @@ export class ActualizarDocenteComponent implements OnInit {
           Validators.required,
           Validators.minLength(10),
           Validators.maxLength(70),
-          Validators.pattern('^[A-Z ]*$'),
+          Validators.pattern('^[A-ZÁÉÍÓÚÜÑ ]*$'),
         ]
       ),
       correoElectronico: new FormControl(
