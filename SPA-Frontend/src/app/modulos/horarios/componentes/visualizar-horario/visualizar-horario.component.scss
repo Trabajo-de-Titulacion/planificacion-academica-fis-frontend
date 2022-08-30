@@ -1,0 +1,77 @@
+@import '../../../../../themes/variables.scss';
+
+.contenedor {
+    margin: 0 2vw;
+}
+
+mat-card {
+    margin: 1vh 0;
+}
+
+.filtros {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1vw;
+}
+
+.filtroDocente {
+    min-width: 25vw
+}
+
+.filtroGrupo {
+    min-width: 20vw;
+}
+
+.columna {
+    width: 50%;
+    padding-bottom: 1vw;
+}
+
+.filtroDocente {
+    width: 25%;
+}
+
+#advertencia {
+    background-color: $warn;
+    color: $text_on_warn;
+    width: 54%;
+}
+
+#info {
+    background-color: $accent;
+    color: $text_on_accent;
+    margin-left: 2%;
+    width: 44%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.parteInferior {
+    margin-top: 2vh;
+    text-align: center;
+}
+
+.parteInferior button {
+    margin: 0 2vw;
+}
+
+// Filas
+.mat-row,
+.mat-header-row {
+    min-height: 30px;
+}
+
+// Columnas
+.mat-column-HORA {
+    flex: 0 0 10%;
+}
+
+mat-cell {
+    text-align: center;
+    cursor: pointer;
+}
+
+mat-header-cell,
+mat-cell {
+    justify-content: center;
+}
