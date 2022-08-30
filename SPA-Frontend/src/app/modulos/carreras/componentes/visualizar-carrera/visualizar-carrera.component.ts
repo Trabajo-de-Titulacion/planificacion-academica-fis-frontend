@@ -39,7 +39,7 @@ export class VisualizarCarreraComponent implements OnInit {
   //Filtrar entre todos los elementos de la tabla
   filtrarTabla(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.datosFilaCarrera.filter = filterValue.trim().toLocaleLowerCase();
+    this.datosFilaCarrera.filter = filterValue.trim().toLowerCase();
   }
 
   ngOnInit(): void {
