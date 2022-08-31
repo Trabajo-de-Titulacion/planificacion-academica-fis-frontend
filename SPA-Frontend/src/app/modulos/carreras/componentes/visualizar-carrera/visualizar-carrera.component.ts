@@ -17,7 +17,7 @@ import { CrearCarreraComponent } from '../crear-carrera/crear-carrera.component'
   templateUrl: './visualizar-carrera.component.html',
   styleUrls: ['./visualizar-carrera.component.scss']
 })
-export class VisualizarCarreraComponent implements OnInit {
+export class VisualizarCarreraComponent implements OnInit, AfterViewInit {
 
   constructor(
     private readonly carreraService: CarreraApiService,
@@ -39,7 +39,7 @@ export class VisualizarCarreraComponent implements OnInit {
   //Filtrar entre todos los elementos de la tabla
   filtrarTabla(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.datosFilaCarrera.filter = filterValue.trim().toLocaleLowerCase();
+    this.datosFilaCarrera.filter = filterValue.trim().toLowerCase();
   }
 
   ngOnInit(): void {

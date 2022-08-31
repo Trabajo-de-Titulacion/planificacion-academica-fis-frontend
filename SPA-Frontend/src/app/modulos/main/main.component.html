@@ -77,6 +77,13 @@
                         <mat-icon>schema</mat-icon>
                     </button>
                 </mat-list-item>
+                <!-- Módulo de horarios -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/horarios')" [routerLink]="['/spa/horarios']">
+                    <a matLine>Horario</a>
+                    <button mat-icon-button>
+                        <mat-icon>event</mat-icon>
+                    </button>
+                </mat-list-item>
             </mat-nav-list>
 
             <mat-divider *ngIf="esCoordinador() && esGestorEspaciosFisicos()"></mat-divider>

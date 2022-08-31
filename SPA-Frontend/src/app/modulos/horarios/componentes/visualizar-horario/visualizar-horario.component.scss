@@ -1,0 +1,67 @@
+@import '../../../../../themes/variables.scss';
+
+.contenedor {
+    margin: 0 2vw;
+}
+
+.filtros {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1vw;
+}
+
+.filtroDocente {
+    min-width: 25vw
+}
+
+.filtroGrupo {
+    min-width: 20vw;
+}
+
+.columna {
+    width: 50%;
+    padding-bottom: 1vw;
+}
+
+.filtroDocente {
+    width: 25%;
+}
+
+.horario {
+    font-size: 0.5vh;
+    top: 0;
+    left: 0;
+    margin: 0;
+}
+
+.parteInferior {
+    margin-top: 2vh;
+    text-align: center;
+}
+
+.parteInferior button {
+    margin: 0 2vw;
+}
+
+// Filas
+.mat-row,
+.mat-header-row {
+    top: 0;
+    left: 0;
+    margin: 0;
+}
+
+// Columnas
+.mat-column-HORA {
+    flex: 0 0 7%;
+    font-size: 1vh;
+}
+
+mat-cell {
+    text-align: center;
+}
+
+mat-header-cell,
+mat-cell {
+    justify-content: center;
+}
