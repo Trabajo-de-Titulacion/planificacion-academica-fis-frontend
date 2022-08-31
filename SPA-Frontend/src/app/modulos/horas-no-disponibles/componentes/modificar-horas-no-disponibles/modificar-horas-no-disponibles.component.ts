@@ -41,6 +41,7 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
   cambiosForm$?: Subscription;
   btnDesmarcarHabilitado: boolean = false;
   btnGuardarHabilitado: boolean = false;
+  nombreBtnGuardar: string = 'Solicitar horas no disponibles';
 
 
   ngOnInit(): void {
@@ -81,7 +82,7 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (docente) => {
           this.docenteActual = docente;
-          this.horasNoDisponiblesService.obtenerHorasNoDisponiblesPorDocenteId(docente.id!)
+          this.horasNoDisponiblesService.obtenerHorasNoDisponiblesSolicitadasPorDocenteId(docente.id!)
           .subscribe({
             next: (horasNoDisponibles) => {
               this.horasNoDisponiblesPrevias = horasNoDisponibles;
@@ -91,6 +92,10 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
                 this.formGroup.get(nombreControl)!.setValue(true);
                 this.totalSeleccionados += 1;
               });
+              // Si ya existe una solicitud, entonces el nombre del botón cambia
+              if (this.horasNoDisponiblesPrevias.length > 0) {
+                this.nombreBtnGuardar = 'Guardar cambios';
+              }
             },
             error: () => {
               this.mostrarMensajeError();
@@ -267,7 +272,6 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
             hora_inicio: hora,
             dia_id: jornada!.id!,
             dia: jornada,
-            docente_id: this.docenteActual!.id!,
           }
           // Guardar en arreglo
           registrosACrear.push(horaNoDisponible);
@@ -277,7 +281,7 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
       // Se registran horas no disponibles
       if (registrosACrear.length > 0) {
         // Enviar al servicio y crear las horas seleccionadas
-        this.horasNoDisponiblesService.crearHorasNoDisponibles(registrosACrear)
+        this.horasNoDisponiblesService.solicitarHorasNoDisponibles(this.docenteActual!.id!, registrosACrear)
         .subscribe({
           next: (res: any) => {
             Swal.fire('Horas no disponibles actualizadas exitosamente', `${res.mensaje}`, 'success');

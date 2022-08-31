@@ -14,14 +14,14 @@ export class HorasNoDisponiblesApiService {
 
   ruta = '/horas_no_disponibles';
 
-  obtenerHorasNoDisponiblesPorDocenteId(id: string) {
-    const url = apiUrl + `${this.ruta}/obtenerHorasNoDisponiblesPorDocente/${id}`;
-    return this.httpClient.get<HoraNoDisponible[]>(url);
+  solicitarHorasNoDisponibles(idDocente: string, horas_no_disponibles: HoraNoDisponible[]) {
+    const url = apiUrl + `${this.ruta}/solicitarHorasNoDisponibles/${idDocente}`;
+    return this.httpClient.post(url, horas_no_disponibles);
   }
 
-  crearHorasNoDisponibles(horas_no_disponibles: HoraNoDisponible[]) {
-    const url = apiUrl + `${this.ruta}/crearHorasNoDisponibles`;
-    return this.httpClient.post(url, horas_no_disponibles);
+  obtenerHorasNoDisponiblesSolicitadasPorDocenteId(id: string) {
+    const url = apiUrl + `${this.ruta}/obtenerHorasNoDisponiblesSolicitadasPorDocenteId/${id}`;
+    return this.httpClient.get<HoraNoDisponible[]>(url);
   }
 
   eliminarHorasNoDisponiblesPorDocenteId(id: string) {
