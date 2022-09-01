@@ -1,26 +1,27 @@
 @startuml
 
 node "Ubuntu Server 20.0" {
-    node Angular_12.1.4 <<Interfaz>> {
+    node SPA_Frontend <<Interfaz>> {
     }
 }
 
 node "Ubuntu Server 20.0" {
     node "Nginx_v1.21.4" <<WebServer>> {
     }
-    node "TypeScript" <<BackEnd>> {
-        file ormconfig.ts
+    node SPA_Backend <<Backend>> {
+        file ".env"
+        file "cucumber.js"
     }
-    API - [FET CLI 2.2.1]
+    API - [FET CLI 6.5.7]
 }
 
-database PostgreSQL_12 <<Digital Ocean>> {
+database PostgreSQL_12 <<Azure>> {
 }
 
-TypeScript --> PostgreSQL_12
-TypeScript --( API
-TypeScript -right-> Nginx_v1.21.4
-Angular_12.1.4 --( API
+SPA_Backend --> PostgreSQL_12
+SPA_Backend --( API
+SPA_Backend -right-> Nginx_v1.21.4
+SPA_Frontend --( API
 Nginx_v1.21.4 --( API
 
 @enduml
