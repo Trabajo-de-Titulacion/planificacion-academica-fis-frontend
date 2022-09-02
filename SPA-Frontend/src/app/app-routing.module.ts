@@ -39,7 +39,6 @@ const routes: Routes = [
       },
       {
         path: 'horas_no_disponibles',
-        canActivateChild: [EsDocenteGuard],
         loadChildren: () => import("./modulos/horas-no-disponibles/horas-no-disponibles.module")
           .then(m => m.HorasNoDisponiblesModule)
       },

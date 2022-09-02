@@ -1,5 +1,13 @@
 @import '../../../themes/variables.scss';
 
+mat-toolbar {
+    max-height: 8vh;
+}
+
+mat-toolbar button {
+    font-size: 4vh;
+}
+
 .menuAcciones {
     position: absolute;
     top: 64px;
@@ -12,6 +20,7 @@
 #home {
     color: $text_on_primary;
     text-decoration: none;
+    font-size: 3vh;
 }
 #home:hover {
     color: $accent;

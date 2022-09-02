@@ -27,6 +27,7 @@ import { EsCoordinadorGuard } from './servicios/auth/guards/es-coordinador.guard
 import { EsDocenteGuard } from './servicios/auth/guards/es-docente.guard';
 import { EsSubdecanoGuard } from './servicios/auth/guards/es-subdecano.guard';
 import { EsGestorEspaciosFisicosGuard } from './servicios/auth/guards/es-gestor-espacios.guard';
+import { EsJefeDeDepartamentoGuard } from './servicios/auth/guards/es-jefe-de-departamento.guard';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { EsGestorEspaciosFisicosGuard } from './servicios/auth/guards/es-gestor-
     EsDocenteGuard,
     EsSubdecanoGuard,
     EsGestorEspaciosFisicosGuard,
+    EsJefeDeDepartamentoGuard,
   ],
   bootstrap: [AppComponent]
 })

@@ -116,6 +116,21 @@
                 </mat-list-item>
             </mat-nav-list>
 
+            <mat-divider *ngIf="esGestorEspaciosFisicos() && esJefeDeDepartamento()"></mat-divider>
+
+            <!-- Jefe de departamento -->
+            <h3 matSubheader *ngIf="esJefeDeDepartamento()">Jefe de departamento</h3>
+            <mat-nav-list *ngIf="esJefeDeDepartamento()">
+                <!-- Solicitud de horas no disponibles -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/horas_no_disponibles/solicitudes')"
+                    [routerLink]="['/spa/horas_no_disponibles/solicitudes']">
+                    <a matLine>Solicitudes de horas no disponibles</a>
+                    <button mat-icon-button>
+                        <mat-icon>rule_icon</mat-icon>
+                    </button>
+                </mat-list-item>
+            </mat-nav-list>
+
         </mat-list>
     </mat-sidenav>
     <!-- Contenido principal -->

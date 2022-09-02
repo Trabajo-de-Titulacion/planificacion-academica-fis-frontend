@@ -70,4 +70,8 @@ export class MainComponent implements OnInit {
     return this.usuarioService.obtenerRoles().includes(RolesEnum.GESTOR_ESPACIOS_FISICOS);
   }
 
+  esJefeDeDepartamento() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.JEFE_DE_DEPARTAMENTO);
+  }
+
 }

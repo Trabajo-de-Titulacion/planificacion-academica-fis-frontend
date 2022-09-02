@@ -1,0 +1,47 @@
+<div class="contenedor">
+    <h1>Solicitudes de horas no disponibles de cada docente para el semestre {{semestreEnProgreso? semestreEnProgreso.abreviatura : 'en progreso'}}</h1>
+    <div class="parteSuperior">
+        <mat-form-field appearance="standard">
+            <mat-label>Filtro: </mat-label>
+            <input matInput (keyup)="filtrarTabla($event)" placeholder="Ingrese el texto a buscar" #input>
+        </mat-form-field>
+    </div>
+
+    <mat-table [dataSource]="datosFilasSolicitudes" matSort matSortActive="ultimaModificacion" matSortDirection="desc">
+        <!-- Docente -->
+        <ng-container matColumnDef="docente">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Docente</mat-header-cell>
+            <mat-cell *matCellDef="let fila">{{fila.docente.nombreCompleto}}</mat-cell>
+        </ng-container>
+
+        <!-- Fecha de última modificación de la solicitud -->
+        <ng-container matColumnDef="ultimaModificacion">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de última modifiación</mat-header-cell>
+            <mat-cell *matCellDef="let fila">{{fila.ultimaModificacion}}</mat-cell>
+        </ng-container>
+
+        <!-- Estado de la solicitud -->
+        <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
+            <mat-cell *matCellDef="let fila">{{fila.estado}}</mat-cell>
+        </ng-container>
+
+        <!-- Botón de visualización -->
+        <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef>Acciones </mat-header-cell>
+            <mat-cell *matCellDef="let fila">
+                <button mat-icon-button [routerLink]="[fila.docente.id]" matTooltip="Visualizar"
+                    matTooltipPosition="right">
+                    <mat-icon color="primary">visibility</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
+
+    </mat-table>
+
+    <mat-paginator [pageSize]="10" showFirstLastButtons></mat-paginator>
+
+</div>

@@ -5,30 +5,30 @@ import { RolesEnum } from "../enum/roles.enum";
 import { UsuarioStorageService } from "../usuario-storage.service";
 
 @Injectable()
-export class EsSubdecanoGuard implements CanActivate, CanActivateChild{
+export class EsJefeDeDepartamentoGuard implements CanActivate, CanActivateChild{
 
     constructor(
         private readonly userService: UsuarioStorageService,
         private readonly router: Router,
     ) {}
-
+    
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-        return this.tieneRolSubdecano();
+        return this.tieneRolJefeDeDepartamento();
     }
 
     canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-        return this.tieneRolSubdecano();
+        return this.tieneRolJefeDeDepartamento();
     }
 
-    tieneRolSubdecano() {
+    tieneRolJefeDeDepartamento() {
         const roles = this.userService.obtenerRoles();
         if (!roles) {
             return false;
         }
-        if (!roles.includes(RolesEnum.SUBDECANO)) {
+        if (!roles.includes(RolesEnum.JEFE_DE_DEPARTAMENTO)) {
             this.router.navigate(['/spa']);
         }
-        return roles.includes(RolesEnum.SUBDECANO);
+        return roles.includes(RolesEnum.JEFE_DE_DEPARTAMENTO);
     }
 
 }

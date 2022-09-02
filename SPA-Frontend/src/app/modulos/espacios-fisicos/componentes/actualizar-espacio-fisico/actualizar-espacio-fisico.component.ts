@@ -53,7 +53,7 @@ export class ActualizarEspacioFisicoComponent implements OnInit, OnDestroy {
           .subscribe({
             next: (res: any) => {
               // Si no se actualizó el registro
-              if (res.filas_alteradas == 0) {
+              if (res.filasAlteradas == 0) {
                 Swal.fire('Hubo un problema',`${res.mensaje}`,'info');
               }
               // Si se se actualizó un registro

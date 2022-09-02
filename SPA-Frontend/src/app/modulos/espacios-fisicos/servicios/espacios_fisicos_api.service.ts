@@ -15,9 +15,9 @@ export class EspaciosFisicosApiService {
   ruta = '/espacios_fisicos';
 
   /* Create */
-  crearEspacioFisico(espacio_fisico: EspacioFisico) {
+  crearEspacioFisico(espacioFisico: EspacioFisico) {
     const url = apiUrl + `${this.ruta}/crearUno`;
-    return this.httpClient.post(url, espacio_fisico);
+    return this.httpClient.post(url, espacioFisico);
   }
 
   crearMultiplesEspaciosFisicos(archivo: File) {

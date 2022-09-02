@@ -66,8 +66,8 @@ export class MostrarEspaciosFisicosComponent implements OnInit, OnDestroy, After
     this.espaciosFisicosService.obtenerEspaciosFisicos()
       .subscribe({
         next: (data) => {
-          const espacios_fisicos = data as EspacioFisico[];
-          this.espaciosFisicosExistentes = espacios_fisicos;
+          const espaciosFisicos = data as EspacioFisico[];
+          this.espaciosFisicosExistentes = espaciosFisicos;
         },
         error: () => {
           Swal.fire({
@@ -132,10 +132,10 @@ export class MostrarEspaciosFisicosComponent implements OnInit, OnDestroy, After
     });
   }
 
-  eliminarEspacioFisico(espacio_fisico: FilaEspacioFisico) {
+  eliminarEspacioFisico(espacioFisico: FilaEspacioFisico) {
     Swal.fire({
       title: 'Eliminar espacio físico',
-      text: `¿Está seguro de eliminar el ${espacio_fisico.tipo} "${espacio_fisico.nombre}"?`,
+      text: `¿Está seguro de eliminar el ${espacioFisico.tipo} "${espacioFisico.nombre}"?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Eliminar',
@@ -145,28 +145,28 @@ export class MostrarEspaciosFisicosComponent implements OnInit, OnDestroy, After
       if (result.isConfirmed) {
         Swal.showLoading();
         // Eliminar espacio fisico
-        this.espaciosFisicosService.eliminarEspacioFisico(espacio_fisico.id!)
+        this.espaciosFisicosService.eliminarEspacioFisico(espacioFisico.id!)
           .subscribe({
             // Si se eliminó correctamente
             next: () => {
               Swal.fire(
                 'Eliminado',
-                `Se ha eliminado el ${espacio_fisico.tipo} "${espacio_fisico.nombre}"?`,
+                `Se ha eliminado el ${espacioFisico.tipo} "${espacioFisico.nombre}"?`,
                 'success'
               );
               // Quitar del arreglo
               const indice = this.datoFilasEspaciosFisicos.data.indexOf(
-                this.datoFilasEspaciosFisicos.data.find(fila => fila.id == espacio_fisico.id)!
+                this.datoFilasEspaciosFisicos.data.find(fila => fila.id == espacioFisico.id)!
               );
-              const espacios_fisicos = this.datoFilasEspaciosFisicos.data;
-              espacios_fisicos.splice(indice, 1)
-              this.datoFilasEspaciosFisicos.data = espacios_fisicos;
+              const espaciosFisicos = this.datoFilasEspaciosFisicos.data;
+              espaciosFisicos.splice(indice, 1)
+              this.datoFilasEspaciosFisicos.data = espaciosFisicos;
             },
             // Error al eliminar
             error: (err) => {
               Swal.fire(
                 'Error',
-                `No se pudo eliminar el ${espacio_fisico.tipo} "${espacio_fisico.nombre}"?`,
+                `No se pudo eliminar el ${espacioFisico.tipo} "${espacioFisico.nombre}"?`,
                 'error'
               );
               console.error(err);
@@ -183,12 +183,12 @@ export class MostrarEspaciosFisicosComponent implements OnInit, OnDestroy, After
       this.espaciosFisicosService.crearMultiplesEspaciosFisicos(this.archivoSeleccionado)
         .subscribe({
           next: (res: any) => {
-            const mensaje = `Se han creado ${res.registros_creados.length} registros. Hay ${res.registros_repetidos.length} repetidos.`;
-            let numColumnas = (res.registros_repetidos.length > 8)? 4 : 2;
-            numColumnas = (res.registros_repetidos.length <= 4)? 1 : numColumnas;
+            const mensaje = `Se ha(n) creado ${res.registrosCreados.length} registro(s). Hay ${res.registrosRepetidos.length} repetido(s).`;
+            let numColumnas = (res.registrosRepetidos.length > 8)? 4 : 2;
+            numColumnas = (res.registrosRepetidos.length <= 4)? 1 : numColumnas;
             const repetidos = `<div style="column-count: ${numColumnas};">` + 
                                 '<p>' +
-                                  res.registros_repetidos.map((r: EspacioFisico) => {
+                                  res.registrosRepetidos.map((r: EspacioFisico) => {
                                     return r.nombre
                                   }).join('</p><p>') +
                                 '</p>' + 
