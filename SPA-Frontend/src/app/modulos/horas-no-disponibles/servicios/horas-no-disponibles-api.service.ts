@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { apiUrl } from 'src/environments/environment';
 import { HoraNoDisponible } from '../modelos/hora_no_disponible.interface';
+import { SolicitudHoraNoDisponible } from '../modelos/solicitudHoraNoDisponible.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,23 @@ export class HorasNoDisponiblesApiService {
     return this.httpClient.get<HoraNoDisponible[]>(url);
   }
 
+  obtenerSolicitudesDelSemestreEnProgreso() {
+    const url = apiUrl + `${this.ruta}/obtenerSolicitudesDelSemestreEnProgreso`;
+    return this.httpClient.get<SolicitudHoraNoDisponible[]>(url);
+  }
+
   eliminarHorasNoDisponiblesPorDocenteId(id: string) {
     const url = apiUrl + `${this.ruta}/eliminarHoras/${id}`;
     return this.httpClient.delete(url);
+  }
+
+  aprobarSolicitudHorasNoDisponiblesPorDocenteId(id: string) {
+    const url = apiUrl + `${this.ruta}/aprobarSolicitudHorasNoDisponiblesPorDocenteId/${id}`;
+    return this.httpClient.get(url);
+  }
+
+  rechazarSolicitudHorasNoDisponiblesPorDocenteId(id: string) {
+    const url = apiUrl + `${this.ruta}/rechazarSolicitudHorasNoDisponiblesPorDocenteId/${id}`;
+    return this.httpClient.get(url);
   }
 }

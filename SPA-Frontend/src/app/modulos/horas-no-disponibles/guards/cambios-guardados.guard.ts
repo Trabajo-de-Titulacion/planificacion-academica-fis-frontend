@@ -1,17 +1,26 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { Observable } from "rxjs";
+import { TokenStorageService } from "src/app/servicios/auth/token-storage.service";
 import Swal from "sweetalert2";
 import { ModificarHorasNoDisponiblesComponent } from "../componentes/modificar-horas-no-disponibles/modificar-horas-no-disponibles.component";
 
 @Injectable()
 export class CambiosGuardadosGuard implements CanDeactivate<ModificarHorasNoDisponiblesComponent>{
 
-    constructor() {}
+    constructor(
+        private readonly tokenService: TokenStorageService,
+    ) {}
+
     canDeactivate(
         component: ModificarHorasNoDisponiblesComponent, currentRoute: ActivatedRouteSnapshot,
         currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot | undefined
     ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+        // Se permite desactivar si antes se cerró sesión
+        if (!this.tokenService.obtenerToken()) {
+            return true;
+        }
+
         // Si el botón de guardado no está habilitado es porque no hay cambios sin guardar
         if (!component.btnGuardarHabilitado) {
             return true;
