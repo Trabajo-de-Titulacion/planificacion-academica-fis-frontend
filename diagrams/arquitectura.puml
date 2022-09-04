@@ -2,23 +2,35 @@
 
 node "Ubuntu Server 20.0" {
     node SPA_Frontend <<Interfaz>> {
+
     }
 }
 
 node "Ubuntu Server 20.0" {
     node "Nginx_v1.21.4" <<WebServer>> {
     }
-    node SPA_Backend <<Backend>> {
+    node "SPA_Backend" <<Backend>> {
         file ".env"
         file "cucumber.js"
     }
+
+    
     API - [FET CLI 6.5.7]
 }
 
 database PostgreSQL_12 <<Azure>> {
+    port 5432
 }
 
-SPA_Backend --> PostgreSQL_12
+note top of SPA_Frontend
+    IP: 172.28.32.130
+end note
+
+note top of SPA_Backend
+    IP: 172.28.32.129
+end note
+
+SPA_Backend -down-> 5432 : <<TLS>>
 SPA_Backend --( API
 SPA_Backend -right-> Nginx_v1.21.4
 SPA_Frontend --( API
