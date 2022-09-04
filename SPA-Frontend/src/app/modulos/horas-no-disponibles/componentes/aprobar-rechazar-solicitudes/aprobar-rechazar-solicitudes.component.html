@@ -3,6 +3,9 @@
     <button mat-button mat-raised-button color="warn" [routerLink]="['..']" class="buttonStyleCancel">
       Regresar
     </button>
+    <mat-card *ngIf="nombreDocenteActual">
+      <span>Solicitud de: {{nombreDocenteActual}}</span>
+    </mat-card>
     <mat-card id="info" *ngIf="mensajeAprobado">
       <span>Esta solicitud ya ha sido aprobada.</span>
     </mat-card>

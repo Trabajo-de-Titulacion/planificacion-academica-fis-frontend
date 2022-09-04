@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Docente } from 'src/app/modulos/docentes/modelos/docente.interface';
+import { DocenteApiService } from 'src/app/modulos/docentes/servicios/docentes_api.service';
 import JornadaLaboral from 'src/app/modulos/parametros-inciales/models/jornada-laboral.interface';
 import { SemestreService } from 'src/app/modulos/parametros-inciales/services/semestre-api.service';
 import Swal from 'sweetalert2';
@@ -21,6 +23,7 @@ export class AprobarRechazarSolicitudesComponent implements OnInit, OnDestroy {
   constructor(
     private readonly horasNoDisponiblesService: HorasNoDisponiblesApiService,
     private readonly semestresService: SemestreService,
+    private readonly docenteService: DocenteApiService,
     private readonly ruta: ActivatedRoute,
     private readonly router: Router,
   ) { }
@@ -32,6 +35,7 @@ export class AprobarRechazarSolicitudesComponent implements OnInit, OnDestroy {
   params$?: Subscription;
   jornadasLaborales?: JornadaLaboral[];
   idDocenteActual?: string;
+  nombreDocenteActual?: string;
   solicitud?: SolicitudHoraNoDisponible;
   horasNoDisponiblesDelDocente: HoraNoDisponible[] = [];
   btnAprobarHabilitado: boolean = false;
@@ -43,7 +47,7 @@ export class AprobarRechazarSolicitudesComponent implements OnInit, OnDestroy {
     this.params$ = this.ruta.params.subscribe({
       next: (params) => {
         this.idDocenteActual = String(params['id']);
-        this.cargarJornadasLaborales();
+        this.cargarDocente();
       },
       error: (res) => {
         this.mostrarMensajeError(res.error);
@@ -91,9 +95,7 @@ export class AprobarRechazarSolicitudesComponent implements OnInit, OnDestroy {
               if (result.isConfirmed) {
                 window.location.reload();
               }
-              if (result.isDismissed) {
-                this.router.navigate(['/spa', 'horas_no_disponibles', 'solicitudes']);
-              }
+              this.router.navigate(['/spa', 'horas_no_disponibles', 'solicitudes']);
             });
           } else {
             this.horasNoDisponiblesDelDocente = horasNoDisponibles;
@@ -212,6 +214,33 @@ export class AprobarRechazarSolicitudesComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  cargarDocente() {
+    this.docenteService.visualizarDocentesPorID(this.idDocenteActual!)
+      .subscribe({
+        next: (docente: any) => {
+          this.nombreDocenteActual = docente.nombreCompleto!;
+        },
+        error: (res) => {
+          Swal.fire({
+            title: res.error.message,
+            showCancelButton: true,
+            confirmButtonText: 'Reiniciar página',
+            cancelButtonText: 'Regresar',
+            icon: 'error',
+            allowOutsideClick: false,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+            this.router.navigate(['/spa', 'horas_no_disponibles', 'solicitudes']);
+          });
+        },
+        complete: () => {
+          this.cargarJornadasLaborales();
+        }
+      })
   }
 
   ngOnDestroy(): void {
