@@ -43,6 +43,12 @@ const routes: Routes = [
           .then(m => m.HorasNoDisponiblesModule)
       },
       {
+        path: 'numero_estudiantes_por_semestre',
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import("./modulos/numero-estudiantes/numero-estudiantes.module")
+          .then(m => m.NumeroEstudiantesModule)
+      },
+      {
         path: 'docentes',
         canActivateChild: [EsCoordinadorGuard],
         loadChildren: () => import("./modulos/docentes/docentes.module")

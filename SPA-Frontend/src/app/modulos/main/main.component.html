@@ -77,6 +77,14 @@
                         <mat-icon>schema</mat-icon>
                     </button>
                 </mat-list-item>
+                <!-- Registro de número de estudiantes por semestre -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/numero_estudiantes_por_semestre')"
+                    [routerLink]="['/spa/numero_estudiantes_por_semestre']">
+                    <a matLine>Número de estudiantes</a>
+                    <button mat-icon-button>
+                        <mat-icon>group_add</mat-icon>
+                    </button>
+                </mat-list-item>
                 <!-- Módulo de horarios -->
                 <mat-list-item [ngClass]="mostrarRutaActiva('/spa/horarios')" [routerLink]="['/spa/horarios']">
                     <a matLine>Horario</a>
@@ -109,7 +117,7 @@
                 <!-- Horas no disponibles -->
                 <mat-list-item [ngClass]="mostrarRutaActiva('/spa/horas_no_disponibles')"
                     [routerLink]="['/spa/horas_no_disponibles']">
-                    <a matLine>Indicar horas no disponibles</a>
+                    <a matLine>Solicitar horas no disponibles</a>
                     <button mat-icon-button>
                         <mat-icon>event_busy</mat-icon>
                     </button>

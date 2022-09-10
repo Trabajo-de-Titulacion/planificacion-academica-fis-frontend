@@ -50,7 +50,6 @@ export class VisualizarSolicitudesComponent implements OnInit {
     this.datosFilasSolicitudes.sortingDataAccessor = (item: any, propiedad) => {
       switch (propiedad) {
         case 'docente': {
-          console.log('Ordenar docente');
           return item.docente.nombreCompleto;
         }
         default: {
