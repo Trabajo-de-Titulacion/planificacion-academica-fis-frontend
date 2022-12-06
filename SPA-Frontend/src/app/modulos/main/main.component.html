@@ -85,6 +85,20 @@
                         <mat-icon>group_add</mat-icon>
                     </button>
                 </mat-list-item>
+                <!-- Módulo de grupos -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/grupos')" [routerLink]="['/spa/grupos']">
+                    <a matLine>Grupos</a>
+                    <button mat-icon-button>
+                        <mat-icon>group</mat-icon>
+                    </button>
+                </mat-list-item>
+                <!-- Módulo de actividades -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/actividades')" [routerLink]="['/spa/actividades']">
+                    <a matLine>Actividades</a>
+                    <button mat-icon-button>
+                        <mat-icon>school</mat-icon>
+                    </button>
+                </mat-list-item>
                 <!-- Módulo de horarios -->
                 <mat-list-item [ngClass]="mostrarRutaActiva('/spa/horarios')" [routerLink]="['/spa/horarios']">
                     <a matLine>Horario</a>

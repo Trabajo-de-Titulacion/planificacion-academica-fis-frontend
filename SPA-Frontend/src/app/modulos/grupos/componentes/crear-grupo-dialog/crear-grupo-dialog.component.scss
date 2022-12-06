@@ -1,0 +1,17 @@
+.form-grupos {
+    display: flex;
+    align-items: center;
+}
+
+.form-grupos-input-numero {
+    width: 60%;
+
+    mat-form-field {
+        width: 100%;
+        margin-left: 10%;
+    }
+}
+
+.form-grupos-crear {
+    width: 100%;
+}

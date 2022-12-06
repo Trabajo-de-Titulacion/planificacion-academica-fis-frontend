@@ -33,7 +33,7 @@ const routes: Routes = [
       },
       {
         path: 'espacios_fisicos',
-        canActivateChild: [EsGestorEspaciosFisicosGuard],
+        canActivateChild: [EsGestorEspaciosFisicosGuard, EsCoordinadorGuard],
         loadChildren: () => import("./modulos/espacios-fisicos/espacios-fisicos.module")
           .then(m => m.EspaciosFisicosModule)
       },
@@ -65,6 +65,18 @@ const routes: Routes = [
         canActivateChild: [EsCoordinadorGuard],
         loadChildren: () => import("./modulos/carreras/carrera.module")
           .then(m => m.CarreraModule)
+      },
+      {
+        path: 'grupos',
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import("./modulos/grupos/grupos.module")
+          .then(m => m.GruposModule)
+      },
+      {
+        path: 'actividades',
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import("./modulos/actividades/actividades.module")
+          .then(m => m.ActividadesModule)
       },
       {
         path: 'horarios',
