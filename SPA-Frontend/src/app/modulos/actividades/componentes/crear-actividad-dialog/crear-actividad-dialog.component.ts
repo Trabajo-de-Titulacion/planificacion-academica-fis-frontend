@@ -2,7 +2,6 @@ import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { lastValueFrom } from "rxjs";
 import { Asignatura } from "src/app/modulos/asignaturas/modelos/asignatura.interface";
 import { AsignaturaApiService } from "src/app/modulos/asignaturas/servicios/asignaturas_api.service";
 import { Docente } from "src/app/modulos/docentes/modelos/docente.interface";
@@ -16,6 +15,9 @@ import { TiposAulasApiService } from "src/app/modulos/parametros-inciales/servic
 import { TipoAula } from "src/app/modulos/parametros-inciales/models/tipo-aula.interface";
 import { Grupo } from "src/app/modulos/grupos/modelos/grupo.interface";
 import { GrupoApiService } from "src/app/modulos/grupos/servicios/grupo_api.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActividadesApiService } from "../../servicios/actividades_api.service";
+import { MatDialogRef } from "@angular/material/dialog";
 
 export interface UserData {
     id: string;
@@ -67,7 +69,7 @@ export class CrearActividadDialogComponent implements OnInit, AfterViewInit {
     grupoSeleccionado?: Grupo;
     tiposAulas?: TipoAula[];
     grupos?: Grupo[];
-
+    formularioCrearActividad: FormGroup = new FormGroup({});
     semestreEnCurso?: Semestre;
 
     // @ts-ignore
@@ -78,11 +80,13 @@ export class CrearActividadDialogComponent implements OnInit, AfterViewInit {
 
     constructor(
         private readonly docentesService: DocenteApiService,
-        private readonly asignaturasService: AsignaturaApiService,
         private readonly semestreService: SemestreService,
         private readonly numeroEstudiantesService: NumeroEstudiantesApiService,
+        private readonly actividadesService: ActividadesApiService,
         private readonly tiposAulaService: TiposAulasApiService,
         private readonly gruposService: GrupoApiService,
+        public dialogRef: MatDialogRef<CrearActividadDialogComponent>,
+        private readonly fb: FormBuilder,
     ) {
         this.cargarDatosPrevios();
 
@@ -93,11 +97,21 @@ export class CrearActividadDialogComponent implements OnInit, AfterViewInit {
         this.dataSourceGrupos = new MatTableDataSource(this.grupos);
     }
     ngOnInit(): void {
+        this.crearFormularioCrearActividad();
         this.cargarDatosPrevios();
     }
 
+    private crearFormularioCrearActividad() {
+        this.formularioCrearActividad = this.fb.group({
+            docente: ['', Validators.required],
+            tipoAula: ['', Validators.required],
+            asignatura: ['', Validators.required],
+            grupo: ['', Validators.required],
+            duracion: [1, Validators.required],
+        })
+    }
+
     cargarSemestreEnCurso() {
-        console.log("CUACRAUUUUUUUCUAC")
         Swal.showLoading();
         this.semestreService.obtenerSemestreConPlanificacionEnProgreso().subscribe({
             next: (semestre) => {
@@ -111,8 +125,6 @@ export class CrearActividadDialogComponent implements OnInit, AfterViewInit {
                 Swal.close();
             }
         });
-        console.log("CUACRAUUUUUUUCUAC 222")
-
     }
 
     cargarTiposAula() {
@@ -190,19 +202,6 @@ export class CrearActividadDialogComponent implements OnInit, AfterViewInit {
                 Swal.close();
             }
         })
-        /*   Swal.isLoading();
-           this.docentesService.visualizarDocentes()
-               .subscribe({
-                   next: (docentes) => {
-                       console.log("docentes", docentes)
-                   },
-                   error: () => {
-                       this.mostrarMensajeError('No se pudo cargar la información de docentes.');
-                   },
-                   complete: () => {
-                       Swal.close();
-                   }
-               });*/
     }
 
     seleccionarTipoAula(obj: any) {
@@ -249,6 +248,52 @@ export class CrearActividadDialogComponent implements OnInit, AfterViewInit {
         if (this.dataSource.paginator) {
             this.dataSource.paginator.firstPage();
         }
+    }
+
+    crearActividad() {
+
+        const idAsignatura = this.asignaturaSeleccionada?.id;
+        const idDocente = this.docenteSeleccionado?.id;
+        const idGrupo = this.grupoSeleccionado?.id;
+        const idTipoAula = this.tipoAulaSeleccionada?.id;
+        const duracion = this.formularioCrearActividad.get("duracion")?.value;
+
+        const hasValues = idAsignatura && idDocente && idGrupo && idTipoAula && duracion;
+
+        if (hasValues) {
+            const actividad = {
+                idAsignatura,
+                idDocente,
+                idGrupo,
+                idTipoAula,
+                duracion
+            }
+
+            Swal.showLoading();
+            this.actividadesService.crearUnaActividad(actividad).subscribe(
+                {
+                    next: () => {
+                        Swal.fire({
+                            title: 'Se ha registrado correctamente una actividad.',
+                            icon: 'success',
+                            timer: 9500
+                        }).then( () => {
+                            this.dialogRef.close();
+                        })
+                    },
+                    error: (error) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error al crear actividad',
+                            text: error.error.message ? error.error.message : "Ha existido un error al crear la actividad",
+                        })
+                    }
+                }
+            )
+        }
+
+
+
     }
 
 }

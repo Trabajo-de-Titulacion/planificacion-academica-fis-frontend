@@ -21,13 +21,16 @@ export class EsGestorEspaciosFisicosGuard implements CanActivate, CanActivateChi
     }
 
     tieneRolGestorEspaciosFisicos() {
+
         const roles = this.userService.obtenerRoles();
+
         if (!roles) {
-            return false;
+            return true;
         }
         if (!roles.includes(RolesEnum.GESTOR_ESPACIOS_FISICOS)) {
             this.router.navigate(['/spa']);
         }
+
         return roles.includes(RolesEnum.GESTOR_ESPACIOS_FISICOS);
     }        
 

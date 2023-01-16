@@ -75,4 +75,17 @@ export class VisualizarListaHorariosComponent implements OnInit {
         }
       });
   }
+
+  test(){
+    this.horarioServicio.generarHorario().subscribe(
+      {
+        next: (data) => {
+          console.log("data", data);
+        },
+        error: (err) => {
+          console.log("error", err)
+        }
+      }
+    )
+  }
 }

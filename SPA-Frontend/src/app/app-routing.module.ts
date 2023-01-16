@@ -33,7 +33,7 @@ const routes: Routes = [
       },
       {
         path: 'espacios_fisicos',
-        canActivateChild: [EsGestorEspaciosFisicosGuard, EsCoordinadorGuard],
+        canActivateChild: [EsGestorEspaciosFisicosGuard],
         loadChildren: () => import("./modulos/espacios-fisicos/espacios-fisicos.module")
           .then(m => m.EspaciosFisicosModule)
       },

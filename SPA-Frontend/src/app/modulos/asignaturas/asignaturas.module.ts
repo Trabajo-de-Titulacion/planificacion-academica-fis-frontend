@@ -39,6 +39,6 @@ import { ActualizarAsignaturaComponent } from './componentes/actualizar-asignatu
         MatPaginatorModule,
         MatDialogModule,
         MatTooltipModule,
-    ]
+    ],
 })
 export class AsignaturasModule { }

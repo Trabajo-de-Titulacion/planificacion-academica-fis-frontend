@@ -5,6 +5,12 @@
     margin-top: 4vh;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .parteSuperior {
     display: flex;
     justify-content: flex-end;

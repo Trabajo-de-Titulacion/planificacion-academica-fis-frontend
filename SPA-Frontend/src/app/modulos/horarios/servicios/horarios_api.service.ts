@@ -51,4 +51,9 @@ export class HorarioApiService {
         return this.httpCliente.get(url);
     }
 
+    generarHorario(){
+        const url = apiUrl + `${this.ruta}/generarHorario`;
+        return this.httpCliente.get(url);
+    }
+
 }
