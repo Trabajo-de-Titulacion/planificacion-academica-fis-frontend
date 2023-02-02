@@ -41,7 +41,7 @@
                 <mat-card-content>
                     <mat-form-field class="dialog-input-filter">
                         <mat-label>Buscar asignatura por su nombre</mat-label>
-                        <input matInput (keyup)="applyFilter($event)" placeholder="Ej: ALGEBRA LINEAL (MATD113)" #input>
+                        <input matInput (keyup)="applyFilterAsignaturas($event)" placeholder="Ej: ALGEBRA LINEAL (MATD113)" #input>
                     </mat-form-field>
 
                     <div class="mat-elevation-z8 container-table">
@@ -77,7 +77,7 @@
                 <mat-card-content>
                     <mat-form-field class="dialog-input-filter">
                         <mat-label>Buscar un tipo de aula por su nombre</mat-label>
-                        <input matInput (keyup)="applyFilter($event)" placeholder="Ej: ALGEBRA LINEAL (MATD113)" #input>
+                        <input matInput (keyup)="applyFilterTiposAulas($event)" placeholder="Ej: ALGEBRA LINEAL (MATD113)" #input>
                     </mat-form-field>
 
                     <div class="mat-elevation-z8 container-table">
@@ -85,7 +85,7 @@
 
 
                             <!-- Name Column -->
-                            <ng-container matColumnDef="nombre">
+                            <ng-container matColumnDef="tipoAula">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Asignatura seleccionada:</th>
                                 <td class="mat-mdc-row mat-mdc-cell" mat-cell *matCellDef="let row">
                                     {{row.tipo}} - {{row.facultad.nombre}}
@@ -113,7 +113,7 @@
                 <mat-card-content>
                     <mat-form-field class="dialog-input-filter">
                         <mat-label>Buscar un grupo para dicha actividad</mat-label>
-                        <input matInput (keyup)="applyFilter($event)" placeholder="Ej: ALGEBRA LINEAL (MATD113)" #input>
+                        <input matInput (keyup)="applyFilterGrupos($event)" placeholder="Ej: ALGEBRA LINEAL (MATD113)" #input>
                     </mat-form-field>
 
                     <div class="mat-elevation-z8 container-table">

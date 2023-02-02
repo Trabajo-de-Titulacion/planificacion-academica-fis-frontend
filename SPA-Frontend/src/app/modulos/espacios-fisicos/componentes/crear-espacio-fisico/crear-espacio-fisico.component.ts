@@ -124,7 +124,7 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(4),
-          Validators.maxLength(15),
+          Validators.maxLength(30),
         ]
       ),
       facultad: new FormControl(

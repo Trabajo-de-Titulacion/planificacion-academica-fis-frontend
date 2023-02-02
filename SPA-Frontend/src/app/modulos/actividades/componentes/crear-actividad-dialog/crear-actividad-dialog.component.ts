@@ -55,6 +55,10 @@ const NAMES: string[] = [
 export class CrearActividadDialogComponent implements OnInit, AfterViewInit {
 
     displayedColumns: string[] = ['nombre',];
+    displayedColumnsAsignaturas: string[] = ['asignatura'];
+    displayedColumnsGrupos: string[] = ['grupo'];
+    displayedColumnssTipoAula: string[] = ['tipoAula'];
+
     dataSource: MatTableDataSource<Docente>;
     dataSourceAsignaturas: MatTableDataSource<NumeroEstudiantesPorSemestre>;
     dataSourceTipoAulas: MatTableDataSource<TipoAula>;
@@ -183,7 +187,6 @@ export class CrearActividadDialogComponent implements OnInit, AfterViewInit {
                 }
             })
         }
-        console.log("numeroEstudiantes", this.numeroEstudiantes)
     }
 
     cargarDatosPrevios() {
@@ -250,8 +253,34 @@ export class CrearActividadDialogComponent implements OnInit, AfterViewInit {
         }
     }
 
-    crearActividad() {
+    applyFilterAsignaturas(event2: Event) {
+        const filterValue = (event2.target as HTMLInputElement).value;
+        this.dataSourceAsignaturas.filter = filterValue.trim().toLowerCase();
 
+        if (this.dataSourceAsignaturas.paginator) {
+            this.dataSourceAsignaturas.paginator.firstPage();
+        }
+    }
+
+    applyFilterGrupos(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSourceGrupos.filter = filterValue.trim().toLowerCase();
+
+        if (this.dataSourceGrupos.paginator) {
+            this.dataSourceGrupos.paginator.firstPage();
+        }
+    }
+
+    applyFilterTiposAulas(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSourceTipoAulas.filter = filterValue.trim().toLowerCase();
+
+        if (this.dataSourceTipoAulas.paginator) {
+            this.dataSourceTipoAulas.paginator.firstPage();
+        }
+    }
+
+    crearActividad() {
         const idAsignatura = this.asignaturaSeleccionada?.id;
         const idDocente = this.docenteSeleccionado?.id;
         const idGrupo = this.grupoSeleccionado?.id;
@@ -291,11 +320,7 @@ export class CrearActividadDialogComponent implements OnInit, AfterViewInit {
                 }
             )
         }
-
-
-
     }
-
 }
 
 
