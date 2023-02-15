@@ -65,7 +65,7 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
 
   abrirCrearActividadDialog() {
     const dialogRef = this.dialog.open(CrearActividadDialogComponent, {
-      width: '100%',
+      width: '110%',
       data: {
       }
     })

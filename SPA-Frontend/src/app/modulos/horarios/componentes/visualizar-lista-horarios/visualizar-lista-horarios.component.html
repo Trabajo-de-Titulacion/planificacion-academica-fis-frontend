@@ -8,6 +8,12 @@
         </div>
         <div class="header-operations">
             <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary"
+            (click)="fileInput.click()">
+                Cargar planificación (.fet)
+            </button>
+            <input hidden (change)="seleccionarArchivo($event)" onclick="this.value=null;" #fileInput type="file">
+
+            <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary"
                 (click)="test()">
                 Generar horario
             </button>
@@ -27,7 +33,7 @@
         <!-- FECHA DE CREACION DE HORARIO -->
         <ng-container matColumnDef="fechaCreacion">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de creación</mat-header-cell>
-            <mat-cell *matCellDef="let fila">{{fila.fechaCreacion}}</mat-cell>
+            <mat-cell *matCellDef="let fila">{{fila.fechaCreacion | date:'medium'}}</mat-cell>
         </ng-container>
 
         <!-- NOMBRE DE USUARIO CREADOR DEL HORARIO -->

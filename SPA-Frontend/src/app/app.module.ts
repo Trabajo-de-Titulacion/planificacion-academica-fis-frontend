@@ -28,6 +28,7 @@ import { EsDocenteGuard } from './servicios/auth/guards/es-docente.guard';
 import { EsSubdecanoGuard } from './servicios/auth/guards/es-subdecano.guard';
 import { EsGestorEspaciosFisicosGuard } from './servicios/auth/guards/es-gestor-espacios.guard';
 import { EsJefeDeDepartamentoGuard } from './servicios/auth/guards/es-jefe-de-departamento.guard';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { EsJefeDeDepartamentoGuard } from './servicios/auth/guards/es-jefe-de-de
     MatSidenavModule,
     MatListModule,
     MatProgressSpinnerModule,
+    MatTableExporterModule,
   ],
   providers: [
     AuthService,

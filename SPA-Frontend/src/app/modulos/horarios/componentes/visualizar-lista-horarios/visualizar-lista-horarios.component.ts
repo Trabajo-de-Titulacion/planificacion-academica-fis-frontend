@@ -27,6 +27,7 @@ export class VisualizarListaHorariosComponent implements OnInit {
   horariosGeneradosExistentes: Horario[] = [];
   filtro?: FormControl;
   usuario?: Usuario;
+  archivoSeleccionado?: File;
 
   datoFilaHorario = new MatTableDataSource<Horario>([]);
 
@@ -85,6 +86,40 @@ export class VisualizarListaHorariosComponent implements OnInit {
       });
   }
 
+  seleccionarArchivo(event: any): void {
+    this.archivoSeleccionado = event.target.files[0] ?? undefined;
+    if (this.archivoSeleccionado) {
+      const fileReader = new FileReader();
+      fileReader.readAsText(this.archivoSeleccionado);
+      fileReader.onload = (e) => {
+
+        if(fileReader.result){
+          Swal.fire({
+            icon: 'success',
+            title: 'Se ha cargado correctamente el archivo',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+
+        console.log("LECTURA", fileReader.result);
+      }
+     this.procesarArchivoFet();
+    }
+  }
+
+  procesarArchivoFet(){
+    this.horarioServicio.cargarFET(this.archivoSeleccionado!!).subscribe({
+      next: (result: any) => {
+        console.log("archivo cargado completamente");
+        window.location.reload();
+      },
+      complete: () => {
+        window.location.reload();
+      }
+    });
+  }
+
   test(){
 
     Swal.showLoading();
@@ -112,6 +147,8 @@ export class VisualizarListaHorariosComponent implements OnInit {
           complete: () => {
             this.cargarRegistros();
             this.datoFilaHorario.data = this.horariosGeneradosExistentes;
+            window.location.reload();
+
           //  Swal.close();
           }
         

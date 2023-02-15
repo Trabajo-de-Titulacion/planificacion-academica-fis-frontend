@@ -57,4 +57,14 @@ export class HorarioApiService {
         const url = apiUrl + `${this.ruta}/generarHorario`;
         return this.httpCliente.post(url, data);
     }
+
+    cargarFET(archivo: File) {
+        const url = apiUrl + `${this.ruta}/cargarFET`;
+
+        const formData = new FormData();
+        formData.append('archivoFet', archivo);
+
+        return this.httpCliente.post(url, formData);
+    }
+
 }

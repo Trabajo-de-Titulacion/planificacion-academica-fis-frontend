@@ -16,6 +16,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HorariosRoutingModule } from './horario-routing.module';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 @NgModule({
     declarations: [
@@ -37,6 +38,8 @@ import { HorariosRoutingModule } from './horario-routing.module';
         MatPaginatorModule,
         MatDialogModule,
         MatTooltipModule,
+    MatTableExporterModule,
+
     ]
 })
 export class HorarioModule { }

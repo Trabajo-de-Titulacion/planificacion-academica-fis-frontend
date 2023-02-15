@@ -54,10 +54,10 @@ const NAMES: string[] = [
 })
 export class CrearActividadDialogComponent implements OnInit, AfterViewInit {
 
-    displayedColumns: string[] = ['nombre',];
+    displayedColumns: string[] = ['nombreCompleto'];
     displayedColumnsAsignaturas: string[] = ['asignatura'];
     displayedColumnsGrupos: string[] = ['grupo'];
-    displayedColumnssTipoAula: string[] = ['tipoAula'];
+    displayedColumnsTipoAula: string[] = ['tipoAula'];
 
     dataSource: MatTableDataSource<Docente>;
     dataSourceAsignaturas: MatTableDataSource<NumeroEstudiantesPorSemestre>;

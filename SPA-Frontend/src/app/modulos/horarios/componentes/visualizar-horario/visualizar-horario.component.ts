@@ -298,4 +298,8 @@ export class VisualizarHorarioComponent implements OnInit {
     }
   }
 
+  actionExample(){
+    console.log("actionExample")
+  }
+
 }

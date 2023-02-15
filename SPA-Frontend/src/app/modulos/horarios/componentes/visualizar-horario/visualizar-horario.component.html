@@ -20,23 +20,31 @@
                 </mat-select>
             </mat-form-field>
         </div>
+        <div>
+            <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary"
+            (click)="exporter.exportTable('xlsx')">
+               Exportar
+            </button>
+        </div>
+        
     </form>
+    <section class="schedule-container">
     <!-- Matriz con días de la semana -->
-    <mat-table [dataSource]="datoFilasTabla">
+    <mat-table matTableExporter [dataSource]="datoFilasTabla" #exporter="matTableExporter">
         <!-- Hora -->
-        <ng-container matColumnDef="HORA">
+        <ng-container matColumnDef="HORA" sticky>
             <mat-header-cell *matHeaderCellDef> HORA </mat-header-cell>
             <mat-cell *matCellDef="let fila"> {{fila.rangoHoras}} </mat-cell>
         </ng-container>
 
         <!-- Días -->
-        <ng-container *ngFor="let dia of columnasTabla.slice(1, columnasTabla.length)" [matColumnDef]="dia">
-            <mat-header-cell *matHeaderCellDef>{{dia}}</mat-header-cell>
-            <mat-cell *matCellDef="let fila">
+        <ng-container *ngFor="let dia of columnasTabla.slice(1, columnasTabla.length)" class="column-DIA" [matColumnDef]="dia">
+            <mat-header-cell class="column-DIA" *matHeaderCellDef>{{dia}}</mat-header-cell>
+            <mat-cell class="column-DIA" *matCellDef="let fila">
                 <!-- DOCENTE -->
-                <div *ngIf="fila.horarioFilaDocente.length > 0">
-                    <div *ngIf="obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)" class="celda">
-                        <p class="horario">{{obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)!.asignatura}}</p>
+                <div class="column-DIA" *ngIf="fila.horarioFilaDocente.length > 0">
+                    <div class="column-DIA" *ngIf="obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)">
+                        <h1 class="horario">{{obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)!.asignatura}}</h1>
                         <p class="horario">{{obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)!.tipoAula}}
                             {{obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)!.aula}}</p>
 
@@ -57,6 +65,8 @@
         <mat-header-row *matHeaderRowDef="columnasTabla"></mat-header-row>
         <mat-row *matRowDef="let fila; columns: columnasTabla;"></mat-row>
     </mat-table>
+        
+    </section>
 
     <!-- Botones -->
     <div class="parteInferior">

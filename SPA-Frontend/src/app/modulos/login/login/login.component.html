@@ -7,12 +7,15 @@
     <!-- FORMULARIO DE INICIO DE SESIÓN -->
     <mat-grid-tile>
         <div *ngIf="formGroup" class="loginFormat">
-            <h3>Bienvenido/a</h3>
-            <h1>Inicia sesión</h1>
+            <div class="loginLogo">
+                <img src="assets/images/spa_logo.png" alt="">
+            </div>
+            <h3>Sistema de Planificación Académica de la FIS</h3>
+            <h1>Inicio de sesión</h1>
             <form [formGroup]="formGroup" class="loginForm">
                 <!-- INPUT CORREO ELECTRONICO -->
                 <mat-form-field appearance="fill">
-                    <mat-label>Correo electrónico</mat-label>
+                    <mat-label>Correo electrónico institucional</mat-label>
                     <input matInput formControlName="correo" placeholder="Ej.: ejemplo@epn.edu.ec">
                     <!-- MENSAJE DE ERROR -->
                     <mat-error *ngIf="formGroup.get('correo')?.invalid && 
@@ -54,7 +57,7 @@
                         La contraseña debe tener como máximo 16 caracteres.
                     </mat-error>
                 </mat-form-field>
-                <button mat-raised-button color="primary" class="buttonStyle" [disabled]="formGroup.invalid"
+                <button mat-raised-button class="buttonStyle" [disabled]="formGroup.invalid"
                     (click)="login()">Ingresar</button>
 
                 <mat-error *ngIf="errorSesion" id="errorSesion">
