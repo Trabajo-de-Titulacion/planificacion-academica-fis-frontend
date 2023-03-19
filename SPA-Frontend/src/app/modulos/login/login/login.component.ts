@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
             this.tokenService.guardarToken(data.access_token);
             // Guardar información del usuario
             this.usuarioService.guardarUsuario(data.usuario);
+            console.log(data)
             this.errorSesion = false;
 
             const toast = Swal.mixin({
@@ -119,8 +120,8 @@ export class LoginComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(8),
-          Validators.maxLength(16),
-          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$')
+          Validators.maxLength(30),
+          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,30}$')
         ]
       )
     });

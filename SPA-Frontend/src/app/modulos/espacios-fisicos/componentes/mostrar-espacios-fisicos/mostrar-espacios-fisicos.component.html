@@ -62,11 +62,11 @@
           <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
           <mat-cell *matCellDef="let fila">
               <!-- Editar registro -->
-              <button mat-icon-button (click)="abrirDialogoActualizar(fila.id)" matTooltip="Actualizar">
+              <button mat-icon-button (click)="abrirDialogoActualizar(fila.id)" matTooltip="Actualizar" matTooltipPosition="left">
                 <mat-icon color="primary">edit</mat-icon>
               </button>
               <!-- Eliminar registro -->
-              <button mat-icon-button (click)="eliminarEspacioFisico(fila)" matTooltip="Eliminar">
+              <button mat-icon-button (click)="eliminarEspacioFisico(fila)" matTooltip="Eliminar" matTooltipPosition="right">
                 <mat-icon color="warn">delete</mat-icon>
               </button>
           </mat-cell>

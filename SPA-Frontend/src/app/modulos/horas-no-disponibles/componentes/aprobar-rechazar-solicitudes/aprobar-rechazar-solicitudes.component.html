@@ -1,0 +1,50 @@
+<div class="contenedor">
+  <div class="tarjetas">
+    <button mat-button mat-raised-button color="warn" [routerLink]="['..']" class="buttonStyleCancel">
+      Regresar
+    </button>
+    <mat-card *ngIf="nombreDocenteActual">
+      <span>Solicitud de: {{nombreDocenteActual}}</span>
+    </mat-card>
+    <mat-card id="info" *ngIf="mensajeAprobado">
+      <span>Esta solicitud ya ha sido aprobada.</span>
+    </mat-card>
+  </div>
+  <!-- Matriz con días de la semana -->
+  <mat-table [dataSource]="datoFilasTabla">
+      <!-- Hora -->
+      <ng-container matColumnDef="HORA">
+        <mat-header-cell *matHeaderCellDef> HORA </mat-header-cell>
+        <mat-cell *matCellDef="let fila"> {{fila.rangoHoras}} </mat-cell>
+      </ng-container>
+    
+      <!-- Días -->
+      <ng-container *ngFor="let dia of columnasTabla.slice(1, columnasTabla.length)"
+        [matColumnDef]="dia"
+      >
+        <mat-header-cell *matHeaderCellDef>{{dia}}</mat-header-cell>
+        <mat-cell *matCellDef="let fila">
+          <!-- Hora no disponible del docente -->
+          <div *ngIf="fila[dia] == disponibilidad.NO_DISPONIBLE" class="horaNoDisponible">X</div>
+        </mat-cell>
+      </ng-container>
+    
+      <mat-header-row *matHeaderRowDef="columnasTabla"></mat-header-row>
+      <mat-row *matRowDef="let fila; columns: columnasTabla;"></mat-row>
+  </mat-table>
+
+  <!-- Botones -->
+  <div class="parteInferior">
+    <div>
+      <!-- Rechazar -->
+      <button mat-raised-button color="warn" (click)="rechazarSolicitud()" [disabled]="!btnRechazarHabilitado">
+        Rechazar
+      </button>
+
+      <!-- Aprobar -->
+      <button mat-raised-button color="primary" (click)="aprobarSolicitud()" [disabled]="!btnAprobarHabilitado">
+        Aprobar
+      </button>
+    </div>
+  </div>
+</div>

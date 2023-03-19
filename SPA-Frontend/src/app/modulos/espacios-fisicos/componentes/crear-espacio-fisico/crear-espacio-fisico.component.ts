@@ -53,7 +53,7 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
         this.espaciosFisicosService.crearEspacioFisico(nuevoEspacioFisico)
           .subscribe({
             next: (res: any) => {
-              if (res.filas_alteradas == 0) {
+              if (res.filasAlteradas == 0) {
                 Swal.fire('Hubo un problema', `${res.mensaje}`,'info');
                 this.cargando = false;
               } else {
@@ -124,7 +124,7 @@ export class CrearEspacioFisicoComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(4),
-          Validators.maxLength(15),
+          Validators.maxLength(30),
         ]
       ),
       facultad: new FormControl(

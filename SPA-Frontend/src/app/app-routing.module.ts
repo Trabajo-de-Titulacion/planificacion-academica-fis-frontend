@@ -41,15 +41,50 @@ const routes: Routes = [
       },
       {
         path: 'horas_no_disponibles',
-        canActivateChild: [EsDocenteGuard],
         loadChildren: () => import("./modulos/horas-no-disponibles/horas-no-disponibles.module")
           .then(m => m.HorasNoDisponiblesModule)
+      },
+      {
+        path: 'numero_estudiantes_por_semestre',
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import("./modulos/numero-estudiantes/numero-estudiantes.module")
+          .then(m => m.NumeroEstudiantesModule)
       },
       {
         path: 'docentes',
         canActivateChild: [EsCoordinadorGuard],
         loadChildren: () => import("./modulos/docentes/docentes.module")
           .then(m => m.DocentesModule)
+      },
+      {
+        path: 'asignaturas',
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import("./modulos/asignaturas/asignaturas.module")
+          .then(m => m.AsignaturasModule)
+      },
+      {
+        path: 'carreras',
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import("./modulos/carreras/carrera.module")
+          .then(m => m.CarreraModule)
+      },
+      {
+        path: 'grupos',
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import("./modulos/grupos/grupos.module")
+          .then(m => m.GruposModule)
+      },
+      {
+        path: 'actividades',
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import("./modulos/actividades/actividades.module")
+          .then(m => m.ActividadesModule)
+      },
+      {
+        path: 'horarios',
+        canActivateChild: [EsCoordinadorGuard],
+        loadChildren: () => import("./modulos/horarios/horario.module")
+          .then(m => m.HorarioModule)
       },
     ]
   },

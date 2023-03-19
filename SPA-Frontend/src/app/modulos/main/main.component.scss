@@ -1,5 +1,29 @@
 @import '../../../themes/variables.scss';
 
+mat-toolbar {
+    max-height: 8vh;
+}
+
+mat-toolbar button {
+    font-size: 4vh;
+}
+
+.brand-container {
+    display: flex;
+    align-items: center;
+    margin-left: 1.5rem;
+}
+
+.spa-logo {
+    width: 5rem;
+    margin-top: 0.4rem;
+    margin-right: 0.8rem;
+}
+
+.toolbar {
+    background-color: #122f4c;
+}
+
 .menuAcciones {
     position: absolute;
     top: 64px;
@@ -12,10 +36,10 @@
 #home {
     color: $text_on_primary;
     text-decoration: none;
+    font-size: 1rem;
 }
 #home:hover {
     color: $accent;
-    text-decoration: underline;
 }
 
 mat-sidenav {
@@ -28,14 +52,13 @@ mat-sidenav {
 
 .iconoUsuario {
     font-size: 40px;
+    color: #c1e5ff;
 }
 
 .correoUsuario {
     padding-right: 1vw;
-}
-
-.menuUsuario mat-icon {
-    height: 20vh;
+    font-size: 1rem;
+    color: white;
 }
 
 .active {

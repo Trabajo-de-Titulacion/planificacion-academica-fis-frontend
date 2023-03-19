@@ -1,8 +1,16 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="toolbar">
     <button mat-icon-button (click)="toogleMenuAcciones()" aria-label="Menú de acciones">
-        <mat-icon [inline]="true">menu</mat-icon>
+        <mat-icon style="color: #abeaff" [inline]="true">menu</mat-icon>
     </button>
-    <a id="home" [routerLink]="['/spa']">Sistema de Planificación Académica</a>
+    <div class="brand-container">
+        <div>
+            <img class="spa-logo" src="assets/images/logo_spa_white.png" alt="">
+        </div>
+        <div>
+            <a id="home" [routerLink]="['/spa']">Sistema de Planificación Académica</a>    
+        </div>
+
+    </div>
     <span class="spacer"></span>
     <!-- Usuario -->
     <span class="correoUsuario">{{usuario!.correo}}</span>
@@ -28,10 +36,10 @@
             <mat-nav-list *ngIf="esSubdecano()">
                 <!-- Acción 1 -->
                 <mat-list-item>
-                    <a matLine [routerLink]="['/spa']">Acción 1</a>
                     <button mat-icon-button>
                         <mat-icon>create</mat-icon>
                     </button>
+                    <a matLine [routerLink]="['/spa']">Acción 1</a>
                 </mat-list-item>
                 <!-- Acción 2 -->
                 <mat-list-item>
@@ -51,18 +59,79 @@
                 <!-- Parámetros iniciales -->
                 <mat-list-item [ngClass]="mostrarRutaActiva('/spa/parametros-iniciales')"
                     [routerLink]="['/spa/parametros-iniciales']">
-                    <a matLine>Parámetros iniciales</a>
+
+   
                     <button mat-icon-button>
                         <mat-icon>settings_applications</mat-icon>
                     </button>
+                    <div>
+                        <a matLine>Parámetros iniciales</a>
+
+                    </div>
                 </mat-list-item>
                 <!-- Módulo de gestión de docentes -->
-                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/docentes')"
-                    [routerLink]="['/spa/docentes']">
-                    <a matLine>Docentes</a>
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/docentes')" [routerLink]="['/spa/docentes']">
                     <button mat-icon-button>
                         <mat-icon>school</mat-icon>
                     </button>
+                    <div>
+                        <a matLine>Docentes</a>
+                    </div>
+                </mat-list-item>
+                <!-- Módulo de gestión de asignaturas -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/asignaturas')" [routerLink]="['/spa/asignaturas']">
+                    <button mat-icon-button>
+                        <mat-icon>book</mat-icon>
+                    </button>
+                    <div>
+                        <a matLine>Asignatura</a>
+                    </div>
+                </mat-list-item>
+                <!-- Módulo de gestión de carreras -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/carreras')" [routerLink]="['/spa/carreras']">
+                    <button mat-icon-button>
+                        <mat-icon>schema</mat-icon>
+                    </button>
+                    <div>
+                        <a matLine>Carrera</a>
+                    </div>
+                </mat-list-item>
+                <!-- Registro de número de estudiantes por semestre -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/numero_estudiantes_por_semestre')"
+                    [routerLink]="['/spa/numero_estudiantes_por_semestre']">
+                    <button mat-icon-button>
+                        <mat-icon>group_add</mat-icon>
+                    </button>
+                    <div>
+                        <a matLine>Número de estudiantes</a>
+                    </div>
+                </mat-list-item>
+                <!-- Módulo de grupos -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/grupos')" [routerLink]="['/spa/grupos']">
+                    <button mat-icon-button>
+                        <mat-icon>group</mat-icon>
+                    </button>
+                    <div>
+                        <a matLine>Grupos</a>
+                    </div>
+                </mat-list-item>
+                <!-- Módulo de actividades -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/actividades')" [routerLink]="['/spa/actividades']">
+                    <button mat-icon-button>
+                        <mat-icon>school</mat-icon>
+                    </button>
+                    <div>
+                        <a matLine>Actividades</a>
+                    </div>
+                </mat-list-item>
+                <!-- Módulo de horarios -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/horarios')" [routerLink]="['/spa/horarios']">
+                    <button mat-icon-button>
+                        <mat-icon>event</mat-icon>
+                    </button>
+                    <div>
+                        <a matLine>Horario</a>
+                    </div>
                 </mat-list-item>
             </mat-nav-list>
 
@@ -74,10 +143,12 @@
                 <!-- Gestionar aulas y laboratorios -->
                 <mat-list-item [ngClass]="mostrarRutaActiva('/spa/espacios_fisicos')"
                     [routerLink]="['/spa/espacios_fisicos']">
-                    <a matLine>Aulas y laboratorios</a>
                     <button mat-icon-button>
                         <mat-icon>door_sliding</mat-icon>
                     </button>
+                    <div>
+                        <a matLine>Aulas y laboratorios</a>
+                    </div>
                 </mat-list-item>
             </mat-nav-list>
 
@@ -89,10 +160,27 @@
                 <!-- Horas no disponibles -->
                 <mat-list-item [ngClass]="mostrarRutaActiva('/spa/horas_no_disponibles')"
                     [routerLink]="['/spa/horas_no_disponibles']">
-                    <a matLine>Indicar horas no disponibles</a>
+                    <a matLine>Solicitar horas no disponibles</a>
                     <button mat-icon-button>
                         <mat-icon>event_busy</mat-icon>
                     </button>
+                </mat-list-item>
+            </mat-nav-list>
+
+            <mat-divider *ngIf="esGestorEspaciosFisicos() && esJefeDeDepartamento()"></mat-divider>
+
+            <!-- Jefe de departamento -->
+            <h3 matSubheader *ngIf="esJefeDeDepartamento()">Jefe de departamento</h3>
+            <mat-nav-list *ngIf="esJefeDeDepartamento()">
+                <!-- Solicitud de horas no disponibles -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/horas_no_disponibles/solicitudes')"
+                    [routerLink]="['/spa/horas_no_disponibles/solicitudes']">
+                    <button mat-icon-button>
+                        <mat-icon>rule_icon</mat-icon>
+                    </button>
+                    <div>
+                        <a matLine>Solicitudes de horas no disponibles</a>
+                    </div>
                 </mat-list-item>
             </mat-nav-list>
 
