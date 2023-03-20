@@ -1,4 +1,4 @@
-# Manual de instalación
+# Instalación para desarrollo
 
 ### Prerequisitos
 
