@@ -10,7 +10,7 @@
 1. Clone el repositorio del componente en GitHub:
 
 ```bash
-git clone git@github.com:Trabajo-de-Titulacion/planificacion-academica-fis-frontend.git
+git clone https://github.com/Trabajo-de-Titulacion/planificacion-academica-fis-frontend
 ```
 
 2. Dentro del directorio del proyecto, cambie su rama actual a la rama de un integrante, en este caso a:
