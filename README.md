@@ -13,16 +13,16 @@
 git clone https://github.com/Trabajo-de-Titulacion/planificacion-academica-fis-frontend
 ```
 
-2. Dentro del directorio del proyecto, cambie su rama actual a la rama de un integrante, en este caso a:
-
-```bash
-git checkout development-alejandro-llanganate
-```
-
-3. Ingrese al directorio del proyecto:
+2. Ingrese al directorio del proyecto:
 
 ```
 cd planificacion-academica-fis-frontend
+```
+
+3. Dentro del directorio del proyecto, cambie su rama actual a la rama de un integrante, en este caso a:
+
+```bash
+git checkout development-alejandro-llanganate
 ```
 
 4. Acceda al directorio donde se encuentra el proyecto en Angular con el comando:
