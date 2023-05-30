@@ -22,7 +22,7 @@ cd planificacion-academica-fis-frontend
 3. Dentro del directorio del proyecto, cambie su rama actual a la rama de un integrante, en este caso a:
 
 ```bash
-git checkout development-alejandro-llanganate
+git checkout develop
 ```
 
 4. Acceda al directorio donde se encuentra el proyecto en Angular con el comando:
