@@ -32,6 +32,11 @@ const routes: Routes = [
         loadChildren: () => import('./modulos/parametros-inciales/paremetros-iniciales.module').then(m => m.ParametrosInicialesModule),
       },
       {
+        path: 'experimentacion',
+        loadChildren: () => import("./modulos/experimentacion/experimentacion.module")
+          .then(m => m.ExperimentacionModule)
+      },
+      {
         path: 'espacios_fisicos',
         canActivateChild: [EsGestorEspaciosFisicosGuard],
         loadChildren: () => import("./modulos/espacios-fisicos/espacios-fisicos.module")
@@ -39,6 +44,7 @@ const routes: Routes = [
       },
       {
         path: 'horas_no_disponibles',
+        canActivateChild: [EsCoordinadorGuard],
         loadChildren: () => import("./modulos/horas-no-disponibles/horas-no-disponibles.module")
           .then(m => m.HorasNoDisponiblesModule)
       },

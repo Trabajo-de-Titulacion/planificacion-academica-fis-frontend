@@ -17,12 +17,14 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { VisualizarHorarioDocenteComponent } from './componentes/visualizar-horario-docente/visualizar-horario-docente.component';
 
 @NgModule({
   declarations: [
     ActualizarDocenteComponent,
     CrearDocenteComponent,
-    VisualizarDocentesComponent
+    VisualizarDocentesComponent,
+    VisualizarHorarioDocenteComponent
   ],
   imports: [
     CommonModule,

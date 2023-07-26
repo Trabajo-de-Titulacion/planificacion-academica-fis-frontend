@@ -6,22 +6,23 @@ import { AprobarRechazarSolicitudesComponent } from './componentes/aprobar-recha
 import { ModificarHorasNoDisponiblesComponent } from './componentes/modificar-horas-no-disponibles/modificar-horas-no-disponibles.component';
 import { VisualizarSolicitudesComponent } from './componentes/visualizar-solicitudes/visualizar-solicitudes.component';
 import { CambiosGuardadosGuard } from './guards/cambios-guardados.guard';
+import { EsCoordinadorGuard } from 'src/app/servicios/auth/guards/es-coordinador.guard';
 
 const routes: Routes = [
   {
     path: '',
     canDeactivate: [CambiosGuardadosGuard],
-    canActivate: [EsDocenteGuard],
+    canActivate: [EsCoordinadorGuard],
     component: ModificarHorasNoDisponiblesComponent,
   },
   {
     path: 'solicitudes',
-    canActivate: [EsJefeDeDepartamentoGuard],
+    canActivate: [EsCoordinadorGuard],
     component: VisualizarSolicitudesComponent,
   },
   {
     path: 'solicitudes/:id',
-    canActivate: [EsJefeDeDepartamentoGuard],
+    canActivate: [EsCoordinadorGuard],
     component: AprobarRechazarSolicitudesComponent,
   },
   {

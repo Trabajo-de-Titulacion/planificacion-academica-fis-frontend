@@ -43,9 +43,16 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
   btnGuardarHabilitado: boolean = false;
   nombreBtnGuardar: string = 'Solicitar horas no disponibles';
 
+  //Docente
+  docenteSeleccionado?: Docente;
 
   ngOnInit(): void {
     this.cargarJornadasLaborales();
+  }
+
+  //Funcion para traer el nombre del docente
+  seleccionarDocente(obj: any) {
+    this.docenteSeleccionado = obj;
   }
 
   cargarJornadasLaborales() {

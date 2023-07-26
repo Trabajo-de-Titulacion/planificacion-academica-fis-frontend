@@ -1,12 +1,34 @@
 <div class="contenedor">
-  <div class="tarjetas">
-    <mat-card id="advertencia">
+  <div class="container-fluid">
+      <div class="row contHeader">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+          <div *ngIf="docenteSeleccionado"
+                        role="listitem">{{docenteSeleccionado.nombreCompleto}}</div>
+          <div style="color: rgb(131, 131, 131);" *ngIf="!docenteSeleccionado"
+                        role="listitem">Seleccione un docente</div>
+        </div>
+         
+        <div class="row col-lg-6 col-md-6 col-sm-6">
+          <div class="col-lg-8 col-md-8 col-sm-8">
+            <button mat-raised-button color="primary" (click)="guardarCambios()">
+              {{nombreBtnGuardar}}
+            </button>
+        </div>  
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <button mat-raised-button class="btn btn-danger">
+              Cancelar
+            </button>
+        </div> 
+        </div>
+        
+      </div>
+    <!--<mat-card id="advertencia">
       Seleccione únicamente aquellas horas en las que <strong>NO</strong> pueda llevar a cabo sus actividades de docencia.
-    </mat-card>
-    <mat-card id="info">
+    </mat-card>-->
+    <!--<mat-card id="info">
       <span><strong>Horas totales a la semana:</strong> {{controles.length}}</span>
       <span><strong>Horas no disponibles:</strong> {{totalSeleccionados}}</span>
-    </mat-card>
+    </mat-card>-->
   </div>
   <!-- Matriz con días de la semana -->
   <mat-table [dataSource]="datoFilasTabla" [formGroup]="formGroup">
@@ -37,21 +59,22 @@
       <mat-row *matRowDef="let fila; columns: columnasTabla;"></mat-row>
   </mat-table>
 
+  
   <!-- Botones -->
   <div class="parteInferior">
     <!-- Botones -->
     <div>
-      <!-- Desmarcar todas las opciones -->
+      <!-- Desmarcar todas las opciones 
       <button mat-raised-button color="warn" (click)="desmarcarTodo()"
         [disabled]="!btnDesmarcarHabilitado">
         Desmarcar todo
-      </button>
+      </button>-->
 
-      <!-- Guardar cambios -->
+      <!-- Guardar cambios 
       <button mat-raised-button color="primary" (click)="guardarCambios()"
         [disabled]="!btnGuardarHabilitado">
         {{nombreBtnGuardar}}
-      </button>
+      </button>-->
     </div>
   </div>
 </div>

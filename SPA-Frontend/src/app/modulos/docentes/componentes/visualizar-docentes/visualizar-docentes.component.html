@@ -38,8 +38,12 @@
 
         <!-- BOTONES DE ACTUALIZAR/ELIMINAR DOCENTE -->
         <ng-container matColumnDef="acciones">
-            <mat-header-cell *matHeaderCellDef>Acciones </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
             <mat-cell *matCellDef="let fila">
+                <!-- HORARIO DOCENTE -->
+                <button mat-icon-button [routerLink]="['horario-docente',fila.id]" matTooltip="Horarios del docente">
+                    <mat-icon color="primary">edit_calendar</mat-icon>
+                </button>
                 <!-- ACTUALIZAR DOCENTE -->
                 <button mat-icon-button (click)="abrirActualizacionDocente(fila)" matTooltip="Actualizar">
                     <mat-icon color="primary">edit</mat-icon>
