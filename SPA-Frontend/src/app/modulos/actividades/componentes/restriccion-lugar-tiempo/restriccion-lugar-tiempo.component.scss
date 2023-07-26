@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    
+  }
+
+.container-restriccion{
+  display: flex;
+  margin: 1rem;
+}
+
+.container-actividad{
+  flex: 1;
+
+}
+
+.container-form{
+  flex:1;
+  margin-left: 1rem;
+}
+
+.container-form mat-card{
+  height: 100%;
+}

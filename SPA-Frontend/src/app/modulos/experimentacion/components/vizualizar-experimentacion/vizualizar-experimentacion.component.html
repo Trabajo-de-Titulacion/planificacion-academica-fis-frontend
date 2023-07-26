@@ -1,0 +1,19 @@
+<h1>Hello {{nombre}}!</h1>
+<p>{{universidad}}</p>
+<mat-table [dataSource]="datosEstudiantesTable">
+    <!--Nombre-->
+    <ng-container matColumnDef="nombre">
+        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let fila">{{fila.name}}</mat-cell>
+    </ng-container>
+
+    <!--Calificaciòn-->
+    <ng-container matColumnDef="calificacion">
+        <mat-header-cell *matHeaderCellDef> Calificación </mat-header-cell>
+        <mat-cell *matCellDef="let fila">{{fila.grade}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnasTabla"></mat-header-row>
+    <mat-row *matRowDef="let row; columns:columnasTabla;"></mat-row>
+
+</mat-table>

@@ -1,0 +1,15 @@
+:host {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.time-res{
+    width: 100%;
+}
+
+.periodo{
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

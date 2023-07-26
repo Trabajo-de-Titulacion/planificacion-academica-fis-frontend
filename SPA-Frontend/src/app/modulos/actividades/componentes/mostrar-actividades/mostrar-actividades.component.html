@@ -12,6 +12,12 @@
             </button>
         </div>
     </section>
+    <section>
+        <mat-form-field appearance="standard">
+            <mat-label>Buscar</mat-label>
+            <input matInput placeholder="Search columns" #input>
+        </mat-form-field>
+    </section>
     <section *ngIf="actividades.length">
         <mat-table [dataSource]="datoFilas" matSortDirection="asc">
             <!-- Docente -->
@@ -52,6 +58,17 @@
             <ng-container matColumnDef="duracion" matSort>
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Duración (horas)</mat-header-cell>
                 <mat-cell *matCellDef="let fila"> {{fila.duracion}}
+                </mat-cell>
+            </ng-container>
+
+            <!-- BOTONES DE TIEMPO/LUGAR -->
+            <ng-container matColumnDef="restricciones">
+                <mat-header-cell *matHeaderCellDef class="centerCell">Restricciones</mat-header-cell>
+                <mat-cell *matCellDef="let fila" style="justify-content: center;">
+                    <!-- AÑADIR RESTRICCIONES -->
+                    <button mat-icon-button [routerLink]="[fila.id,'restricciones']" matTooltip="Horas">
+                        <mat-icon color="primary">work_off</mat-icon>
+                    </button>
                 </mat-cell>
             </ng-container>
 

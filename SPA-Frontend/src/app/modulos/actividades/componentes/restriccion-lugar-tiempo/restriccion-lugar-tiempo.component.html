@@ -1,0 +1,125 @@
+<div class="container-restriccion">
+<div class="container-actividad">
+    <div class="container-summary">
+        <mat-card>
+            <mat-card-title>
+                Descripción de la actividad
+            </mat-card-title>
+            <mat-card-content>
+                <mat-list role="list">
+                    <mat-list-item class="list-container" role="listitem">
+                        <div class="list-container-row-title">
+                            <mat-icon>school</mat-icon>
+                            <strong>Docente seleccionado:</strong>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item 
+                        role="listitem">Docente</mat-list-item>
+                    <mat-list-item style="color: rgb(131, 131, 131);" *
+                        role="listitem">Seleccione un docente</mat-list-item>
+                    <mat-list-item class="list-container" role="listitem">
+                        <div class="list-container-row-title">
+                            <mat-icon>book</mat-icon>
+                            <strong>Asignatura:</strong>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item  role="listitem">Asignatura seleccionada</mat-list-item>
+                    <mat-list-item style="color: rgb(131, 131, 131);" 
+                        role="listitem">Seleccione una asignatura</mat-list-item>
+                    <mat-list-item  class="list-container" role="listitem">
+                        <div class="list-container-row-title">
+                            <mat-icon>format_list_numbered</mat-icon>
+                            <strong>Número de estudiantes de la asignatura:</strong>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item  role="listitem">Numero de estudiantes</mat-list-item>
+                    <mat-list-item class="list-container" role="listitem">
+                        <div class="list-container-row-title">
+                            <mat-icon>person_pin</mat-icon>
+                            <strong>Tipo de aula:</strong>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item  role="listitem"> Tipo de aula</mat-list-item>
+                    <mat-list-item style="color: rgb(131, 131, 131);" 
+                        role="listitem">Seleccione un tipo de aula</mat-list-item>
+                    <mat-list-item class="list-container" role="listitem">
+                        <div class="list-container-row-title">
+                            <mat-icon>person_pin</mat-icon>
+                            <strong>Grupo:</strong>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item  role="listitem">
+                        Grupo</mat-list-item>
+                    <mat-list-item style="color: rgb(131, 131, 131);" 
+                        role="listitem">Seleccione un grupo</mat-list-item>
+                    <mat-list-item class="list-container" role="listitem">
+                        <div class="list-container-row-title">
+                            <mat-icon>av_timer</mat-icon>
+                            <strong>Duración (en horas):</strong>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item style="color: rgb(131, 131, 131);" 
+                        role="listitem">Duraciòn en horas</mat-list-item>
+                    
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+<div class="place-res" [formGroup]="formularioRestriccionesLugarTiempo" class="container-form">
+    <mat-card>
+        <mat-card-title>
+            Restricciones
+        </mat-card-title>
+        <br>
+        <!--Campo de muestra de la actividad-->
+        <br>
+        <!--Campo de ingreso del Aula-->
+        <h3><strong>Aula</strong></h3>
+            <mat-form-field>
+                <mat-label></mat-label>
+                <mat-select>
+                    <mat-option value="one">----SOFTWARE-----</mat-option>
+                    <mat-option value="one">----COMPUTACIÓN----</mat-option>
+                </mat-select>
+            </mat-form-field>
+        <br>
+            <div class="periodo">
+                <mat-form-field style="width: 50%; margin: auto;">
+                    <!--Campo de ingreso del Día-->
+                    <h3><strong>Día</strong></h3>
+                    <mat-label></mat-label>
+                    <mat-select>
+                        <mat-option value="one">Lunes</mat-option>
+                        <mat-option value="one">Martes</mat-option>
+                        <mat-option value="one">Miercoles</mat-option>
+                        <mat-option value="one">Jueves</mat-option>
+                        <mat-option value="one">Viernes</mat-option>
+                        <mat-option value="one">Sabado</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field style="width: 50%; margin: auto;">
+                    <!--Campo de ingreso de la Hora de Inicio-->
+                    <h3><strong>Hora de inicio</strong></h3>
+                    <mat-label></mat-label>
+                    <mat-select>
+                        <mat-option value="one">7:00</mat-option>
+                        <mat-option value="one">8:00</mat-option>
+                        <mat-option value="one">9:00</mat-option>
+                        <mat-option value="one">10:00</mat-option>
+                        <mat-option value="one">11:00</mat-option>
+                        <mat-option value="one">12:00</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>    
+        <br>
+        <div class="container">
+            <button  mat-raised-button color="primary" [routerLink]="['/spa/actividades']">
+                Regresar</button>
+            <button  mat-raised-button color="primary">
+                Añadir restricción</button>
+    </div>
+
+    </mat-card>
+</div>
+</div>

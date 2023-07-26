@@ -84,6 +84,10 @@ const routes: Routes = [
         loadChildren: () => import("./modulos/horarios/horario.module")
           .then(m => m.HorarioModule)
       },
+      {
+        path:'experimentacion',
+        loadChildren: () => import("./modulos/experimentacion/experimentacion.module").then(m => m.ExperimentacionModule)
+      }
     ]
   },
   {
