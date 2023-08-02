@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { apiUrl } from "src/environments/environment";
-import { Actividad, CrearActividad } from "../modelos/actividad.interface";
+import { Actividad, ActividadEntity, CrearActividad } from "../modelos/actividad.interface";
+import { ObtenerEspacioFisico } from "../modelos/espacios-fisicos.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -22,6 +23,17 @@ export class ActividadesApiService {
     obtenerActividades() {
         const url = apiUrl + `${this.ruta}/obtenerActividades`;
         return this.httpCliente.get(url);
+    }
+    
+    //
+    obtenerActividadporId(id:number){
+        const url = apiUrl + `${this.ruta}/obtenerActividad/${id}`;
+        return this.httpCliente.get<ActividadEntity>(url);
+    }
+
+    obtenerEspaciosFisicosPorTipoDeAula(id:string){
+        const url =apiUrl + `/espacios_fisicos/obtenerEspaciosFisicoPorTipoDeAula/${id}`;
+        return this.httpCliente.get<ObtenerEspacioFisico[]>(url);
     }
 
 }
