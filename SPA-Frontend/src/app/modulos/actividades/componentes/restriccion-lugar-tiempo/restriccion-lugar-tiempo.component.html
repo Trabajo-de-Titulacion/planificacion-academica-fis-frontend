@@ -63,7 +63,7 @@
     </div>
 </div>
 <!--FORMULARIO PARA RESTRICCIONES-->
-<div class="place-res" [formGroup]="formularioRestriccionesLugarTiempo" class="container-form">
+<form class="place-res" [formGroup]="formularioRestriccionesLugarTiempo" class="container-form">
     <mat-card>
         <mat-card-title>
             Restricciones
@@ -73,54 +73,53 @@
         <br>
         <!--Campo de ingreso del Aula-->
         <h3><strong>Aula</strong></h3>
-            <mat-form-field style="width: 100%; margin: auto;">
+            <mat-form-field appearance="fill" style="width: 100%; margin: auto;">
                 <mat-label></mat-label>
-                <mat-select [(value)]="espacioFisicoSeleccionado" (selectionChange)="seleccionarEspacio()">
+                <mat-select formControlName="espacioFisico" [(value)]="espacioFisicoSeleccionado" (selectionChange)="seleccionarEspacio()">
                     <mat-option *ngFor="let espacioFisico of espaciosFisicosDisponibles" [value]="espacioFisico">
                         {{espacioFisico.nombre}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
         <br>
-        <p>
-            <mat-form-field style="width: 100%; margin: auto;">
+        
+            <h3><strong>Día</strong></h3>
+            <mat-form-field appearance="fill"  style="width: 100%; margin: auto;">
                 <!--Campo de ingreso del Día-->
-                <h3><strong>Día</strong></h3>
+                
                 <mat-label></mat-label>
-                <mat-select>
-                    <mat-option value="one">Lunes</mat-option>
-                    <mat-option value="one">Martes</mat-option>
-                    <mat-option value="one">Miercoles</mat-option>
-                    <mat-option value="one">Jueves</mat-option>
-                    <mat-option value="one">Viernes</mat-option>
-                    <mat-option value="one">Sabado</mat-option>
+                <mat-select formControlName="dia">
+                    <mat-option *ngFor="let dia of diasLaborables" [value]="dia">
+                        {{dia}}
+                    </mat-option>
                 </mat-select>
             </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field style="width: 100%; margin: auto;">
+        
+        
+            <h3><strong>Hora de inicio</strong></h3>
+            <mat-form-field  appearance="fill" style="width: 100%; margin: auto;">
                 <!--Campo de ingreso de la Hora de Inicio-->
-                <h3><strong>Hora de inicio</strong></h3>
+                
                 <mat-label></mat-label>
-                <mat-select>
-                    <mat-option value="one">7:00</mat-option>
-                    <mat-option value="one">8:00</mat-option>
-                    <mat-option value="one">9:00</mat-option>
-                    <mat-option value="one">10:00</mat-option>
-                    <mat-option value="one">11:00</mat-option>
-                    <mat-option value="one">12:00</mat-option>
+                <mat-select formControlName="hora">
+                    <mat-option value="7:00">7:00</mat-option>
+                    <mat-option value="8:00">8:00</mat-option>
+                    <mat-option value="9:00">9:00</mat-option>
+                    <mat-option value="10:00">10:00</mat-option>
+                    <mat-option value="11:00">11:00</mat-option>
+                    <mat-option value="12:00">12:00</mat-option>
                 </mat-select>
             </mat-form-field>
-        </p>
+        
         <!--BOTONES-->
         <div class="container-buttons">
             <button  mat-raised-button color="primary" [routerLink]="['/spa/actividades']">
                 Regresar</button>
                 
-            <button  mat-raised-button color="primary">
-                Añadir restricción</button>
+            <button  (click)="crearRestriccion()" mat-raised-button color="primary">
+                Crear restricción</button>
         </div>
 
     </mat-card>
-</div>
+</form>
 </div>

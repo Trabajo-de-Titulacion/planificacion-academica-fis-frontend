@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActividadesApiService } from '../../servicios/actividades_api.service';
 import { ActividadEntity } from '../../modelos/actividad.interface';
@@ -13,23 +13,31 @@ import { ObtenerEspacioFisico } from '../../modelos/espacios-fisicos.interface';
 export class RestriccionLugarTiempoComponent implements OnInit {
 
   formularioRestriccionesLugarTiempo: FormGroup = new FormGroup({});
-
   idActividadRuta:string='';
-
   actividad : ActividadEntity = {};
-
   espaciosFisicosDisponibles: ObtenerEspacioFisico[] = []
-
   espacioFisicoSeleccionado?:ObtenerEspacioFisico = { id:'', nombre:'', aforo: 0}
+  diasLaborables: string[] = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'];
 
-  constructor(private route:ActivatedRoute, private actividadService:ActividadesApiService) { }
+  constructor(
+    private route:ActivatedRoute, 
+    private actividadService:ActividadesApiService,
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    this.cargarFormulario();
     this.cargarParametro();
     this.cargarActividad(parseInt(this.idActividadRuta));
     console.log(this.actividad)
-    
-   
+  }
+
+  cargarFormulario(){
+    this.formularioRestriccionesLugarTiempo = this.formBuilder.group({
+      espacioFisico:['',[Validators.required]],
+      dia:['',[Validators.required]],
+      hora:['',[Validators.required]]
+    });
   }
 
   cargarParametro(){
@@ -73,6 +81,21 @@ export class RestriccionLugarTiempoComponent implements OnInit {
   }
 
   seleccionarEspacio(){
+
+  }
+  cargarHorasDisponibles(){
+
+  }
+
+  crearRestriccion(){
+    const datosAEnviar = {
+      idActividad: parseInt(this.idActividadRuta),
+      idEspacioFisico: this.formularioRestriccionesLugarTiempo.value.espacioFisico.id,
+      dia: this.formularioRestriccionesLugarTiempo.value.dia,
+      hora: this.formularioRestriccionesLugarTiempo.value.hora
+    };
+    console.log(datosAEnviar)
+    console.log(this.formularioRestriccionesLugarTiempo.value)
 
   }
 
