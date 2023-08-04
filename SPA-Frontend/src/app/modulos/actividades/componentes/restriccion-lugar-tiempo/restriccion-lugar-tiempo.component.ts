@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ActividadesApiService } from '../../servicios/actividades_api.service';
 import { ActividadEntity } from '../../modelos/actividad.interface';
 import { ObtenerEspacioFisico } from '../../modelos/espacios-fisicos.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-restriccion-lugar-tiempo',
@@ -88,14 +89,37 @@ export class RestriccionLugarTiempoComponent implements OnInit {
   }
 
   crearRestriccion(){
-    const datosAEnviar = {
+    const restriccion = {
       idActividad: parseInt(this.idActividadRuta),
       idEspacioFisico: this.formularioRestriccionesLugarTiempo.value.espacioFisico.id,
       dia: this.formularioRestriccionesLugarTiempo.value.dia,
       hora: this.formularioRestriccionesLugarTiempo.value.hora
     };
-    console.log(datosAEnviar)
+    console.log(restriccion)
     console.log(this.formularioRestriccionesLugarTiempo.value)
+
+    Swal.showLoading();
+    this.actividadService.crearUnaRestriccion(restriccion).subscribe(
+      {
+          next: () => {
+              Swal.fire({
+                  title: 'Se ha agregado correctamente una restriccion.',
+                  icon: 'success',
+                  timer: 9500
+              }).then( () => {
+                  ;
+              })
+          },
+          error: (error) => {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error al crear restriccion',
+                  text: error.error.message ? error.error.message : "Ha existido un error al crear la actividad",
+              })
+          }
+      }
+  )
+
 
   }
 

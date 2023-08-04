@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { apiUrl } from "src/environments/environment";
 import { Actividad, ActividadEntity, CrearActividad } from "../modelos/actividad.interface";
 import { ObtenerEspacioFisico } from "../modelos/espacios-fisicos.interface";
+import { CrearRestriccion } from "../modelos/restriccion-actividad.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -20,12 +21,18 @@ export class ActividadesApiService {
         return this.httpCliente.post(url, actividad);
     }
 
+    // Crear una restriccion para la actividad actual
+    crearUnaRestriccion(restriccion:CrearRestriccion){
+        const url = apiUrl + `${this.ruta}/crearRestriccion`;
+        return this.httpCliente.post(url, restriccion)
+    }
+
     obtenerActividades() {
         const url = apiUrl + `${this.ruta}/obtenerActividades`;
         return this.httpCliente.get(url);
     }
     
-    //
+    // Obtener una actividad especifica
     obtenerActividadporId(id:number){
         const url = apiUrl + `${this.ruta}/obtenerActividad/${id}`;
         return this.httpCliente.get<ActividadEntity>(url);
