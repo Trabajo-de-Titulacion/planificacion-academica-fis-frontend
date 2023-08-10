@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { apiUrl } from "src/environments/environment";
 import { Actividad, ActividadEntity, CrearActividad } from "../modelos/actividad.interface";
 import { ObtenerEspacioFisico } from "../modelos/espacios-fisicos.interface";
-import { CrearRestriccion } from "../modelos/restriccion-actividad.interface";
+import { CrearRestriccion, eliminarRestriccion, obtenerRestriccion } from "../modelos/restriccion-actividad.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -41,6 +41,16 @@ export class ActividadesApiService {
     obtenerEspaciosFisicosPorTipoDeAula(id:string){
         const url =apiUrl + `/espacios_fisicos/obtenerEspaciosFisicoPorTipoDeAula/${id}`;
         return this.httpCliente.get<ObtenerEspacioFisico[]>(url);
+    }
+
+    obtenerRestriccionesPorId(id:number){
+        const url =apiUrl + `${this.ruta}/obtenerRestriccionesPorId/${id}`;
+        return this.httpCliente.get<obtenerRestriccion[]>(url);
+    }
+
+    eliminarRestriccionPorId(id:number){
+        const url =apiUrl + `${this.ruta}/eliminarRestriccionPorId/${id}`;
+        return this.httpCliente.delete<eliminarRestriccion>(url);
     }
 
 }

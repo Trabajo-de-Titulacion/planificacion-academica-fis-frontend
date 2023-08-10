@@ -5,6 +5,8 @@ import { ActividadesApiService } from '../../servicios/actividades_api.service';
 import { ActividadEntity } from '../../modelos/actividad.interface';
 import { ObtenerEspacioFisico } from '../../modelos/espacios-fisicos.interface';
 import Swal from 'sweetalert2';
+import { obtenerRestriccion } from '../../modelos/restriccion-actividad.interface';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-restriccion-lugar-tiempo',
@@ -20,6 +22,13 @@ export class RestriccionLugarTiempoComponent implements OnInit {
   espacioFisicoSeleccionado?:ObtenerEspacioFisico = { id:'', nombre:'', aforo: 0}
   diasLaborables: string[] = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'];
 
+  restriccionePorActividad :obtenerRestriccion[] = [];
+
+  //Referencias para tabla
+  datosRestriccionesTable = new MatTableDataSource<any>([]);
+  displayedColumns: string[] = ['aulaActividad', 'diaActividad', 'horaActividad', 'acciones'];
+  //@ViewChild('tablaSort') tablaSort = new MatSort();
+
   constructor(
     private route:ActivatedRoute, 
     private actividadService:ActividadesApiService,
@@ -30,6 +39,7 @@ export class RestriccionLugarTiempoComponent implements OnInit {
     this.cargarFormulario();
     this.cargarParametro();
     this.cargarActividad(parseInt(this.idActividadRuta));
+    this.cargarRestricciones(parseInt(this.idActividadRuta))
     console.log(this.actividad)
   }
 
@@ -118,8 +128,23 @@ export class RestriccionLugarTiempoComponent implements OnInit {
               })
           }
       }
-  )
+    )
+  }
 
+  cargarRestricciones(idActividad:number){
+    this.actividadService
+      .obtenerRestriccionesPorId(idActividad)
+      .subscribe({
+        next: (data)=>{
+          this.restriccionePorActividad = data;
+        },
+        complete:()=>{
+          this.datosRestriccionesTable.data = this.restriccionePorActividad;
+        }
+    }) 
+  }
+
+  eliminarActividad(){
 
   }
 
