@@ -112,13 +112,16 @@ export class RestriccionLugarTiempoComponent implements OnInit {
     this.actividadService.crearUnaRestriccion(restriccion).subscribe(
       {
           next: () => {
-              Swal.fire({
-                  title: 'Se ha agregado correctamente una restriccion.',
-                  icon: 'success',
-                  timer: 9500
-              }).then( () => {
+            Swal.fire({
+                title: 'Se ha agregado correctamente una restriccion.',
+                icon: 'success',
+                timer: 9500
+            }).then( () => {
                   ;
               })
+          },
+          complete:()=>{
+            this.cargarRestricciones(parseInt(this.idActividadRuta));
           },
           error: (error) => {
               Swal.fire({
@@ -144,8 +147,43 @@ export class RestriccionLugarTiempoComponent implements OnInit {
     }) 
   }
 
-  eliminarActividad(){
-
+  eliminarRestriccion(idRestriccion:number){
+    Swal.fire({
+      title: 'Esta seguro de elimanar esta restricción?',
+      text: "No se podra revertir estos cambios!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.actividadService
+          .eliminarRestriccionPorId(idRestriccion)
+          .subscribe({
+            next:()=>{
+              console.log("Test eliminar")
+            },
+            complete:()=>{
+              this.datosRestriccionesTable.data = this.restriccionePorActividad;
+              this.cargarRestricciones(parseInt(this.idActividadRuta));
+              Swal.fire(
+                'Restricción eliminada!',
+                'Se ha eliminado correctamente la restricción',
+                'success'
+              )
+            },
+            error:(error)=>{
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al eliminar restriccion',
+                text: error.error.message ? error.error.message : "Ha existido un error al crear la actividad",
+              })
+            }
+          })
+      }
+    })
   }
 
 }

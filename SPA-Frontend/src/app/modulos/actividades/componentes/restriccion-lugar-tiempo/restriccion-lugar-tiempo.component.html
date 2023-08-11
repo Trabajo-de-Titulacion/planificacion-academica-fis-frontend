@@ -154,8 +154,8 @@
             <ng-container matColumnDef="acciones">
                 <mat-header-cell *matHeaderCellDef>Acciones </mat-header-cell>
                 <mat-cell *matCellDef="let fila">
-                    <!-- ELIMINAR DOCENTE -->
-                    <button mat-icon-button (click)="eliminarActividad()" matTooltip="Eliminar">
+                    <!-- ELIMINAR ACTIVIDAD -->
+                    <button mat-icon-button (click)="eliminarRestriccion(fila.idRestriccion)" matTooltip="Eliminar">
                         <mat-icon color="warn">delete</mat-icon>
                     </button>
                 </mat-cell>
