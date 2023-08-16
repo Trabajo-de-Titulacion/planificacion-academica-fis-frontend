@@ -21,6 +21,7 @@ export class RestriccionLugarTiempoComponent implements OnInit {
   espaciosFisicosDisponibles: ObtenerEspacioFisico[] = []
   espacioFisicoSeleccionado?:ObtenerEspacioFisico = { id:'', nombre:'', aforo: 0}
   diasLaborables: string[] = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'];
+  horasDisponibles: string[]= this.cargarHorasDisponibles();
 
   restriccionePorActividad :obtenerRestriccion[] = [];
 
@@ -94,8 +95,18 @@ export class RestriccionLugarTiempoComponent implements OnInit {
   seleccionarEspacio(){
 
   }
-  cargarHorasDisponibles(){
 
+  cargarHorasDisponibles(): string[] {
+    const rangosDeTiempo: string[] = [];
+
+    for (let hora = 7; hora <= 21; hora++) {
+        const startTime = `${hora}:00`;
+        const endTime = `${hora + 1}:00`;
+        const timeRange = `${startTime}-${endTime}`;
+        rangosDeTiempo.push(timeRange);
+    }
+
+    return rangosDeTiempo;
   }
 
   crearRestriccion(){
@@ -112,22 +123,25 @@ export class RestriccionLugarTiempoComponent implements OnInit {
     this.actividadService.crearUnaRestriccion(restriccion).subscribe(
       {
           next: () => {
-            Swal.fire({
-                title: 'Se ha agregado correctamente una restriccion.',
-                icon: 'success',
-                timer: 9500
-            }).then( () => {
-                  ;
-              })
+            
           },
           complete:()=>{
+           
+            Swal.fire({
+              title: 'Se ha agregado correctamente una restriccion.',
+              icon: 'success',
+              timer: 9500
+          }).then( () => {
+                ;
+            })
             this.cargarRestricciones(parseInt(this.idActividadRuta));
           },
           error: (error) => {
               Swal.fire({
                   icon: 'error',
                   title: 'Error al crear restriccion',
-                  text: error.error.message ? error.error.message : "Ha existido un error al crear la actividad",
+                  text: !error.error.data ? error.error.message : `Restricción ya fue asignada a la actividad: 
+                    ${error.error.data.restriccion.actividad.id} - ${error.error.data.restriccion.actividad.docente.nombreCompleto}`
               })
           }
       }
@@ -149,7 +163,7 @@ export class RestriccionLugarTiempoComponent implements OnInit {
 
   eliminarRestriccion(idRestriccion:number){
     Swal.fire({
-      title: 'Esta seguro de elimanar esta restricción?',
+      title: 'Esta seguro de eliminar esta restricción?',
       text: "No se podra revertir estos cambios!",
       icon: 'warning',
       showCancelButton: true,
@@ -166,7 +180,6 @@ export class RestriccionLugarTiempoComponent implements OnInit {
               console.log("Test eliminar")
             },
             complete:()=>{
-              this.datosRestriccionesTable.data = this.restriccionePorActividad;
               this.cargarRestricciones(parseInt(this.idActividadRuta));
               Swal.fire(
                 'Restricción eliminada!',
@@ -175,10 +188,10 @@ export class RestriccionLugarTiempoComponent implements OnInit {
               )
             },
             error:(error)=>{
+              this.cargarRestricciones(parseInt(this.idActividadRuta));
               Swal.fire({
                 icon: 'error',
                 title: 'Error al eliminar restriccion',
-                text: error.error.message ? error.error.message : "Ha existido un error al crear la actividad",
               })
             }
           })
