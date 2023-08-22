@@ -133,6 +133,15 @@
                         <a matLine>Horario</a>
                     </div>
                 </mat-list-item>
+                <!-- Módulo de experimentaciòn -->
+                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/experimentacion')" [routerLink]="['/spa/experimentacion']">
+                    <button mat-icon-button>
+                        <mat-icon>android</mat-icon>
+                    </button>
+                    <div>
+                        <a matLine>Experimentación</a>
+                    </div>
+                </mat-list-item>
             </mat-nav-list>
 
             <mat-divider *ngIf="esCoordinador() && esGestorEspaciosFisicos()"></mat-divider>

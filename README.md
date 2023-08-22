@@ -13,25 +13,31 @@
 git clone https://github.com/Trabajo-de-Titulacion/planificacion-academica-fis-frontend
 ```
 
-2. Dentro del directorio del proyecto, cambie su rama actual a la rama de un integrante, en este caso a:
+2. Ingrese al directorio del proyecto:
 
-```bash
-git checkout development-alejandro-llanganate
+```
+cd planificacion-academica-fis-frontend
 ```
 
-3. Acceda al directorio donde se encuentra el proyecto en Angular con el comando:
+3. Dentro del directorio del proyecto, cambie su rama actual a la rama de un integrante, en este caso a:
+
+```bash
+git checkout develop
+```
+
+4. Acceda al directorio donde se encuentra el proyecto en Angular con el comando:
 
 ```bash
 cd SPA-Frontend/
 ```
 
-4. Instale las dependencias del proyecto con el comando:
+5. Instale las dependencias del proyecto con el comando:
 
 ```
 npm install -f
 ```
 
-5. Para levantar la aplicación SPA ejecute el siguiente comando:
+6. Para levantar la aplicación SPA ejecute el siguiente comando:
 
 ```bash
 ng serve
