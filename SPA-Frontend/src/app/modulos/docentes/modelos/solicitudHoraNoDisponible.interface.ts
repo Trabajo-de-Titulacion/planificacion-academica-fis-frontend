@@ -1,6 +1,7 @@
 import { Docente } from "../../docentes/modelos/docente.interface";
 import Semestre from "../../parametros-inciales/models/semestre.interface";
 import ESTADO_SOLICITUD_HORA_NO_DISPONIBLE from "../enum/estadoSolicitudHoraNoDisponible.enum";
+
 import { HoraNoDisponible } from "./hora_no_disponible.interface";
 
 export interface SolicitudHoraNoDisponible {

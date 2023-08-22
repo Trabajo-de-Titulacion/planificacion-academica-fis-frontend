@@ -1,19 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { DISPONIBILIDAD, HoraSemana } from '../../modelos/horaSemana.interface';
 import Swal from 'sweetalert2';
-import { HoraNoDisponible } from '../../modelos/hora_no_disponible.interface';
 import { SemestreService } from 'src/app/modulos/parametros-inciales/services/semestre-api.service';
-import { HorasNoDisponiblesApiService } from '../../servicios/horas-no-disponibles-api.service';
 import { DocenteApiService } from 'src/app/modulos/docentes/servicios/docentes_api.service';
 import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
 import JornadaLaboral from 'src/app/modulos/parametros-inciales/models/jornada-laboral.interface';
 import { Docente } from 'src/app/modulos/docentes/modelos/docente.interface';
-import { Subscription } from 'rxjs';
+import { Subscription, lastValueFrom } from 'rxjs';
+
+
+import { ActivatedRoute } from '@angular/router';
+import { HorasNoDisponiblesApiService } from '../../servicios/horas-no-disponibles-api.service';
+import { DISPONIBILIDAD, HoraSemana, ObtenerHoraNoDisponible } from '../../modelos/horaSemana.interface';
+import { CrearHoraNoDisponible, HoraNoDisponible } from '../../modelos/hora_no_disponible.interface';
 
 @Component({
-  selector: 'app-modificar-horas-no-disponibles',
+  selector: 'app-modificar-horas-no-disponibles-docentes',
   templateUrl: './modificar-horas-no-disponibles.component.html',
   styleUrls: ['./modificar-horas-no-disponibles.component.scss']
 })
@@ -24,6 +27,7 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
     private readonly horasNoDisponiblesService: HorasNoDisponiblesApiService,
     private readonly docenteService: DocenteApiService,
     private readonly usuarioStorageService: UsuarioStorageService,
+    private route: ActivatedRoute
   ) { }
 
   columnasTabla: string[] = ['HORA'];
@@ -44,10 +48,22 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
   nombreBtnGuardar: string = 'Solicitar horas no disponibles';
 
   //Docente
-  docenteSeleccionado?: Docente;
+  docenteSeleccionado: Docente = {};
+  idDocente: string = ""
+  //Para get de obtener horarios no disponibles del docente
+  horasDiasNoDisponbilesDelDocente: ObtenerHoraNoDisponible[] = [];
 
   ngOnInit(): void {
+    this.cargarParametro();
+    this.cargarHorasDiasNoDisponiblesDelDocente(this.idDocente)
     this.cargarJornadasLaborales();
+    this.cargarDocentePorSuId(this.idDocente)
+    console.log(this.horasDiasNoDisponbilesDelDocente)
+  
+  }
+
+  obtenerHorarioFormulario(){
+
   }
 
   //Funcion para traer el nombre del docente
@@ -55,8 +71,39 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
     this.docenteSeleccionado = obj;
   }
 
+  cargarHorasDiasNoDisponiblesDelDocente(idDocente: string){
+    this.horasNoDisponiblesService.obtenerHoraDiaNoDisponiblePorIdDocente(idDocente).subscribe({
+      next: (horasDiasNoDisponbiles) => {
+          this.horasDiasNoDisponbilesDelDocente = horasDiasNoDisponbiles;
+          console.log(horasDiasNoDisponbiles)
+      },
+    })
+  }
+
+  cargarParametro(){
+    this.route.params.subscribe(
+        (params) => {
+            this.idDocente = params['id']
+        }
+    )
+  }
+ 
+  cargarDocentePorSuId(id: string){
+    this.docenteService.visualizarDocentesPorID(id).subscribe(
+      {
+        next: (docente) => {
+          this.docenteSeleccionado = docente;
+        },
+        complete: () => {
+          
+        }
+
+      }
+    )
+  }
+
   cargarJornadasLaborales() {
-    Swal.showLoading();
+    //Swal.showLoading();
     this.semestresService.obtenerSemestreConPlanificacionEnProgreso().subscribe({
       next: (semestre) => {
         // Se obtienen las jornadas laborales
@@ -74,10 +121,10 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
         // Crear filas en la tabla
         this.crearFilasTabla();
         // Cargar información de las horas del usuario
-        this.cargarHorasNoDisponiblesPrevias();
+        //this.cargarHorasNoDisponiblesPrevias();
       },
       error: () => {
-        this.mostrarMensajeError();
+        this.mostrarMensajeError('obtenerSemestreConPlanificacionEnProgreso');
       },
     });
   }
@@ -89,45 +136,18 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (docente) => {
           this.docenteActual = docente;
-          this.horasNoDisponiblesService.obtenerHorasNoDisponiblesSolicitadasPorDocenteId(docente.id!)
-          .subscribe({
-            next: (horasNoDisponibles) => {
-              this.horasNoDisponiblesPrevias = horasNoDisponibles;
-              // Inicializa los valores como 'true'
-              horasNoDisponibles.forEach(hora => {
-                const nombreControl = this.obtenerNombreControl(hora.dia!.dia, hora.hora_inicio);
-                this.formGroup.get(nombreControl)!.setValue(true);
-                this.totalSeleccionados += 1;
-              });
-              // Si ya existe una solicitud, entonces el nombre del botón cambia
-              if (this.horasNoDisponiblesPrevias.length > 0) {
-                this.nombreBtnGuardar = 'Guardar cambios';
-              }
-            },
-            error: () => {
-              this.mostrarMensajeError();
-            },
-            complete: () => {
-              Swal.close();
-              this.escucharCambiosControles();
-              // Si hay botones activados, se puede usar el botón 'Desmarcar todo'
-              if (this.controles.some(control => control.value)) {
-                this.btnDesmarcarHabilitado = true;
-              }
-            }
-          })
         },
         error: () => {
-          this.mostrarMensajeError();
+          this.mostrarMensajeError('visualizarDocentePorCorreoElectronico');
         }
       })
     }
   }
 
-  mostrarMensajeError() {
+  mostrarMensajeError(tipo: string) {
     Swal.fire({
       title: 'Error',
-      text: 'No se pudieron obtener los registros.',
+      text: 'No se pudieron obtener los registros: ' + tipo,
       showCancelButton: true,
       confirmButtonText: 'Reiniciar página',
       cancelButtonText: 'Cerrar',
@@ -168,9 +188,11 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
       };
       this.datoFilasTabla.data.push(horaSemana);
     }
+    this.cargarCeldasDocente()
   }
 
   obtenerDisponibilidad(dia: string, hora: number): DISPONIBILIDAD {
+    console.log("obtenerDisponibilidad")
     const jornadaCorrespondiente = this.jornadasLaborales?.find(jornada => {
       return jornada.dia == dia.toUpperCase();
     });
@@ -210,6 +232,15 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
     const dia = nombre.split('-')[0];
     const hora = Number(nombre.split('-')[1]);
     return { dia: dia, hora: hora };
+  }
+
+  cargarCeldasDocente(){
+    this.horasDiasNoDisponbilesDelDocente.map(e => {
+      const control = this.obtenerNombreControl(e.dia.toUpperCase(),e.hora_inicio)
+      if(this.formGroup.controls[control]){
+        this.formGroup.controls[control].setValue(DISPONIBILIDAD.NO_DISPONIBLE)
+      }
+    })
   }
 
   escucharCambiosControles() {
@@ -261,6 +292,89 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
       controlesFila.forEach(c => c.setValue(false)); // Se deselecciona la fila
     } else {
       controlesFila.forEach(c => c.setValue(true));  // Se selecciona la fila
+    }
+  }
+
+  async guardarHorarioDocente(){
+    let isCorrect = true;
+    if (this.formGroup.valid){
+      Swal.showLoading();
+      const registrosACrear: CrearHoraNoDisponible[] = [];
+      // Iterar por cada control del FormGroup
+      Object.entries(this.formGroup.value).forEach(([nombreControl, seleccionado]) => {
+        if (seleccionado) {
+          const {dia, hora} = this.obtenerDiaYHoraDelNombreControl(nombreControl);
+          const jornada = this.jornadasLaborales!.find(j => j.dia == dia);
+          // Registro a crear
+          const horaNoDisponible: CrearHoraNoDisponible = {
+            hora_inicio: hora,
+            jornada_id: jornada!.id!,
+            docente_id: this.idDocente,
+          }
+          // Guardar en arreglo
+          registrosACrear.push(horaNoDisponible);
+        }
+      });
+      //console.log(registrosACrear)
+      let restriccionesQueNoSePudieronGuardar: any[] = [];
+      let restriccionesQueSiSeGuardaron: any[] = [];
+      console.log("Antes del map");
+
+      
+      for (let index = 0; index < registrosACrear.length; index++) {
+        const element = registrosACrear[index];
+        try {
+          await lastValueFrom(this.horasNoDisponiblesService.crearHoraDiaNoDisponible(element))
+          restriccionesQueSiSeGuardaron.push(element)
+        } catch (error) {
+          restriccionesQueNoSePudieronGuardar.push(element)
+        }
+      }
+
+      console.log("Restricciones que si se guardaron: ", restriccionesQueSiSeGuardaron);
+      console.log("Restricciones que NO se guardaron: ", restriccionesQueNoSePudieronGuardar);
+      /* registrosACrear.map(async registro => {
+        const promise = await lastValueFrom(this.horasNoDisponiblesService.crearHoraDiaNoDisponible(registro))
+      
+        this.horasNoDisponiblesService.crearHoraDiaNoDisponible(registro).subscribe({
+          complete: () => {
+            restriccionesQueSiSeGuardaron.push(registro)
+            console.log("en el complete");
+            //Swal.close();
+          },error: (error) => {
+            restriccionesQueNoSePudieronGuardar.push(registro)
+            console.log("en el error");
+            console.log(error)
+            //Swal.close();
+          }
+        })
+      })*/  
+
+      console.log("Despues del map");
+      if(restriccionesQueNoSePudieronGuardar.length){
+        console.log("DEntro del mensaje de error");
+        await Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: `No se han podido guardar las siguientes restricciones: ${restriccionesQueNoSePudieronGuardar.map(e => `${e.hora_inicio}-${e}`)}`,
+          showConfirmButton: false,
+          timer: 1500
+        })
+        .then(() => {
+          
+        })
+      } 
+
+      if(restriccionesQueSiSeGuardaron.length){
+        console.log("DEntro del mensaje correcto");
+        await Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Se ha guardado los cambios exitosamente', //AQui se modifica para agregar informacion
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
     }
   }
 
