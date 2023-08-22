@@ -32,15 +32,15 @@ const routes: Routes = [
         loadChildren: () => import('./modulos/parametros-inciales/paremetros-iniciales.module').then(m => m.ParametrosInicialesModule),
       },
       {
+        path: 'experimentacion',
+        loadChildren: () => import("./modulos/experimentacion/experimentacion.module")
+          .then(m => m.ExperimentacionModule)
+      },
+      {
         path: 'espacios_fisicos',
         canActivateChild: [EsGestorEspaciosFisicosGuard],
         loadChildren: () => import("./modulos/espacios-fisicos/espacios-fisicos.module")
           .then(m => m.EspaciosFisicosModule)
-      },
-      {
-        path: 'horas_no_disponibles',
-        loadChildren: () => import("./modulos/horas-no-disponibles/horas-no-disponibles.module")
-          .then(m => m.HorasNoDisponiblesModule)
       },
       {
         path: 'numero_estudiantes_por_semestre',

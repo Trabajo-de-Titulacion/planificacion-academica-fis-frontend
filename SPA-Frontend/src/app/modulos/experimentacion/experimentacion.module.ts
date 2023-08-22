@@ -1,16 +1,15 @@
 import { NgModule } from "@angular/core";
-import { VizualizarExperimentacionComponent } from "./components/vizualizar-experimentacion/vizualizar-experimentacion.component";
+import { VisualizarExperimentacionComponent } from "./components/visualizar-experimentacion.component";
 import { CommonModule } from "@angular/common";
 import { ExperimentacionRoutingModule } from "./experimentacion-routing.module";
-import { ExperimentacionService } from "./servicios/experimentacion_api.service";
-import {MatTableModule} from '@angular/material/table';
-
+import { ExperimentacionService } from "./components/services/experimentacion_api.service";
+import { MatTableModule } from "@angular/material/table";
 
 @NgModule({
-    declarations: [VizualizarExperimentacionComponent],
+    declarations: [VisualizarExperimentacionComponent],
     imports: [CommonModule, ExperimentacionRoutingModule, MatTableModule],
-    providers:[ExperimentacionService]
+    providers: [ExperimentacionService]
 })
-export class ExperimentacionModule{
-
+export class ExperimentacionModule {
+    
 }
