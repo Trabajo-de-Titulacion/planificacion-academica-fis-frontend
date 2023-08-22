@@ -163,19 +163,6 @@
 
             <mat-divider *ngIf="esGestorEspaciosFisicos() && esDocente()"></mat-divider>
 
-            <!-- Docente -->
-            <h3 matSubheader *ngIf="esDocente()">Docente</h3>
-            <mat-nav-list *ngIf="esDocente()">
-                <!-- Horas no disponibles -->
-                <mat-list-item [ngClass]="mostrarRutaActiva('/spa/horas_no_disponibles')"
-                    [routerLink]="['/spa/horas_no_disponibles']">
-                    <a matLine>Solicitar horas no disponibles</a>
-                    <button mat-icon-button>
-                        <mat-icon>event_busy</mat-icon>
-                    </button>
-                </mat-list-item>
-            </mat-nav-list>
-
             <mat-divider *ngIf="esGestorEspaciosFisicos() && esJefeDeDepartamento()"></mat-divider>
 
             <!-- Jefe de departamento -->
@@ -192,6 +179,16 @@
                     </div>
                 </mat-list-item>
             </mat-nav-list>
+
+            <!--Experimentacion Modulo-->
+            <mat-list-item [ngClass]="mostrarRutaActiva('/spa/experimentacion')" [routerLink]="['/spa/experimentacion']">
+                <button mat-icon-button>
+                    <mat-icon>android</mat-icon>
+                </button>
+                <div>
+                    <a matLine>Experimentacion</a>
+                </div>
+            </mat-list-item>
 
         </mat-list>
     </mat-sidenav>

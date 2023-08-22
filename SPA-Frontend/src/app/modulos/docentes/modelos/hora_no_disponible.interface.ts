@@ -11,3 +11,8 @@ export interface HoraNoDisponible {
     // Solicitud
     solicitud?: SolicitudHoraNoDisponible;
 }
+export interface CrearHoraNoDisponible {
+    jornada_id: string;
+    docente_id: string;
+    hora_inicio: number;
+}

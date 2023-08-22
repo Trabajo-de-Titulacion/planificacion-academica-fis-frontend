@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { apiUrl } from 'src/environments/environment';
-import { HoraNoDisponible } from '../modelos/hora_no_disponible.interface';
+import { CrearHoraNoDisponible, HoraNoDisponible } from '../modelos/hora_no_disponible.interface';
 import { SolicitudHoraNoDisponible } from '../modelos/solicitudHoraNoDisponible.interface';
+import { ObtenerHoraNoDisponible } from '../modelos/horaSemana.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,18 @@ export class HorasNoDisponiblesApiService {
   solicitarHorasNoDisponibles(idDocente: string, horas_no_disponibles: HoraNoDisponible[]) {
     const url = apiUrl + `${this.ruta}/solicitarHorasNoDisponibles/${idDocente}`;
     return this.httpClient.post(url, horas_no_disponibles);
+  }
+
+  //Metodo enviar datos a la ruta y crear un horaDIa No disponible
+  crearHoraDiaNoDisponible(datosAEnviar: CrearHoraNoDisponible){
+    const url = apiUrl + `${this.ruta}/hora_dia_noDisponible`;
+    return this.httpClient.post(url, datosAEnviar);
+  }
+
+  //Metodo get para obtener hora/dia NO disponibles
+  obtenerHoraDiaNoDisponiblePorIdDocente(idDocente: string){
+    const url = apiUrl + `${this.ruta}/horas_dias_noDisponibles/${idDocente}`;
+    return this.httpClient.get<ObtenerHoraNoDisponible[]>(url)
   }
 
   obtenerHorasNoDisponiblesSolicitadasPorDocenteId(id: string) {
@@ -44,4 +57,6 @@ export class HorasNoDisponiblesApiService {
     const url = apiUrl + `${this.ruta}/rechazarSolicitudHorasNoDisponiblesPorDocenteId/${id}`;
     return this.httpClient.get(url);
   }
+
+
 }

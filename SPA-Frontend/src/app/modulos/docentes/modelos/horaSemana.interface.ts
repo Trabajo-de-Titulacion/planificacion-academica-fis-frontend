@@ -15,3 +15,10 @@ export interface HoraSemana {
     "SÁBADO": DISPONIBILIDAD;
     "DOMINGO": DISPONIBILIDAD;
 }
+
+export interface ObtenerHoraNoDisponible {
+    idHoraNoDisponible: string;
+    idJornada: string;
+    dia: string;
+    hora_inicio: number;
+}

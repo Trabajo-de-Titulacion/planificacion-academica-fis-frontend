@@ -17,12 +17,16 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ModificarHorasNoDisponiblesComponent } from './componentes/modificar-horas-no-disponibles/modificar-horas-no-disponibles.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
     ActualizarDocenteComponent,
     CrearDocenteComponent,
-    VisualizarDocentesComponent
+    VisualizarDocentesComponent,
+    ModificarHorasNoDisponiblesComponent
   ],
   imports: [
     CommonModule,
@@ -38,6 +42,17 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSelectModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatTooltipModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatButtonModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatSortModule,
     MatTooltipModule,
   ]
 })

@@ -1,12 +1,19 @@
+<h1>Horas Disponibles/No Disponibles del Docente</h1>
 <div class="contenedor">
-  <div class="tarjetas">
-    <mat-card id="advertencia">
-      Seleccione únicamente aquellas horas en las que <strong>NO</strong> pueda llevar a cabo sus actividades de docencia.
-    </mat-card>
-    <mat-card id="info">
-      <span><strong>Horas totales a la semana:</strong> {{controles.length}}</span>
-      <span><strong>Horas no disponibles:</strong> {{totalSeleccionados}}</span>
-    </mat-card>
+  <div class="container-fluid">
+      <div class="row contHeader">
+        <div class="row col-lg-6 col-md-6 col-sm-6">
+            <strong>Docente: </strong> 
+            <span>{{this.docenteSeleccionado.nombreCompleto}}</span>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+          <div class="d-flex justify-content-end">
+            <button mat-raised-button color="primary" (click)="guardarHorarioDocente()" class="mr-10">
+              Guardar
+            </button>
+          </div>  
+        </div>  
+      </div>
   </div>
   <!-- Matriz con días de la semana -->
   <mat-table [dataSource]="datoFilasTabla" [formGroup]="formGroup">
@@ -37,21 +44,22 @@
       <mat-row *matRowDef="let fila; columns: columnasTabla;"></mat-row>
   </mat-table>
 
+  
   <!-- Botones -->
   <div class="parteInferior">
     <!-- Botones -->
     <div>
-      <!-- Desmarcar todas las opciones -->
+      <!-- Desmarcar todas las opciones 
       <button mat-raised-button color="warn" (click)="desmarcarTodo()"
         [disabled]="!btnDesmarcarHabilitado">
         Desmarcar todo
-      </button>
+      </button>-->
 
-      <!-- Guardar cambios -->
+      <!-- Guardar cambios 
       <button mat-raised-button color="primary" (click)="guardarCambios()"
         [disabled]="!btnGuardarHabilitado">
         {{nombreBtnGuardar}}
-      </button>
+      </button>-->
     </div>
   </div>
 </div>
