@@ -7,8 +7,6 @@ import Swal from 'sweetalert2';
 import { Actividad } from '../../modelos/actividad.interface';
 import { ActividadesApiService } from '../../servicios/actividades_api.service';
 import { CrearActividadDialogComponent } from '../crear-actividad-dialog/crear-actividad-dialog.component';
-import { RestriccionTiempoComponent } from '../restriccion-tiempo/restriccion-tiempo.component';
-import { RestriccionLugarComponent } from '../restriccion-lugar/restriccion-lugar.component';
 
 @Component({
   selector: 'app-mostrar-actividades',
@@ -78,32 +76,5 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
     })
   }
 
-  //Mostrar dialogo de restricciones de tiempo
-  abrirRestriccionTiempoDialog() {
-    const dialogRef = this.dialog.open(RestriccionTiempoComponent, {
-      width: '50%',
-      data: {
-      }
-    })
-
-    dialogRef.afterClosed().subscribe(result => {
-      //Swal.showLoading();
-      //this.cargarActividades();
-    })
-  }
-
-  //Mostrar dialogo de restricciones de tiempo
-  abrirRestriccionLugarDialog() {
-    const dialogRef = this.dialog.open(RestriccionLugarComponent, {
-      width: '50%',
-      data: {
-      }
-    })
-
-    dialogRef.afterClosed().subscribe(result => {
-      //Swal.showLoading();
-      //this.cargarActividades();
-    })
-  }
 
 }

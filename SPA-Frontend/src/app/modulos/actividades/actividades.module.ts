@@ -13,8 +13,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CrearActividadDialogComponent } from './componentes/crear-actividad-dialog/crear-actividad-dialog.component';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { RestriccionTiempoComponent } from './componentes/restriccion-tiempo/restriccion-tiempo.component';
-import { RestriccionLugarComponent } from './componentes/restriccion-lugar/restriccion-lugar.component';
 import {MatFormFieldModule} from '@angular/material/form-field'; 
 import { MatSelectModule } from '@angular/material/select';
 import { RestriccionLugarTiempoComponent } from './componentes/restriccion-lugar-tiempo/restriccion-lugar-tiempo.component';
@@ -23,8 +21,6 @@ import { RestriccionLugarTiempoComponent } from './componentes/restriccion-lugar
   declarations: [
     MostrarActividadesComponent,
     CrearActividadDialogComponent,
-    RestriccionTiempoComponent,
-    RestriccionLugarComponent,
     RestriccionLugarTiempoComponent,
   ],
   imports: [
