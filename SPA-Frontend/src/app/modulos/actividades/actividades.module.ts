@@ -16,12 +16,14 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field'; 
 import { MatSelectModule } from '@angular/material/select';
 import { RestriccionLugarTiempoComponent } from './componentes/restriccion-lugar-tiempo/restriccion-lugar-tiempo.component';
+import { CrearActividadComponent } from './componentes/crear-actividad/crear-actividad.component';
 
 @NgModule({
   declarations: [
     MostrarActividadesComponent,
     CrearActividadDialogComponent,
     RestriccionLugarTiempoComponent,
+    CrearActividadComponent,
   ],
   imports: [
     CommonModule,
