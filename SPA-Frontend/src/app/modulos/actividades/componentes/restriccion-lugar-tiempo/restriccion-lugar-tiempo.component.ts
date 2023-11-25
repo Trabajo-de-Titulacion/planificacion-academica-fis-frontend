@@ -87,7 +87,7 @@ export class RestriccionLugarTiempoComponent implements OnInit {
       },
       complete: ()=>{
         this.espaciosFisicosDisponibles = espacioFisico
-        //onsole.log(this.espaciosFisicosDisponibles.id);
+        //console.log(this.espaciosFisicosDisponibles.id);
       }
     })
   }
@@ -164,7 +164,7 @@ export class RestriccionLugarTiempoComponent implements OnInit {
   eliminarRestriccion(idRestriccion:number){
     Swal.fire({
       title: 'Esta seguro de eliminar esta restricción?',
-      text: "No se podra revertir estos cambios!",
+      text: "No se podrá revertir estos cambios!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

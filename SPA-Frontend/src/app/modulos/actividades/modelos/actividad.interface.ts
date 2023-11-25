@@ -31,3 +31,4 @@ export interface ActividadEntity{
     asignatura?: Asignatura;
     grupo?: Grupo;
 }
+

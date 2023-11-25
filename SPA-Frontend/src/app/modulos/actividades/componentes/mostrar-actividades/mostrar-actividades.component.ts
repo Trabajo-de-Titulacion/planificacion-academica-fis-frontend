@@ -15,6 +15,7 @@ import { CrearActividadDialogComponent } from '../crear-actividad-dialog/crear-a
 })
 export class MostrarActividadesComponent implements OnInit, AfterViewInit {
 
+  idActividadRuta: string = '';
   datoFilas = new MatTableDataSource<Actividad>([]);
   actividades: Actividad[] = [];
   columnas: string[] = ['asignatura', 'docente', 'tipoAula', 'numeroEstudiantes', 'grupo', 'duracion', 'restricciones'];
@@ -23,7 +24,7 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
 
   constructor(
     public dialog: MatDialog,
-    private readonly actividadesService : ActividadesApiService,
+    private readonly actividadesService: ActividadesApiService,
   ) { }
   ngAfterViewInit(): void {
     this.datoFilas.sort = this.tablaSort;
@@ -33,7 +34,7 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
     this.cargarActividades();
   }
 
-  cargarActividades(){
+  cargarActividades() {
     Swal.showLoading();
     this.actividadesService.obtenerActividades().subscribe({
       next: (data) => {
@@ -43,22 +44,22 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
 
       },
       error: (Err) => {
-          Swal.fire({
-              title: 'Error',
-              text: 'No se pudieron obtener los registros.',
-              showCancelButton: true,
-              confirmButtonText: 'Reiniciar página',
-              cancelButtonText: 'Cerrar',
-              icon: 'error',
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  window.location.reload();
-              }
-          });
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudieron obtener los registros.',
+          showCancelButton: true,
+          confirmButtonText: 'Reiniciar página',
+          cancelButtonText: 'Cerrar',
+          icon: 'error',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
       },
       complete: () => {
         console.log("actividades", this.actividades);
-          Swal.close();
+        Swal.close();
       }
     })
   }
@@ -73,6 +74,46 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       Swal.showLoading();
       this.cargarActividades();
+    })
+  }
+
+  //Metodo para eliminar una actividad
+  eliminarActividad(idActividad: number) {
+    Swal.fire({
+      title: 'Esta seguro de eliminar esta actividad?',
+      text: "No se podrá revertir estos cambios!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(idActividad)
+        this.actividadesService
+          .eliminarActividadPorId(idActividad)
+          .subscribe({
+            next: () => {
+              console.log("Test eliminar")
+            },
+            complete: () => {
+              this.cargarActividades();
+              Swal.fire(
+                'Actividad eliminada!',
+                'Se ha eliminado correctamente la actividad',
+                'success'
+              )
+            },
+            error: (error) => {
+              this.cargarActividades();
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al eliminar la actividad',
+              })
+            }
+          })
+      }
     })
   }
 

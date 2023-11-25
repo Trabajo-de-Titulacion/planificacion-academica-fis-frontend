@@ -17,6 +17,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { RestriccionLugarTiempoComponent } from './componentes/restriccion-lugar-tiempo/restriccion-lugar-tiempo.component';
 import { CrearActividadComponent } from './componentes/crear-actividad/crear-actividad.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CrearActividadComponent } from './componentes/crear-actividad/crear-act
     ActividadesRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTooltipModule,
     MatTableModule,
     MatButtonModule,
     MatInputModule,

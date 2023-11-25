@@ -38,6 +38,12 @@ export class ActividadesApiService {
         return this.httpCliente.get<ActividadEntity>(url);
     }
 
+    //
+    eliminarActividadPorId(id:number){
+        const url =apiUrl + `${this.ruta}/eliminarActividadPorId/${id}`;
+        return this.httpCliente.delete<ActividadEntity>(url);
+    }
+
     obtenerEspaciosFisicosPorTipoDeAula(id:string){
         const url =apiUrl + `/espacios_fisicos/obtenerEspaciosFisicoPorTipoDeAula/${id}`;
         return this.httpCliente.get<ObtenerEspacioFisico[]>(url);
@@ -52,5 +58,7 @@ export class ActividadesApiService {
         const url =apiUrl + `${this.ruta}/eliminarRestriccionPorId/${id}`;
         return this.httpCliente.delete<eliminarRestriccion>(url);
     }
+
+    
 
 }
