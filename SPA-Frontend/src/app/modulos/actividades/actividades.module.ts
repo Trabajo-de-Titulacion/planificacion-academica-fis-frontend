@@ -18,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { RestriccionLugarTiempoComponent } from './componentes/restriccion-lugar-tiempo/restriccion-lugar-tiempo.component';
 import { CrearActividadComponent } from './componentes/crear-actividad/crear-actividad.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActualizarActividadComponent } from './componentes/actualizar-actividad/actualizar-actividad.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     CrearActividadDialogComponent,
     RestriccionLugarTiempoComponent,
     CrearActividadComponent,
+    ActualizarActividadComponent,
   ],
   imports: [
     CommonModule,
