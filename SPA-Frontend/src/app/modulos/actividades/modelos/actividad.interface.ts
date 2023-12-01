@@ -31,3 +31,10 @@ export interface ActividadEntity{
     asignatura?: Asignatura;
     grupo?: Grupo;
 }
+
+//Interfaz para restricciones docente
+export interface ObtenerRestriccionesDocente{
+    dia: string,
+    hora_inicio: number,
+    idActividad: number
+}

@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { apiUrl } from "src/environments/environment";
-import { Actividad, ActividadEntity, CrearActividad } from "../modelos/actividad.interface";
+import { Actividad, ActividadEntity, CrearActividad, ObtenerRestriccionesDocente } from "../modelos/actividad.interface";
 import { ObtenerEspacioFisico } from "../modelos/espacios-fisicos.interface";
 import { CrearRestriccion, eliminarRestriccion, obtenerRestriccion } from "../modelos/restriccion-actividad.interface";
 
@@ -46,6 +46,12 @@ export class ActividadesApiService {
     obtenerRestriccionesPorId(id:number){
         const url =apiUrl + `${this.ruta}/obtenerRestriccionesPorId/${id}`;
         return this.httpCliente.get<obtenerRestriccion[]>(url);
+    }
+
+    //metodo para llamar el metodo desde la URL
+    obtenerRestriccionesDelDocentePorID(id: string){
+        const url = apiUrl + `${this.ruta}/obtenerRestriccionesDelDocentePorId/${id}`;
+        return this.httpCliente.get<ObtenerRestriccionesDocente[]>(url);
     }
 
     eliminarRestriccionPorId(id:number){

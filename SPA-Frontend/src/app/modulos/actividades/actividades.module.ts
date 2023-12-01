@@ -18,6 +18,7 @@ import { RestriccionLugarComponent } from './componentes/restriccion-lugar/restr
 import {MatFormFieldModule} from '@angular/material/form-field'; 
 import { MatSelectModule } from '@angular/material/select';
 import { RestriccionLugarTiempoComponent } from './componentes/restriccion-lugar-tiempo/restriccion-lugar-tiempo.component';
+import { ActividadesApiService } from './servicios/actividades_api.service';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,6 @@ import { RestriccionLugarTiempoComponent } from './componentes/restriccion-lugar
     MatIconModule,
     MatFormFieldModule,
     MatSelectModule
-  ]
+  ],
 })
 export class ActividadesModule { }
