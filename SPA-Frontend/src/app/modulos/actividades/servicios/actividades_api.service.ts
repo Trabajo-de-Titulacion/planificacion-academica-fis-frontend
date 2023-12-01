@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { apiUrl } from "src/environments/environment";
-import { Actividad, ActividadEntity, CrearActividad } from "../modelos/actividad.interface";
+import { Actividad, ActividadEntity, ActualizarActividad, CrearActividad } from "../modelos/actividad.interface";
 import { ObtenerEspacioFisico } from "../modelos/espacios-fisicos.interface";
 import { CrearRestriccion, eliminarRestriccion, obtenerRestriccion } from "../modelos/restriccion-actividad.interface";
 
@@ -42,6 +42,12 @@ export class ActividadesApiService {
     eliminarActividadPorId(id:number){
         const url =apiUrl + `${this.ruta}/eliminarActividadPorId/${id}`;
         return this.httpCliente.delete<ActividadEntity>(url);
+    }
+
+    //
+    actualizarActividadPorId(id:number, nuevaActividad:ActualizarActividad){
+        const url =apiUrl + `${this.ruta}/actualizarActividadPorId/${id}`;
+        return this.httpCliente.put<ActividadEntity>(url,nuevaActividad);
     }
 
     obtenerEspaciosFisicosPorTipoDeAula(id:string){

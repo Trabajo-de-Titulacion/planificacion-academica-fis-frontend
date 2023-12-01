@@ -32,3 +32,10 @@ export interface ActividadEntity{
     grupo?: Grupo;
 }
 
+export interface ActualizarActividad{
+    idAsignatura: string;
+    idGrupo: string;
+    duracion: number;
+}
+
+

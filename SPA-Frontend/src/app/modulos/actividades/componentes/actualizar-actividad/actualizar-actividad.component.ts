@@ -78,8 +78,8 @@ export class ActualizarActividadComponent implements OnInit {
   formularioCrearActividad: FormGroup = new FormGroup({});
   semestreEnCurso?: Semestre;
 
-  idActividadRuta:string='';
-  actividad : ActividadEntity = {};
+  idActividadRuta: string = '';
+  actividad: ActividadEntity = {};
   espaciosFisicosDisponibles: ObtenerEspacioFisico[] = []
 
   // @ts-ignore
@@ -95,8 +95,8 @@ export class ActualizarActividadComponent implements OnInit {
     private readonly actividadesService: ActividadesApiService,
     private readonly tiposAulaService: TiposAulasApiService,
     private readonly gruposService: GrupoApiService,
-    private actividadService:ActividadesApiService,
-    private route:ActivatedRoute, 
+    private actividadService: ActividadesApiService,
+    private route: ActivatedRoute,
     private readonly fb: FormBuilder,
   ) {
     this.cargarDatosPrevios();
@@ -169,208 +169,30 @@ export class ActualizarActividadComponent implements OnInit {
     return rangosDeTiempo;
   }
 
-
-
-  //CREACION DE FORMULARIO Y CARGA DE DATOS
-  private crearFormularioCrearActividad() {
-    this.formularioCrearActividad = this.fb.group({
-      docente: ['', Validators.required],
-      tipoAula: ['', Validators.required],
-      asignatura: ['', Validators.required],
-      grupo: ['', Validators.required],
-      duracion: [1, Validators.required],
-    })
-  }
-
-  cargarSemestreEnCurso() {
-    Swal.showLoading();
-    this.semestreService.obtenerSemestreConPlanificacionEnProgreso().subscribe({
-      next: (semestre) => {
-        this.semestreEnCurso = semestre as Semestre;
-        this.cargarNumeroEstudiantes();
-      },
-      error: (res) => {
-        console.log("error en cargar el semestre");
-      },
-      complete: () => {
-        Swal.close();
-      }
-    });
-  }
-
-  cargarTiposAula() {
-    Swal.showLoading();
-    if (this.semestreEnCurso) {
-      this.tiposAulaService.obtenerTipoAulas().subscribe({
-        next: (data) => {
-          this.tiposAulas = data as TipoAula[];
-          this.dataSourceTipoAulas = new MatTableDataSource(this.tiposAulas);
-          console.log("tiposAulas", this.tiposAulas)
-          this.cargarGrupos();
-        },
-        error: () => {
-          this.mostrarMensajeError('No se pudo cargar la información de docentes.');
-        },
-        complete: () => {
-          Swal.close();
-        }
-      })
-    }
-  }
-
-  cargarGrupos() {
-    Swal.showLoading();
-    if (this.semestreEnCurso) {
-      this.gruposService.obtenerGrupos().subscribe({
-        next: (data) => {
-          this.grupos = data as Grupo[];
-          this.dataSourceGrupos = new MatTableDataSource(this.grupos);
-          console.log("grupos", this.grupos)
-        },
-        error: () => {
-          this.mostrarMensajeError('No se pudo cargar la información de docentes.');
-        },
-        complete: () => {
-          Swal.close();
-        }
-      })
-    }
-  }
-
-  cargarNumeroEstudiantes() {
-    Swal.showLoading();
-    if (this.semestreEnCurso) {
-      this.numeroEstudiantesService.obtenerNumeroEstudiantesPorSemestreId(this.semestreEnCurso?.id!!).subscribe({
-        next: (data) => {
-          this.numeroEstudiantes = data as NumeroEstudiantesPorSemestre[];
-          this.dataSourceAsignaturas = new MatTableDataSource(this.numeroEstudiantes);
-          this.cargarTiposAula();
-        },
-        error: () => {
-          this.mostrarMensajeError('No se pudo cargar la información de docentes.');
-        },
-        complete: () => {
-          Swal.close();
-        }
-      })
-    }
-  }
-
-  cargarDatosPrevios() {
-    Swal.showLoading();
-    this.docentesService.visualizarDocentes().subscribe({
-      next: (data) => {
-        this.docentes = data as Docente[];
-        this.dataSource = new MatTableDataSource(this.docentes);
-        this.cargarSemestreEnCurso();
-
-      },
-      error: () => {
-        this.mostrarMensajeError('No se pudo cargar la información de docentes.');
-      },
-      complete: () => {
-        Swal.close();
-      }
-    })
-  }
-
-  seleccionarTipoAula(obj: any) {
-    this.tipoAulaSeleccionada = obj;
-  }
-
-  seleccionarGrupo(obj: any) {
-    this.grupoSeleccionado = obj;
-  }
-
-  seleccionarDocente(obj: any) {
-    this.docenteSeleccionado = obj;
-  }
-
-  seleccionarAsignatura(obj: any) {
-    this.asignaturaSeleccionada = obj;
-  }
-
-  mostrarMensajeError(mensaje: string) {
-    Swal.fire({
-      title: 'Error',
-      text: mensaje,
-      showCancelButton: true,
-      confirmButtonText: 'Reiniciar página',
-      cancelButtonText: 'Cerrar',
-      icon: 'error',
-    }
-    ).then((result) => {
-      if (result.isConfirmed) {
-        window.location.reload();
-      }
-    });
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
-  applyFilterAsignaturas(event2: Event) {
-    const filterValue = (event2.target as HTMLInputElement).value;
-    this.dataSourceAsignaturas.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSourceAsignaturas.paginator) {
-      this.dataSourceAsignaturas.paginator.firstPage();
-    }
-  }
-
-  applyFilterGrupos(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSourceGrupos.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSourceGrupos.paginator) {
-      this.dataSourceGrupos.paginator.firstPage();
-    }
-  }
-
-  applyFilterTiposAulas(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSourceTipoAulas.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSourceTipoAulas.paginator) {
-      this.dataSourceTipoAulas.paginator.firstPage();
-    }
-  }
-
-  crearActividad() {
+  //Actualizar actividad
+  actualizarActividad() {
+    const idActividadRuta = this.actividad.id!!;
     const idAsignatura = this.asignaturaSeleccionada?.id;
-    const idDocente = this.docenteSeleccionado?.id;
     const idGrupo = this.grupoSeleccionado?.id;
-    const idTipoAula = this.tipoAulaSeleccionada?.id;
     const duracion = this.formularioCrearActividad.get("duracion")?.value;
 
-    const hasValues = idAsignatura && idDocente && idGrupo && idTipoAula && duracion;
+    const hasValues = idAsignatura && idGrupo  && duracion;
 
     if (hasValues) {
       const actividad = {
         idAsignatura,
-        idDocente,
         idGrupo,
-        idTipoAula,
         duracion
       }
 
       Swal.showLoading();
-      this.actividadesService.crearUnaActividad(actividad).subscribe(
+      console.log(idActividadRuta)
+      console.log(actividad)
+      this.actividadesService.actualizarActividadPorId(idActividadRuta,actividad).subscribe(
         {
           next: () => {
             Swal.fire({
-              title: 'Se ha registrado correctamente una actividad.',
+              title: 'Se ha actualizado correctamente una actividad.',
               icon: 'success',
               timer: 9500
             }).then(() => {
@@ -380,7 +202,7 @@ export class ActualizarActividadComponent implements OnInit {
           error: (error) => {
             Swal.fire({
               icon: 'error',
-              title: 'Error al crear actividad',
+              title: 'Error al actualizar actividad',
               text: error.error.message ? error.error.message : "Ha existido un error al crear la actividad",
             })
           }
@@ -388,6 +210,227 @@ export class ActualizarActividadComponent implements OnInit {
       )
     }
   }
+
+
+
+
+  //CREACION DE FORMULARIO Y CARGA DE DATOS
+  private crearFormularioCrearActividad() {
+  this.formularioCrearActividad = this.fb.group({
+    docente: ['', Validators.required],
+    tipoAula: ['', Validators.required],
+    asignatura: ['', Validators.required],
+    grupo: ['', Validators.required],
+    duracion: [1, Validators.required],
+  })
+}
+
+cargarSemestreEnCurso() {
+  Swal.showLoading();
+  this.semestreService.obtenerSemestreConPlanificacionEnProgreso().subscribe({
+    next: (semestre) => {
+      this.semestreEnCurso = semestre as Semestre;
+      this.cargarNumeroEstudiantes();
+    },
+    error: (res) => {
+      console.log("error en cargar el semestre");
+    },
+    complete: () => {
+      Swal.close();
+    }
+  });
+}
+
+cargarTiposAula() {
+  Swal.showLoading();
+  if (this.semestreEnCurso) {
+    this.tiposAulaService.obtenerTipoAulas().subscribe({
+      next: (data) => {
+        this.tiposAulas = data as TipoAula[];
+        this.dataSourceTipoAulas = new MatTableDataSource(this.tiposAulas);
+        console.log("tiposAulas", this.tiposAulas)
+        this.cargarGrupos();
+      },
+      error: () => {
+        this.mostrarMensajeError('No se pudo cargar la información de docentes.');
+      },
+      complete: () => {
+        Swal.close();
+      }
+    })
+  }
+}
+
+cargarGrupos() {
+  Swal.showLoading();
+  if (this.semestreEnCurso) {
+    this.gruposService.obtenerGrupos().subscribe({
+      next: (data) => {
+        this.grupos = data as Grupo[];
+        this.dataSourceGrupos = new MatTableDataSource(this.grupos);
+        console.log("grupos", this.grupos)
+      },
+      error: () => {
+        this.mostrarMensajeError('No se pudo cargar la información de docentes.');
+      },
+      complete: () => {
+        Swal.close();
+      }
+    })
+  }
+}
+
+cargarNumeroEstudiantes() {
+  Swal.showLoading();
+  if (this.semestreEnCurso) {
+    this.numeroEstudiantesService.obtenerNumeroEstudiantesPorSemestreId(this.semestreEnCurso?.id!!).subscribe({
+      next: (data) => {
+        this.numeroEstudiantes = data as NumeroEstudiantesPorSemestre[];
+        this.dataSourceAsignaturas = new MatTableDataSource(this.numeroEstudiantes);
+        this.cargarTiposAula();
+      },
+      error: () => {
+        this.mostrarMensajeError('No se pudo cargar la información de docentes.');
+      },
+      complete: () => {
+        Swal.close();
+      }
+    })
+  }
+}
+
+cargarDatosPrevios() {
+  Swal.showLoading();
+  this.docentesService.visualizarDocentes().subscribe({
+    next: (data) => {
+      this.docentes = data as Docente[];
+      this.dataSource = new MatTableDataSource(this.docentes);
+      this.cargarSemestreEnCurso();
+
+    },
+    error: () => {
+      this.mostrarMensajeError('No se pudo cargar la información de docentes.');
+    },
+    complete: () => {
+      Swal.close();
+    }
+  })
+}
+
+seleccionarTipoAula(obj: any) {
+  this.tipoAulaSeleccionada = obj;
+}
+
+seleccionarGrupo(obj: any) {
+  this.grupoSeleccionado = obj;
+}
+
+seleccionarDocente(obj: any) {
+  this.docenteSeleccionado = obj;
+}
+
+seleccionarAsignatura(obj: any) {
+  this.asignaturaSeleccionada = obj;
+}
+
+mostrarMensajeError(mensaje: string) {
+  Swal.fire({
+    title: 'Error',
+    text: mensaje,
+    showCancelButton: true,
+    confirmButtonText: 'Reiniciar página',
+    cancelButtonText: 'Cerrar',
+    icon: 'error',
+  }
+  ).then((result) => {
+    if (result.isConfirmed) {
+      window.location.reload();
+    }
+  });
+}
+
+ngAfterViewInit() {
+  this.dataSource.paginator = this.paginator;
+  this.dataSource.sort = this.sort;
+}
+
+applyFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+
+  if (this.dataSource.paginator) {
+    this.dataSource.paginator.firstPage();
+  }
+}
+
+applyFilterAsignaturas(event2: Event) {
+  const filterValue = (event2.target as HTMLInputElement).value;
+  this.dataSourceAsignaturas.filter = filterValue.trim().toLowerCase();
+
+  if (this.dataSourceAsignaturas.paginator) {
+    this.dataSourceAsignaturas.paginator.firstPage();
+  }
+}
+
+applyFilterGrupos(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSourceGrupos.filter = filterValue.trim().toLowerCase();
+
+  if (this.dataSourceGrupos.paginator) {
+    this.dataSourceGrupos.paginator.firstPage();
+  }
+}
+
+applyFilterTiposAulas(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSourceTipoAulas.filter = filterValue.trim().toLowerCase();
+
+  if (this.dataSourceTipoAulas.paginator) {
+    this.dataSourceTipoAulas.paginator.firstPage();
+  }
+}
+
+crearActividad() {
+  const idAsignatura = this.asignaturaSeleccionada?.id;
+  const idDocente = this.docenteSeleccionado?.id;
+  const idGrupo = this.grupoSeleccionado?.id;
+  const idTipoAula = this.tipoAulaSeleccionada?.id;
+  const duracion = this.formularioCrearActividad.get("duracion")?.value;
+
+  const hasValues = idAsignatura && idDocente && idGrupo && idTipoAula && duracion;
+
+  if (hasValues) {
+    const actividad = {
+      idAsignatura,
+      idDocente,
+      idGrupo,
+      idTipoAula,
+      duracion
+    }
+
+    Swal.showLoading();
+    this.actividadesService.crearUnaActividad(actividad).subscribe(
+      {
+        next: () => {
+          Swal.fire({
+            title: 'Se ha registrado correctamente una actividad.',
+            icon: 'success',
+            timer: 9500
+          }).then(() => {
+
+          })
+        },
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al crear actividad',
+            text: error.error.message ? error.error.message : "Ha existido un error al crear la actividad",
+          })
+        }
+      }
+    )
+  }
+}
 }
 
 
