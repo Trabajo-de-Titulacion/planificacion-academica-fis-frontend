@@ -14,6 +14,8 @@ import { ActivatedRoute } from '@angular/router';
 import { HorasNoDisponiblesApiService } from '../../servicios/horas-no-disponibles-api.service';
 import { DISPONIBILIDAD, HoraSemana, ObtenerHoraNoDisponible } from '../../modelos/horaSemana.interface';
 import { CrearHoraNoDisponible, HoraNoDisponible } from '../../modelos/hora_no_disponible.interface';
+import { ObtenerRestriccionesDocente } from 'src/app/modulos/actividades/modelos/actividad.interface';
+import { ActividadesApiService } from 'src/app/modulos/actividades/servicios/actividades_api.service';
 
 @Component({
   selector: 'app-modificar-horas-no-disponibles-docentes',
@@ -27,7 +29,8 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
     private readonly horasNoDisponiblesService: HorasNoDisponiblesApiService,
     private readonly docenteService: DocenteApiService,
     private readonly usuarioStorageService: UsuarioStorageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private readonly actividadesService: ActividadesApiService
   ) { }
 
   columnasTabla: string[] = ['HORA'];
@@ -53,17 +56,26 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
   //Para get de obtener horarios no disponibles del docente
   horasDiasNoDisponbilesDelDocente: ObtenerHoraNoDisponible[] = [];
 
+  restriccionesDelDocente: ObtenerRestriccionesDocente[] = [];
+
   ngOnInit(): void {
     this.cargarParametro();
+    this.obtenerRestriccionesDelDocente(this.idDocente)
     this.cargarHorasDiasNoDisponiblesDelDocente(this.idDocente)
     this.cargarJornadasLaborales();
     this.cargarDocentePorSuId(this.idDocente)
     console.log(this.horasDiasNoDisponbilesDelDocente)
-  
   }
 
-  obtenerHorarioFormulario(){
-
+  obtenerRestriccionesDelDocente(idDocente: string){
+    this.actividadesService.obtenerRestriccionesDelDocentePorID(idDocente).subscribe({
+      next: (restricciones) => {
+        this.restriccionesDelDocente = restricciones;
+      },
+      complete: () => {
+        console.log(this.restriccionesDelDocente)
+      }
+    })
   }
 
   //Funcion para traer el nombre del docente
@@ -113,13 +125,14 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
         const dias = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
         dias.forEach(dia => {
           this.jornadasLaborales!.forEach(jornada => {
-            if (jornada.dia.toUpperCase() == dia) {
+            if (jornada.dia.toUpperCase() === dia) {
               this.columnasTabla.push(jornada.dia);
             }
           });
         });
         // Crear filas en la tabla
         this.crearFilasTabla();
+        console.log("Semestres jornadas: ", semestre.jornadas)
         // Cargar información de las horas del usuario
         //this.cargarHorasNoDisponiblesPrevias();
       },
@@ -201,8 +214,19 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
       const horaFin = Number(jornadaCorrespondiente.horaFin.split(':')[0]);
       const horaAlmuerzo = Number(jornadaCorrespondiente.horaAlmuerzo.split(':')[0]);
       if ((horaInicio <= hora) && (hora < horaFin)) {
-        if (hora == horaAlmuerzo) {
+        if (hora === horaAlmuerzo) {
           return DISPONIBILIDAD.ALMUERZO;
+        }
+
+        let noDisponiblePorActividad = false;
+        this.restriccionesDelDocente.map(e => {
+        if(hora === e.hora_inicio && dia === e.dia){
+            noDisponiblePorActividad = true
+        }
+        })
+
+        if(noDisponiblePorActividad){
+          return DISPONIBILIDAD.OCUPADO_POR_ACTIVIDAD;
         }
         // Se crea el control cuando es una hora que se pueda seleccionar
         this.crearControl(dia, hora);
@@ -241,6 +265,7 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
         this.formGroup.controls[control].setValue(DISPONIBILIDAD.NO_DISPONIBLE)
       }
     })
+    console.log("Cargar celdas docente:" + this.restriccionesDelDocente)
   }
 
   escucharCambiosControles() {

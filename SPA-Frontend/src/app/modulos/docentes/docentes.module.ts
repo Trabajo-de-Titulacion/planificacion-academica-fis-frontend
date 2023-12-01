@@ -20,6 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ModificarHorasNoDisponiblesComponent } from './componentes/modificar-horas-no-disponibles/modificar-horas-no-disponibles.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
+import { ActividadesModule } from '../actividades/actividades.module';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatSortModule,
     MatTooltipModule,
+    ActividadesModule
   ]
 })
 export class DocentesModule { }

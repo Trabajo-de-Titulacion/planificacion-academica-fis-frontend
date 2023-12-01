@@ -38,4 +38,9 @@ export interface ActualizarActividad{
     duracion: number;
 }
 
-
+//Interfaz para restricciones docente
+export interface ObtenerRestriccionesDocente{
+    dia: string,
+    hora_inicio: number,
+    idActividad: number
+}

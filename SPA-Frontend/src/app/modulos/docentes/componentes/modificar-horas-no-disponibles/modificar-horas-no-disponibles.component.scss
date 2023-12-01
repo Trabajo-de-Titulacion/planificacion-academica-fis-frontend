@@ -89,3 +89,8 @@ mat-header-cell, mat-cell {
     justify-content: center;
 }
 
+.fila-ocupada {
+    background-color: yellow;
+    cursor:not-allowed;
+    width: 100%;
+}

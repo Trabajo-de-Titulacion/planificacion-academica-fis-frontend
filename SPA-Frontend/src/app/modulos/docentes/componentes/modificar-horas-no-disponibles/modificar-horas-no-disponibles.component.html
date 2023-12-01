@@ -30,9 +30,12 @@
         <mat-header-cell *matHeaderCellDef>{{dia}}</mat-header-cell>
         <mat-cell *matCellDef="let fila">
           <!-- No hay hora que seleccionar -->
-          <div *ngIf="fila[dia] == disponibilidad.NO_DISPONIBLE"></div>
+          <div *ngIf="fila[dia] === disponibilidad.NO_DISPONIBLE"></div>
           <!-- Almuerzo -->
-          <div *ngIf="fila[dia] == disponibilidad.ALMUERZO">Almuerzo</div>
+          <div *ngIf="fila[dia] === disponibilidad.ALMUERZO">Almuerzo</div>
+
+          <div class="fila-ocupada" *ngIf="fila[dia] === disponibilidad.OCUPADO_POR_ACTIVIDAD">Ocupado</div>
+
           <!-- Seleccionar hora -->
           <mat-checkbox *ngIf="fila[dia] == disponibilidad.DISPONIBLE"
             [formControlName]="obtenerNombreControl(dia, fila.hora)">

@@ -19,6 +19,7 @@ import { RestriccionLugarTiempoComponent } from './componentes/restriccion-lugar
 import { CrearActividadComponent } from './componentes/crear-actividad/crear-actividad.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActualizarActividadComponent } from './componentes/actualizar-actividad/actualizar-actividad.component';
+import { ActividadesApiService } from './servicios/actividades_api.service';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,6 @@ import { ActualizarActividadComponent } from './componentes/actualizar-actividad
     MatIconModule,
     MatFormFieldModule,
     MatSelectModule
-  ]
+  ],
 })
 export class ActividadesModule { }
