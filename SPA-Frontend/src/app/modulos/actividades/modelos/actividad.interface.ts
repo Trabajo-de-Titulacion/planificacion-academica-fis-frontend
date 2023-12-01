@@ -32,6 +32,12 @@ export interface ActividadEntity{
     grupo?: Grupo;
 }
 
+export interface ActualizarActividad{
+    idAsignatura: string;
+    idGrupo: string;
+    duracion: number;
+}
+
 //Interfaz para restricciones docente
 export interface ObtenerRestriccionesDocente{
     dia: string,

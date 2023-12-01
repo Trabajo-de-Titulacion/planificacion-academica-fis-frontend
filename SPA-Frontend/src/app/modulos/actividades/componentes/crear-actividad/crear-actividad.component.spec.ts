@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RestriccionTiempoComponent } from './restriccion-tiempo.component';
+import { CrearActividadComponent } from './crear-actividad.component';
 
-describe('RestriccionTiempoComponent', () => {
-  let component: RestriccionTiempoComponent;
-  let fixture: ComponentFixture<RestriccionTiempoComponent>;
+describe('CrearActividadComponent', () => {
+  let component: CrearActividadComponent;
+  let fixture: ComponentFixture<CrearActividadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RestriccionTiempoComponent ]
+      declarations: [ CrearActividadComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RestriccionTiempoComponent);
+    fixture = TestBed.createComponent(CrearActividadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

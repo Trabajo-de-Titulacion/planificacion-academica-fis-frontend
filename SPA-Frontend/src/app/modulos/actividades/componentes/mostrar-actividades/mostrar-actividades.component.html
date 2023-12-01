@@ -7,7 +7,7 @@
         </div>
         <div class="header-operations">
             <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary"
-                (click)="abrirCrearActividadDialog()">
+                [routerLink]="['crear-actividad']">
                 Crear una actividad
             </button>
         </div>
@@ -63,11 +63,19 @@
 
             <!-- BOTONES DE TIEMPO/LUGAR -->
             <ng-container matColumnDef="restricciones">
-                <mat-header-cell *matHeaderCellDef class="centerCell">Restricciones</mat-header-cell>
-                <mat-cell *matCellDef="let fila" style="justify-content: center;">
+                <mat-header-cell *matHeaderCellDef class="centerCell">Acciones</mat-header-cell>
+                <mat-cell *matCellDef="let fila" >
                     <!-- AÑADIR RESTRICCIONES -->
-                    <button mat-icon-button [routerLink]="[fila.id,'restricciones']" matTooltip="Horas">
+                    <button mat-icon-button [routerLink]="[fila.id,'restricciones']" matTooltip="Agregar restricciones">
                         <mat-icon color="primary">work_off</mat-icon>
+                    </button>
+                    <!-- ACTUALIZAR ACTIVIDAD -->
+                    <button mat-icon-button [routerLink]="[fila.id,'actualizar-actividad']" matTooltip="Actualizar actividad">
+                        <mat-icon color="primary">edit</mat-icon>
+                    </button>
+                    <!-- ELIMINAR ACTIVIDAD -->
+                    <button mat-icon-button (click)="eliminarActividad(fila.id)" matTooltip="Eliminar actividad">
+                        <mat-icon color="warn">delete</mat-icon>
                     </button>
                 </mat-cell>
             </ng-container>

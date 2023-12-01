@@ -29,7 +29,7 @@ import { EsSubdecanoGuard } from './servicios/auth/guards/es-subdecano.guard';
 import { EsGestorEspaciosFisicosGuard } from './servicios/auth/guards/es-gestor-espacios.guard';
 import { EsJefeDeDepartamentoGuard } from './servicios/auth/guards/es-jefe-de-departamento.guard';
 import { MatTableExporterModule } from 'mat-table-exporter';
-import {MatFormFieldModule} from '@angular/material/form-field'; 
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [

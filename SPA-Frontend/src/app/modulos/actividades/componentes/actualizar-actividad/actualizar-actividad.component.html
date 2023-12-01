@@ -1,0 +1,165 @@
+<div class="header">
+    <mat-card-title>Actualizar Actividad</mat-card-title>
+</div>
+<div class="activities" [formGroup]="formularioCrearActividad">
+    <div class="container">
+        
+        <section class="container-table-selection">
+            <mat-card class="dialog">
+                <h3><strong>Selecciona una asignatura</strong></h3>
+                <mat-card-content>
+                    <mat-form-field class="dialog-input-filter">
+                        <mat-label>Buscar asignatura por su nombre</mat-label>
+                        <input matInput (keyup)="applyFilterAsignaturas($event)"
+                            placeholder="Ej: ALGEBRA LINEAL (MATD113)" #input>
+                    </mat-form-field>
+
+                    <div class="mat-elevation-z8 container-table">
+                        <table mat-table [dataSource]="dataSourceAsignaturas" class="demo-table" matSort>
+
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="asignatura">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Asignatura seleccionada:</th>
+                                <td class="mat-mdc-row mat-mdc-cell" style="flex: 1;" mat-cell *matCellDef="let row">
+                                    {{row.asignatura.nombre}} ({{row.asignatura.codigo}})
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsAsignaturas"></tr>
+
+                            <!-- Row shown when there is no matching data. -->
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                            </tr>
+
+                            <tr mat-row (click)="seleccionarAsignatura(row)"
+                                [class.demo-row-is-clicked]="asignaturaSeleccionada ? row.id === asignaturaSeleccionada.id : false"
+                                *matRowDef="let row; columns: displayedColumnsAsignaturas;"></tr>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </section>
+        <section class="container-table-selection">
+            <mat-card class="dialog">
+                <h3><strong>Selecciona un grupo</strong></h3>
+                <mat-card-content>
+                    <mat-form-field class="dialog-input-filter">
+                        <mat-label>Buscar un grupo para dicha actividad</mat-label>
+                        <input matInput (keyup)="applyFilterGrupos($event)" placeholder="Ej: ALGEBRA LINEAL (MATD113)"
+                            #input>
+                    </mat-form-field>
+
+                    <div class="mat-elevation-z8 container-table">
+                        <table mat-table [dataSource]="dataSourceGrupos" class="demo-table" matSort>
+
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="grupo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Grupo:</th>
+                                <td class="mat-mdc-row mat-mdc-cell" mat-cell *matCellDef="let row">
+                                    {{row.nombre}} </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsGrupos"></tr>
+
+                            <!-- Row shown when there is no matching data. -->
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                            </tr>
+
+                            <tr mat-row (click)="seleccionarGrupo(row)"
+                                [class.demo-row-is-clicked]="grupoSeleccionado ? row.id === grupoSeleccionado.id : false"
+                                *matRowDef="let row; columns: displayedColumnsGrupos;"></tr>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </section>
+    </div>
+
+    <div class="container-summary">
+        <mat-card>
+            <mat-card-title>
+                Descripción de la actividad
+            </mat-card-title>
+            <mat-card-content>
+                <mat-list role="list">
+                    <mat-list-item class="list-container" role="listitem">
+                        <div class="list-container-row-title">
+                            <mat-icon>school</mat-icon>
+                            <strong>Docente seleccionado:</strong>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="docenteSeleccionado"
+                        role="listitem">{{docenteSeleccionado.nombreCompleto}}</mat-list-item>
+                    <mat-list-item style="color: rgb(131, 131, 131);" *ngIf="!docenteSeleccionado"
+                        role="listitem">{{this.actividad.docente!!.nombreCompleto}}</mat-list-item>
+                    <mat-list-item class="list-container" role="listitem">
+                        <div class="list-container-row-title">
+                            <mat-icon>book</mat-icon>
+                            <strong>Asignatura:</strong>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="asignaturaSeleccionada" role="listitem">{{
+                        asignaturaSeleccionada.asignatura?.nombre}}
+                        ({{asignaturaSeleccionada.asignatura?.codigo
+                        }})</mat-list-item>
+                    <mat-list-item style="color: rgb(131, 131, 131);" *ngIf="!asignaturaSeleccionada"
+                        role="listitem">{{this.actividad.asignatura!!.nombre}}
+                        {{this.actividad.asignatura!!.codigo}}</mat-list-item>
+                    <mat-list-item class="list-container" role="listitem">
+                        <div class="list-container-row-title">
+                            <mat-icon>format_list_numbered</mat-icon>
+                            <strong>Número de estudiantes de la asignatura:</strong>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="asignaturaSeleccionada" role="listitem">
+                        {{asignaturaSeleccionada.numeroEstudiantes}}</mat-list-item>
+                    <mat-list-item style="color: rgb(131, 131, 131);" *ngIf="!asignaturaSeleccionada" role="listitem">
+                        {{this.actividad.numeroEstudiantes}}</mat-list-item>
+                    <mat-list-item class="list-container" role="listitem">
+                        <div class="list-container-row-title">
+                            <mat-icon>person_pin</mat-icon>
+                            <strong>Tipo de aula:</strong>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="tipoAulaSeleccionada" role="listitem"> {{tipoAulaSeleccionada.tipo}} -
+                        {{tipoAulaSeleccionada.facultad.nombre}}</mat-list-item>
+                    <mat-list-item style="color: rgb(131, 131, 131);" *ngIf="!tipoAulaSeleccionada"
+                        role="listitem">{{this.actividad.tipoAula!!.tipo}}</mat-list-item>
+                    <mat-list-item class="list-container" role="listitem">
+                        <div class="list-container-row-title">
+                            <mat-icon>person_pin</mat-icon>
+                            <strong>Grupo:</strong>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="grupoSeleccionado" role="listitem">
+                        {{grupoSeleccionado ? grupoSeleccionado.nombre :
+                        ''}}</mat-list-item>
+                    <mat-list-item style="color: rgb(131, 131, 131);" *ngIf="!grupoSeleccionado"
+                        role="listitem">{{this.actividad.grupo!!.nombre}}</mat-list-item>
+                    <mat-list-item class="list-container" role="listitem">
+                        <div class="list-container-row-title">
+                            <mat-icon>av_timer</mat-icon>
+                            <strong>Duración (en horas):</strong>
+                        </div>
+                    </mat-list-item>
+                    <mat-list-item role="listitem">
+                        <mat-form-field appearance="legacy">
+                            <input matInput formControlName="duracion" type="number" value="{{this.actividad.duracion}}"
+                                [min]="1" [max]="8">
+                        </mat-form-field>
+                    </mat-list-item>
+                    <mat-list-item style="margin: 1rem 0rem 1rem 0rem;" class="send-form-button">
+                        <button
+                            [disabled]="!grupoSeleccionado || !asignaturaSeleccionada"
+                            (click)="actualizarActividad()" style="width: 100%; margin: auto;" mat-raised-button
+                            color="primary">Actualizar actividad</button>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
