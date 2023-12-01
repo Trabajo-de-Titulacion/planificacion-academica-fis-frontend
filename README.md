@@ -1,51 +1,27 @@
-# Instalación para desarrollo
+# SPAFrontend
 
-### Prerequisitos
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
 
-- Tener instalado nodejs versión >= 16.X.X
-- Tener levantado el componente SPA_BACKEND en el puerto 3000
+## Development server
 
-### Instalación
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-1. Clone el repositorio del componente en GitHub:
+## Code scaffolding
 
-```bash
-git clone https://github.com/Trabajo-de-Titulacion/planificacion-academica-fis-frontend
-```
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-2. Ingrese al directorio del proyecto:
+## Build
 
-```
-cd planificacion-academica-fis-frontend
-```
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-3. Dentro del directorio del proyecto, cambie su rama actual a la rama de un integrante, en este caso a:
+## Running unit tests
 
-```bash
-git checkout develop
-```
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-4. Acceda al directorio donde se encuentra el proyecto en Angular con el comando:
+## Running end-to-end tests
 
-```bash
-cd SPA-Frontend/
-```
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-5. Instale las dependencias del proyecto con el comando:
+## Further help
 
-```
-npm install -f
-```
-
-6. Para levantar la aplicación SPA ejecute el siguiente comando:
-
-```bash
-ng serve
-```
-
-<aside>
-📖 Nota: El aplicativo se levantará en http://localhost:4200 en caso de no disponer otra aplicación Angular ejecutándose.
-
-</aside>
-
-6. Ingrese a la dirección  [http://localhost:4200/login](http://localhost:4200/login) para iniciar sesión.
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
