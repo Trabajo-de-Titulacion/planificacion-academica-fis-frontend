@@ -172,15 +172,21 @@ export class ActualizarActividadComponent implements OnInit {
   //Actualizar actividad
   actualizarActividad() {
     const idActividadRuta = this.actividad.id!!;
-    const idAsignatura = this.asignaturaSeleccionada?.id;
+    const idDocente = this.docenteSeleccionado?.id;
+    const idAsignatura = this.asignaturaSeleccionada?.asignatura?.id;
+    const idTipoAula = this.tipoAulaSeleccionada?.id;
     const idGrupo = this.grupoSeleccionado?.id;
     const duracion = this.formularioCrearActividad.get("duracion")?.value;
 
     const hasValues = idAsignatura && idGrupo  && duracion;
 
+    console.log("Asignatura",this.asignaturaSeleccionada);
+    console.log('idAsignatura',this.asignaturaSeleccionada?.asignatura?.id);
     if (hasValues) {
       const actividad = {
         idAsignatura,
+        idDocente,
+        idTipoAula,
         idGrupo,
         duracion
       }
@@ -214,8 +220,8 @@ export class ActualizarActividadComponent implements OnInit {
 
 
 
-  //CREACION DE FORMULARIO Y CARGA DE DATOS
-  private crearFormularioCrearActividad() {
+//CREACION DE FORMULARIO Y CARGA DE DATOS
+private crearFormularioCrearActividad() {
   this.formularioCrearActividad = this.fb.group({
     docente: ['', Validators.required],
     tipoAula: ['', Validators.required],
