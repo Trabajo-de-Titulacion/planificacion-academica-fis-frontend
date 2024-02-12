@@ -25,28 +25,6 @@ export interface UserData {
 }
 
 
-const NAMES: string[] = [
-    'Maia',
-    'Asher',
-    'Olivia',
-    'Atticus',
-    'Amelia',
-    'Jack',
-    'Charlotte',
-    'Theodore',
-    'Isla',
-    'Oliver',
-    'Isabella',
-    'Jasper',
-    'Cora',
-    'Levi',
-    'Violet',
-    'Arthur',
-    'Mia',
-    'Thomas',
-    'Elizabeth',
-];
-
 @Component({
     selector: 'app-crear-actividad',
     templateUrl: './crear-actividad.component.html',
@@ -94,6 +72,9 @@ export class CrearActividadComponent implements OnInit, AfterViewInit {
         this.cargarDatosPrevios();
 
         // Assign the data to the data source for the table to render
+        console.log("Estudiantes:",this.numeroEstudiantes)
+        console.log("Docentes:",this.docentes)
+        console.log("TIposAulas:",this.tiposAulas)
         this.dataSource = new MatTableDataSource(this.docentes);
         this.dataSourceAsignaturas = new MatTableDataSource(this.numeroEstudiantes);
         this.dataSourceTipoAulas = new MatTableDataSource(this.tiposAulas);
@@ -182,6 +163,7 @@ export class CrearActividadComponent implements OnInit, AfterViewInit {
                     this.mostrarMensajeError('No se pudo cargar la información de docentes.');
                 },
                 complete: () => {
+                    console.log("CargarEstudiantes;",this.numeroEstudiantes)
                     Swal.close();
                 }
             })
@@ -323,17 +305,3 @@ export class CrearActividadComponent implements OnInit, AfterViewInit {
 }
 
 
-
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-    const name =
-        NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
-        ' ' +
-        NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
-        '.';
-
-    return {
-        id: id.toString(),
-        name: name,
-    };
-}

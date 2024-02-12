@@ -4,10 +4,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
-import { Actividad } from '../../modelos/actividad.interface';
+import { Actividad, ActividadEntity } from '../../modelos/actividad.interface';
 import { ActividadesApiService } from '../../servicios/actividades_api.service';
 import { CrearActividadDialogComponent } from '../crear-actividad-dialog/crear-actividad-dialog.component';
 import { ActualizarActividadComponent } from '../actualizar-actividad/actualizar-actividad.component';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-mostrar-actividades',
@@ -23,6 +25,11 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) tablaSort = new MatSort();
   @ViewChild(MatPaginator) paginador?: MatPaginator;
 
+  //Barra de busqueda
+  actividad : ActividadEntity = {};
+  searchControl = new FormControl('');
+  //searchValue: string = '';
+
   constructor(
     public dialog: MatDialog,
     private readonly actividadesService: ActividadesApiService,
@@ -30,10 +37,36 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.datoFilas.sort = this.tablaSort;
     this.datoFilas.paginator = this.paginador!;
+    this.searchControl.valueChanges.pipe(
+      debounceTime(300), // Espera 300ms después de que el usuario deje de escribir
+      distinctUntilChanged() // Asegura que solo se dispare cuando el valor cambia
+    ).subscribe(value => {
+      this.applyFilter(); // Aplica el filtro al cambiar el valor del campo de búsqueda
+    });
   }
   ngOnInit(): void {
     this.cargarActividades();
   }
+
+  /*
+  applyFilter(value: string): void {
+    value = value.trim().toLowerCase(); // Elimina espacios en blanco y convierte a minúsculas
+    this.datoFilas.filter = value; // Aplica el filtro al origen de datos de la tabla
+  }
+  */
+
+  applyFilter(): void {
+    const value = this.searchControl.value.trim().toLowerCase(); // Elimina espacios en blanco y convierte a minúsculas
+
+    // Definir el filterPredicate para la asignatura
+    this.datoFilas.filterPredicate = (data: ActividadEntity) => {
+      const asignatura = data.asignatura ? data.asignatura.nombre.toLowerCase() : '';
+      return asignatura.indexOf(value) !== -1;
+    };
+
+    this.datoFilas.filter = value; // Aplica el filtro al origen de datos de la tabla
+  }
+
 
   cargarActividades() {
     Swal.showLoading();
@@ -100,11 +133,12 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
             },
             complete: () => {
               this.cargarActividades();
-              Swal.fire(
-                'Actividad eliminada!',
-                'Se ha eliminado correctamente la actividad',
-                'success'
-              )
+              Swal.fire({
+                title: 'Actividad eliminada!',
+                text: "Se ha eliminado correctamente la actividad",
+                icon: 'success',
+                timer: 5000
+              })
             },
             error: (error) => {
               this.cargarActividades();
@@ -117,6 +151,8 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
       }
     })
   }
+
+  //FUncionalidad de la barra de bùsqueda
 
 
 }

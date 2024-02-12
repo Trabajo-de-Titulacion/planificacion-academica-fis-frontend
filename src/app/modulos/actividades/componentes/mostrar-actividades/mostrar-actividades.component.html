@@ -14,10 +14,11 @@
     </section>
     <section>
         <mat-form-field appearance="standard">
-            <mat-label>Buscar actividad:</mat-label>
-            <input matInput placeholder="Search columns" #input>
+            <mat-label>Buscar actividad</mat-label>
+            <input matInput placeholder="Código de asignatura" [formControl]="searchControl">
         </mat-form-field>
     </section>
+
     <section *ngIf="actividades.length">
         <mat-table [dataSource]="datoFilas" matSortDirection="asc">
             <!-- Docente -->
@@ -64,13 +65,14 @@
             <!-- BOTONES DE TIEMPO/LUGAR -->
             <ng-container matColumnDef="restricciones">
                 <mat-header-cell *matHeaderCellDef class="centerCell">Acciones</mat-header-cell>
-                <mat-cell *matCellDef="let fila" >
+                <mat-cell *matCellDef="let fila">
                     <!-- AÑADIR RESTRICCIONES -->
                     <button mat-icon-button [routerLink]="[fila.id,'restricciones']" matTooltip="Agregar restricciones">
                         <mat-icon color="primary">work_off</mat-icon>
                     </button>
                     <!-- ACTUALIZAR ACTIVIDAD -->
-                    <button mat-icon-button [routerLink]="[fila.id,'actualizar-actividad']" matTooltip="Actualizar actividad">
+                    <button mat-icon-button [routerLink]="[fila.id,'actualizar-actividad']"
+                        matTooltip="Actualizar actividad">
                         <mat-icon color="primary">edit</mat-icon>
                     </button>
                     <!-- ELIMINAR ACTIVIDAD -->
