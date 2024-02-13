@@ -12,10 +12,13 @@
             </button>
         </div>
     </section>
+
     <section>
-        <mat-form-field appearance="standard">
+        <br>
+        <mat-form-field appearance="outline" class="search">
             <mat-label>Buscar actividad</mat-label>
-            <input matInput placeholder="Código de asignatura" [formControl]="searchControl">
+            <input matInput placeholder="Por código, asignatura o docente" [formControl]="searchControl">
+            <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
     </section>
 

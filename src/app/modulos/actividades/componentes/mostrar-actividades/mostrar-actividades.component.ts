@@ -41,27 +41,24 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
       debounceTime(300), // Espera 300ms después de que el usuario deje de escribir
       distinctUntilChanged() // Asegura que solo se dispare cuando el valor cambia
     ).subscribe(value => {
-      this.applyFilter(); // Aplica el filtro al cambiar el valor del campo de búsqueda
+      this.applyFilter(value.trim().toLowerCase()); // Aplica el filtro al cambiar el valor del campo de búsqueda
     });
   }
   ngOnInit(): void {
     this.cargarActividades();
   }
 
-  /*
+
+
   applyFilter(value: string): void {
-    value = value.trim().toLowerCase(); // Elimina espacios en blanco y convierte a minúsculas
-    this.datoFilas.filter = value; // Aplica el filtro al origen de datos de la tabla
-  }
-  */
-
-  applyFilter(): void {
-    const value = this.searchControl.value.trim().toLowerCase(); // Elimina espacios en blanco y convierte a minúsculas
-
+    this.datoFilas.filter = value;
     // Definir el filterPredicate para la asignatura
     this.datoFilas.filterPredicate = (data: ActividadEntity) => {
+      const codigoAsignatura = data.asignatura ? data.asignatura.codigo.toLowerCase():'';
       const asignatura = data.asignatura ? data.asignatura.nombre.toLowerCase() : '';
-      return asignatura.indexOf(value) !== -1;
+      const docente = data.docente ? data.docente.nombreCompleto?.toLowerCase() : '';
+      return codigoAsignatura.indexOf(value) !== -1 || asignatura.indexOf(value) !== -1 || docente!!.indexOf(value) !== -1;
+      //return codigoAsignatura.includes(filter) || asignatura.includes(filter) || docente.includes(filter);
     };
 
     this.datoFilas.filter = value; // Aplica el filtro al origen de datos de la tabla

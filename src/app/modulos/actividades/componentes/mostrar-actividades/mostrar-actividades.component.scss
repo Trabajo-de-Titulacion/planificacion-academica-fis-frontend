@@ -39,7 +39,6 @@ mat-list-option[aria-selected="true"] {
 }
 
 
-
 .option {
     width: 100%;
     display: flex;
@@ -55,6 +54,10 @@ mat-list-option[aria-selected="true"] {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.search{
+    width: 33%;
 }
 
 *{
