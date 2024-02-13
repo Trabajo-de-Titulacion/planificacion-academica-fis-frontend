@@ -32,7 +32,7 @@
         <mat-form-field appearance="fill" floatLabel="always">
             <mat-label>Correo electrónico</mat-label>
             <input matInput formControlName="correoElectronico" placeholder="Ej.: nombre.apellido01">
-            <span matSuffix>@epn.edu.ec</span>
+            <span matSuffix>&#64;epn.edu.ec</span>
             <!-- ERRORES -->
             <mat-error *ngIf="formGroup.get('correoElectronico')?.invalid &&
                         formGroup.get('correoElectronico')?.touched &&

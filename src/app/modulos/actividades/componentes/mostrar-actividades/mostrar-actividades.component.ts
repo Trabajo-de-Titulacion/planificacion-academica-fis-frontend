@@ -41,7 +41,7 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
       debounceTime(300), // Espera 300ms después de que el usuario deje de escribir
       distinctUntilChanged() // Asegura que solo se dispare cuando el valor cambia
     ).subscribe(value => {
-      this.applyFilter(value.trim().toLowerCase()); // Aplica el filtro al cambiar el valor del campo de búsqueda
+      this.applyFilter(value!!.trim().toLowerCase()); // Aplica el filtro al cambiar el valor del campo de búsqueda
     });
   }
   ngOnInit(): void {
