@@ -26,7 +26,7 @@
                     <mat-error *ngIf="formGroup.get('correo')?.invalid && 
                         formGroup.get('correo')?.touched &&
                         (formGroup.get('correo')?.hasError('email') || formGroup.get('correo')?.hasError('pattern'))">
-                        Ingrese un correo institucional válido (Ej.: ejemplo@epn.edu.ec).
+                        Ingrese un correo institucional válido (Ej.: ejemplo&#64;epn.edu.ec).
                     </mat-error>
                 </mat-form-field>
                 <!-- INPUT CONTRASEÑA -->
@@ -44,7 +44,7 @@
                         !formGroup.get('constrasena')?.hasError('minlength') &&
                         !formGroup.get('constrasena')?.hasError('maxlength')">
                         La contraseña debe tener al menos un número, un caracter
-                        especial (@$!%*?&), una mayúscula y una minúscula.
+                        especial (&#64;$!%*?&), una mayúscula y una minúscula.
                     </mat-error>
                     <mat-error *ngIf="formGroup.get('constrasena')?.invalid &&
                         formGroup.get('constrasena')?.dirty &&

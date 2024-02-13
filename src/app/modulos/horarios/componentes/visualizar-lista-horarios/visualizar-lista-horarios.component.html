@@ -7,21 +7,19 @@
             </p>
         </div>
         <div class="header-operations">
-            <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary"
-            (click)="fileInput.click()">
+            <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary" (click)="fileInput.click()">
                 Cargar planificación (.fet)
             </button>
             <input hidden (change)="seleccionarArchivo($event)" onclick="this.value=null;" #fileInput type="file">
 
-            <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary"
-                (click)="test()">
+            <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary" (click)="test()">
                 Generar horario
             </button>
         </div>
     </section>
 
     <div class="parteSuperior">
-        <mat-form-field appearance="standard">
+        <mat-form-field appearance="fill">
             <mat-label>Filtro: </mat-label>
             <input matInput (keyup)="filtrarTabla($event)" placeholder="Ingrese el texto a buscar" #input>
         </mat-form-field>

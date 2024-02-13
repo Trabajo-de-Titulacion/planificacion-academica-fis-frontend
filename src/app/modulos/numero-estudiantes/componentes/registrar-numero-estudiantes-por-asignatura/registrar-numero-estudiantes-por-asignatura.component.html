@@ -1,8 +1,7 @@
 <div class="contenedor">
     <h1>Periodo semestre {{ semestreEnCurso? semestreEnCurso.abreviatura : '' }}</h1>
 
-    <mat-table [dataSource]="datoFilas" matSort matSortActive="codigo"
-        matSortDirection="asc" [formGroup]="formGroup">
+    <mat-table [dataSource]="datoFilas" matSort matSortActive="codigo" matSortDirection="asc" [formGroup]="formGroup">
 
         <!-- Código -->
         <ng-container matColumnDef="codigo">
@@ -21,10 +20,12 @@
         <ng-container matColumnDef="numeroEstudiantes">
             <mat-header-cell *matHeaderCellDef>Número de estudiantes</mat-header-cell>
             <mat-cell *matCellDef="let fila">
-                <mat-form-field appearance="legacy">
-                    <input matInput [formControlName]="fila.asignatura.codigo" type="number" [min]="0" [max]="configuracion.max">
+                <mat-form-field appearance="fill">
+                    <input matInput [formControlName]="fila.asignatura.codigo" type="number" [min]="0"
+                        [max]="configuracion.max">
                     <!-- Errores -->
-                    <mat-error *ngIf="formGroup.get(fila.asignatura.codigo)?.invalid && 
+                    <mat-error
+                        *ngIf="formGroup.get(fila.asignatura.codigo)?.invalid && 
                         formGroup.get(fila.asignatura.codigo)?.dirty &&
                         (formGroup.get(fila.asignatura.codigo)?.hasError('max') || formGroup.get(fila.asignatura.codigo)?.hasError('min'))">
                         Solo se admiten valores entre {{0}} y {{configuracion.max}}.
@@ -43,7 +44,8 @@
     <!-- Botones -->
     <div class="parteInferior">
         <!-- Guardar cambios -->
-        <button mat-raised-button color="primary" (click)="guardarCambios()" [disabled]="formGroup.invalid || !btnGuardarHabilitado">
+        <button mat-raised-button color="primary" (click)="guardarCambios()"
+            [disabled]="formGroup.invalid || !btnGuardarHabilitado">
             Guardar cambios
         </button>
     </div>
