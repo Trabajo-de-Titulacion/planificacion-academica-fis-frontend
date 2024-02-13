@@ -23,13 +23,12 @@ export class RestriccionLugarTiempoComponent implements OnInit {
   diasLaborables: string[] = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'];
   horasDisponibles: string[]= this.cargarHorasDisponibles();
 
-  restriccionePorActividad :obtenerRestriccion[] = [];
+  restriccionesPorActividad :obtenerRestriccion[] = [];
 
   //Referencias para tabla
   datosRestriccionesTable = new MatTableDataSource<any>([]);
   displayedColumns: string[] = ['aulaActividad', 'diaActividad', 'horaActividad', 'acciones'];
   //@ViewChild('tablaSort') tablaSort = new MatSort();
-
   constructor(
     private route:ActivatedRoute, 
     private actividadService:ActividadesApiService,
@@ -37,20 +36,33 @@ export class RestriccionLugarTiempoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.cargarFormulario();
     this.cargarParametro();
     this.cargarActividad(parseInt(this.idActividadRuta));
     this.cargarRestricciones(parseInt(this.idActividadRuta))
+    this.cargarFormulario();
     console.log(this.actividad)
   }
 
   cargarFormulario(){
+    console.log('restriccion**',this.restriccionesPorActividad)
+    /*
+    this.espacioFisicoSeleccionado = {
+      id: this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].idEspacioFisico : '',
+      nombre: this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].espacioFisico : '',
+      aforo: 0
+    }
+    */
+    const espacioFisicoInicial = this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].espacioFisico : "";
+    console.log('EPINICIAL:',espacioFisicoInicial);
+
     this.formularioRestriccionesLugarTiempo = this.formBuilder.group({
-      espacioFisico:['',[Validators.required]],
-      dia:['',[Validators.required]],
-      hora:['',[Validators.required]]
+      espacioFisico:[espacioFisicoInicial,[Validators.required]],
+      dia:[this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].dia: "",[Validators.required]],
+      hora:[this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].hora: "",[Validators.required]]
     });
+    
   }
+
 
   cargarParametro(){
     this.route.params.subscribe(
@@ -153,10 +165,12 @@ export class RestriccionLugarTiempoComponent implements OnInit {
       .obtenerRestriccionesPorId(idActividad)
       .subscribe({
         next: (data)=>{
-          this.restriccionePorActividad = data;
+          this.restriccionesPorActividad = data;
         },
         complete:()=>{
-          this.datosRestriccionesTable.data = this.restriccionePorActividad;
+          
+          this.cargarFormulario()
+          this.datosRestriccionesTable.data = this.restriccionesPorActividad;
         }
     }) 
   }
