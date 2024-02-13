@@ -20,6 +20,7 @@ import { CrearActividadComponent } from './componentes/crear-actividad/crear-act
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActualizarActividadComponent } from './componentes/actualizar-actividad/actualizar-actividad.component';
 import { ActividadesApiService } from './servicios/actividades_api.service';
+import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ActividadesApiService } from './servicios/actividades_api.service';
     MatTooltipModule,
     MatTableModule,
     MatButtonModule,
+    MatAutocompleteModule,
     MatInputModule,
     MatPaginatorModule,
     MatSortModule,

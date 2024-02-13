@@ -112,5 +112,8 @@
       }
     }
   },
-  "defaultProject": "SPA-Frontend"
+  "defaultProject": "SPA-Frontend",
+  "cli": {
+    "analytics": "3482904f-62ed-485b-9441-02fa67b9dc0b"
+  }
 }
