@@ -34,7 +34,7 @@
           <!-- Almuerzo -->
           <div *ngIf="fila[dia] === disponibilidad.ALMUERZO">Almuerzo</div>
 
-          <div class="fila-ocupada" *ngIf="fila[dia] === disponibilidad.OCUPADO_POR_ACTIVIDAD">Ocupado</div>
+          <div class="fila-ocupada" *ngIf="fila[dia] === disponibilidad.OCUPADO_POR_ACTIVIDAD">En Clases</div>
 
           <!-- Seleccionar hora -->
           <mat-checkbox *ngIf="fila[dia] == disponibilidad.DISPONIBLE"

@@ -1,16 +1,17 @@
 <div class="contenedor" *ngIf="formGroup">
     <form class="filtros" [formGroup]="formGroup">
-        <div class="columna" *ngIf="formGroup">
-            <mat-form-field appearance="fill" class="filtroDocente">
-                <mat-label>Filtrar el horario por docente:</mat-label>
-                <mat-select name="arregloDocentes" formControlName="filtroDocente">
-                    <mat-option *ngFor="let docente of arregloDocentes" [value]="docente.nombreCompleto">
-                        {{docente.nombreCompleto}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="columna">
+        <div class="columna filtroDocente" *ngIf="formGroup">
+                <mat-form-field appearance="fill" class="filtroDocente">
+                    <mat-label>Filtrar el horario por docente:</mat-label>
+                    <mat-select name="arregloDocentes" formControlName="filtroDocente">
+                        <mat-option *ngFor="let docente of arregloDocentes" [value]="docente.nombreCompleto">
+                            {{docente.nombreCompleto}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+        </div>        
+       
+        <div class="columna filtroGrupo">
             <mat-form-field appearance="fill" class="filtroGrupo">
                 <mat-label>Filtrar por grupo:</mat-label>
                 <mat-select name="arregloGrupos" formControlName="filtroGrupo">
@@ -19,7 +20,20 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+        </div>       
+
+        <div class="columna filtroAula">
+            <mat-form-field appearance="fill" class="filtroGrupo">
+                <mat-label>Filtrar por aula:</mat-label>
+                <mat-select name="arregloGrupos" formControlName="filtroGrupo">
+                    <mat-option *ngFor="let grupo of arregloGrupos" [value]="grupo.nombre">
+                        {{grupo.nombre}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
+
+
         <div>
             <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary"
             (click)="exporter.exportTable('xlsx')">
@@ -59,6 +73,8 @@
                             {{obtenerHorarioPorDiaGrupo(fila.horarioFilaGrupo, dia)!.aula}}</p>
                     </div>
                 </div>
+                <!-- AULA -->
+                
             </mat-cell>
         </ng-container>
 
