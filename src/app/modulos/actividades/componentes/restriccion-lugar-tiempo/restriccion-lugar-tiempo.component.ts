@@ -38,25 +38,17 @@ export class RestriccionLugarTiempoComponent implements OnInit {
   ngOnInit(): void {
     this.cargarParametro();
     this.cargarActividad(parseInt(this.idActividadRuta));
-    this.cargarRestricciones(parseInt(this.idActividadRuta))
     this.cargarFormulario();
-    console.log(this.actividad)
   }
 
   cargarFormulario(){
-    console.log('restriccion**',this.restriccionesPorActividad)
-    /*
-    this.espacioFisicoSeleccionado = {
-      id: this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].idEspacioFisico : '',
-      nombre: this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].espacioFisico : '',
-      aforo: 0
-    }
-    */
     const espacioFisicoInicial = this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].espacioFisico : "";
-    console.log('EPINICIAL:',espacioFisicoInicial);
+
+    // Busco el objeto
+    const espacioFisicoInicialObject = this.espaciosFisicosDisponibles.filter(e => e.nombre === espacioFisicoInicial)
 
     this.formularioRestriccionesLugarTiempo = this.formBuilder.group({
-      espacioFisico:[espacioFisicoInicial,[Validators.required]],
+      espacioFisico:[this.espaciosFisicosDisponibles.length ? espacioFisicoInicialObject[0]: "",[Validators.required]],
       dia:[this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].dia: "",[Validators.required]],
       hora:[this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].hora: "",[Validators.required]]
     });
@@ -68,7 +60,6 @@ export class RestriccionLugarTiempoComponent implements OnInit {
     this.route.params.subscribe(
       (params)=>{
         this.idActividadRuta = params['id'];
-        
       }
     )
   }
@@ -82,8 +73,6 @@ export class RestriccionLugarTiempoComponent implements OnInit {
       },
       complete: ()=>{
         this.actividad = actividad
-        console.log(this.actividad.id);
-        //
         this.cargarEspaciosFisicos(this.actividad.tipoAula?.id!!)
       }
     })
@@ -91,15 +80,12 @@ export class RestriccionLugarTiempoComponent implements OnInit {
   }
 
   cargarEspaciosFisicos(id:string){
-    let espacioFisico: ObtenerEspacioFisico[] = [] 
-
     this.actividadService.obtenerEspaciosFisicosPorTipoDeAula(id).subscribe({
       next: (data)=>{
-        espacioFisico = data;
+        this.espaciosFisicosDisponibles = data;
       },
       complete: ()=>{
-        this.espaciosFisicosDisponibles = espacioFisico
-        //console.log(this.espaciosFisicosDisponibles.id);
+        this.cargarRestricciones(parseInt(this.idActividadRuta))
       }
     })
   }
@@ -128,8 +114,6 @@ export class RestriccionLugarTiempoComponent implements OnInit {
       dia: this.formularioRestriccionesLugarTiempo.value.dia,
       hora: this.formularioRestriccionesLugarTiempo.value.hora
     };
-    console.log(restriccion)
-    console.log(this.formularioRestriccionesLugarTiempo.value)
 
     Swal.showLoading();
     this.actividadService.crearUnaRestriccion(restriccion).subscribe(
@@ -167,10 +151,9 @@ export class RestriccionLugarTiempoComponent implements OnInit {
         next: (data)=>{
           this.restriccionesPorActividad = data;
         },
-        complete:()=>{
-          
-          this.cargarFormulario()
+        complete:()=>{          
           this.datosRestriccionesTable.data = this.restriccionesPorActividad;
+          this.cargarFormulario()
         }
     }) 
   }
