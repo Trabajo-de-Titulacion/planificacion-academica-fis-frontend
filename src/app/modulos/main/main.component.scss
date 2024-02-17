@@ -69,3 +69,23 @@ mat-sidenav {
 #cuentaIcono:hover {
     color: $accent;
 }
+
+.nav-item{
+    display: flex;  
+}
+
+
+.nav-button-label{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rol-section-label {
+    margin-left: 2rem;
+    margin-top: 2rem;
+    h3 {
+        font-size: 1rem;
+        color: rgb(133, 133, 133);
+    }
+}
