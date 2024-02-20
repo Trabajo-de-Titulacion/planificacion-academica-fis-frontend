@@ -27,11 +27,11 @@
 }
 
 .mat-column-nombre {
-    flex: 0 0 50%;
+    flex: 0 0 20%;
 }
 
 .mat-column-codigo {
-    flex: 0 0 20%;
+    flex: 0 0 45%;
 }
 
 .mat-column-creditos {
@@ -39,5 +39,9 @@
 }
 
 .mat-column-acciones {
-    flex: 0 0 10%;
+    flex: 0 0 20%;
+}
+
+mat-form-field {
+    width: 22vw;
 }

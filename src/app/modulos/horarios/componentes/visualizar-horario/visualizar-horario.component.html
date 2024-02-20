@@ -44,20 +44,20 @@
     </form>
     <section class="schedule-container">
     <!-- Matriz con días de la semana -->
-    <mat-table matTableExporter [dataSource]="datoFilasTabla" #exporter="matTableExporter">
+    <mat-table matTableExporter [dataSource]="datoFilasTabla" #exporter="matTableExporter" class="schedule-table">
         <!-- Hora -->
-        <ng-container matColumnDef="HORA" sticky>
+        <ng-container matColumnDef="HORA">
             <mat-header-cell *matHeaderCellDef> HORA </mat-header-cell>
             <mat-cell *matCellDef="let fila"> {{fila.rangoHoras}} </mat-cell>
         </ng-container>
 
         <!-- Días -->
-        <ng-container *ngFor="let dia of columnasTabla.slice(1, columnasTabla.length)" class="column-DIA" [matColumnDef]="dia">
-            <mat-header-cell class="column-DIA" *matHeaderCellDef>{{dia}}</mat-header-cell>
-            <mat-cell class="column-DIA" *matCellDef="let fila">
+        <ng-container *ngFor="let dia of columnasTabla.slice(1, columnasTabla.length)" [matColumnDef]="dia">
+            <mat-header-cell class="column-DIA" *matHeaderCellDef class="column-DIA-header">{{dia}}</mat-header-cell>
+            <mat-cell *matCellDef="let fila">
                 <!-- DOCENTE -->
-                <div class="column-DIA" *ngIf="fila.horarioFilaDocente.length > 0">
-                    <div class="column-DIA" *ngIf="obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)">
+                <div *ngIf="fila.horarioFilaDocente.length > 0">
+                    <div *ngIf="obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)">
                         <h1 class="horario">{{obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)!.asignatura}}</h1>
                         <p class="horario">{{obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)!.tipoAula}}
                             {{obtenerHorarioPorDiaDocente(fila.horarioFilaDocente, dia)!.aula}}</p>

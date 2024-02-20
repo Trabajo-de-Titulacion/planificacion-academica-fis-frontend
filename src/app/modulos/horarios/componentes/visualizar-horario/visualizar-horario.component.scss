@@ -68,12 +68,16 @@
 
 // Columnas
 .mat-column-HORA {
-    flex: 0 0 12%; /* Reducimos el ancho de la columna HORA */
+    flex: 0 0 13%; /* Reducimos el ancho de la columna HORA */
     color:rgb(74,84,121);
 }
 
-.column-DIA {
+.column-DIA-header {
+    position: sticky;
     font-size: 1rem;
+    top: 0px;
+    z-index: 100;
+    background-color: #ECECEC;
 }
 
 mat-cell {
@@ -83,10 +87,27 @@ mat-cell {
 
 mat-header-cell,
 mat-cell {
+    padding: 5px;
+    font-size: 0.9rem;
+    text-align: center;
     justify-content: center;
     width: 50%;
+    border-right: 1px solid #ccc;
 }
 
 mat-table {
+    width: 100%;
+}
+
+mat-header-row {
+    position: sticky;
+    top: 0px;
+    background-color: #ECECEC;
+}
+
+mat-header-row,
+mat-header-cell,
+mat-row,
+mat-cell {
     width: 100%;
 }

@@ -37,7 +37,7 @@
 }
 
 .mat-column-fechaCreacion {
-    flex: 0 0 20%;
+    flex: 0 0 30%;
 }
 
 .mat-column-correoUsuario {
@@ -45,9 +45,17 @@
 }
 
 .mat-column-descripcion {
-    flex: 0 0 40%;
+    flex: 0 0 35%;
 }
 
 .mat-column-acciones {
-    flex: 0 0 5%;
+    flex: 0 0 15%;
+}
+
+.header-title {
+    flex: 0 0 50%;
+}
+
+mat-form-field {
+    flex: 0 0 30%;
 }
