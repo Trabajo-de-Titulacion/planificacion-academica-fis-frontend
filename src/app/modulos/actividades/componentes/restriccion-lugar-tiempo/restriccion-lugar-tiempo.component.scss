@@ -1,23 +1,27 @@
 .container-buttons {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    align-items: center; 
     height: 25%;
     width:100%;
 }
 
+
 .container-restriccion{
   display: flex;
+
   margin: 1rem;
 }
 
 .container-actividad{
   flex: 1;
+  height: auto;
 }
+
 
 .container-form{
   flex:1;
-  margin-left: 1rem;
+  margin-left: 1%;
 }
 
 .container-form mat-card{
@@ -26,4 +30,8 @@
 
 .container-restricciones-actuales{
   margin: 1rem;
+}
+
+.button-spacing {
+  margin-top: 1%;
 }

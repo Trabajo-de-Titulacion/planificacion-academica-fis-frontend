@@ -58,6 +58,10 @@ export class MainComponent implements OnInit {
     return this.usuarioService.obtenerRoles().includes(RolesEnum.COORDINADOR);
   }
 
+  esAsistenteAcademico() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.ASISTENTE_ACADEMICO);
+  }
+
   esDocente() {
     return this.usuarioService.obtenerRoles().includes(RolesEnum.DOCENTE);
   }

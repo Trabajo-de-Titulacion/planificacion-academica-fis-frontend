@@ -25,9 +25,6 @@ export class RestriccionLugarTiempoComponent implements OnInit {
 
   restriccionesPorActividad :obtenerRestriccion[] = [];
 
-  //Referencias para tabla
-  datosRestriccionesTable = new MatTableDataSource<any>([]);
-  displayedColumns: string[] = ['aulaActividad', 'diaActividad', 'horaActividad', 'acciones'];
   //@ViewChild('tablaSort') tablaSort = new MatSort();
   constructor(
     private route:ActivatedRoute, 
@@ -53,6 +50,7 @@ export class RestriccionLugarTiempoComponent implements OnInit {
       hora:[this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].hora: "",[Validators.required]]
     });
     
+    //console.log("idRestricciòn:", this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].idRestriccion:"");
   }
 
 
@@ -152,13 +150,12 @@ export class RestriccionLugarTiempoComponent implements OnInit {
           this.restriccionesPorActividad = data;
         },
         complete:()=>{          
-          this.datosRestriccionesTable.data = this.restriccionesPorActividad;
           this.cargarFormulario()
         }
     }) 
   }
 
-  eliminarRestriccion(idRestriccion:number){
+  eliminarRestriccion(){
     Swal.fire({
       title: 'Esta seguro de eliminar esta restricción?',
       text: "No se podrá revertir estos cambios!",
@@ -170,6 +167,8 @@ export class RestriccionLugarTiempoComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
+        const idRestriccion = this.restriccionesPorActividad[0].idRestriccion;
+        console.log("idRestriccion",idRestriccion)
         this.actividadService
           .eliminarRestriccionPorId(idRestriccion)
           .subscribe({
