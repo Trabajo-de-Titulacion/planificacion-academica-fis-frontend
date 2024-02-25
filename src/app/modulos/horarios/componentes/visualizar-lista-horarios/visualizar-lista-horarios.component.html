@@ -7,12 +7,12 @@
             </p>
         </div>
         <div class="header-operations">
-            <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary" (click)="fileInput.click()">
+            <button class="seccion-agregar-nivel-boton" *ngIf="esCoordinador()" mat-raised-button color="primary" (click)="fileInput.click()">
                 Cargar planificación (.fet)
             </button>
             <input hidden (change)="seleccionarArchivo($event)" onclick="this.value=null;" #fileInput type="file">
 
-            <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary" (click)="test()">
+            <button class="seccion-agregar-nivel-boton" *ngIf="esCoordinador()" mat-raised-button color="primary" (click)="test()">
                 Generar horario
             </button>
         </div>

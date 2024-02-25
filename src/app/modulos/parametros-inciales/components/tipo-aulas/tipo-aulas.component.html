@@ -34,14 +34,14 @@
             <button mat-icon-button *ngIf="esCoordinador()" (click)="abrirEditarTipoAulaDialog(data)">
               <mat-icon color="primary">edit</mat-icon>
             </button>
-            <button mat-icon-button disabled *ngIf="esAsistenteAcademico()" (click)="abrirEditarTipoAulaDialog(data)">
+            <button mat-icon-button disabled *ngIf="esAsistenteAcademico()">
               <mat-icon>edit</mat-icon>
             </button>
             <!-- Eliminar -->
             <button mat-icon-button *ngIf="esCoordinador()" (click)="eliminarTipoAula(data)">
               <mat-icon color="warn">delete</mat-icon>
             </button>
-            <button mat-icon-button disabled *ngIf="esAsistenteAcademico()" (click)="eliminarTipoAula(data)">
+            <button mat-icon-button disabled *ngIf="esAsistenteAcademico()">
               <mat-icon>delete</mat-icon>
             </button>
           </mat-cell>

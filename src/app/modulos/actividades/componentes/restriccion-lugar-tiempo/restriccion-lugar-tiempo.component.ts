@@ -7,6 +7,9 @@ import { ObtenerEspacioFisico } from '../../modelos/espacios-fisicos.interface';
 import Swal from 'sweetalert2';
 import { obtenerRestriccion } from '../../modelos/restriccion-actividad.interface';
 import { MatTableDataSource } from '@angular/material/table';
+import { Usuario } from 'src/app/servicios/auth/models/usuario.model';
+import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
+import { RolesEnum } from 'src/app/servicios/auth/enum/roles.enum';
 
 @Component({
   selector: 'app-restriccion-lugar-tiempo',
@@ -25,9 +28,12 @@ export class RestriccionLugarTiempoComponent implements OnInit {
 
   restriccionesPorActividad :obtenerRestriccion[] = [];
 
-  //@ViewChild('tablaSort') tablaSort = new MatSort();
+   //Rol de usuarios
+   usuario?: Usuario;
+
   constructor(
     private route:ActivatedRoute, 
+    private readonly usuarioService: UsuarioStorageService,
     private actividadService:ActividadesApiService,
     private formBuilder: FormBuilder
   ) { }
@@ -193,6 +199,15 @@ export class RestriccionLugarTiempoComponent implements OnInit {
           })
       }
     })
+  }
+
+  //Verificaciòn de rol
+  esCoordinador() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.COORDINADOR);
+  }
+
+  esAsistenteAcademico() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.ASISTENTE_ACADEMICO);
   }
 
 }

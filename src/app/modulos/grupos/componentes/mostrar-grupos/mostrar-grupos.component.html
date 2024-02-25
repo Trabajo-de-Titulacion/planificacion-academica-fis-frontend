@@ -7,7 +7,7 @@
             </p>
         </div>
         <div class="header-operations">
-            <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary"
+            <button class="seccion-agregar-nivel-boton" *ngIf="esCoordinador()" mat-raised-button color="primary"
                 (click)="abrirCrearGrupoAulaDialog()">
                 Crear uno o más grupos
             </button>

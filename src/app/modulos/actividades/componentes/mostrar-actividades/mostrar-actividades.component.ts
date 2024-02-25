@@ -10,6 +10,9 @@ import { CrearActividadDialogComponent } from '../crear-actividad-dialog/crear-a
 import { ActualizarActividadComponent } from '../actualizar-actividad/actualizar-actividad.component';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
+import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
+import { Usuario } from 'src/app/servicios/auth/models/usuario.model';
+import { RolesEnum } from 'src/app/servicios/auth/enum/roles.enum';
 
 @Component({
   selector: 'app-mostrar-actividades',
@@ -28,10 +31,13 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
   //Barra de busqueda
   actividad : ActividadEntity = {};
   searchControl = new FormControl('');
-  //searchValue: string = '';
+  
+  //Rol de usuarios
+  usuario?: Usuario;
 
   constructor(
     public dialog: MatDialog,
+    private readonly usuarioService: UsuarioStorageService,
     private readonly actividadesService: ActividadesApiService,
   ) { }
   ngAfterViewInit(): void {
@@ -149,7 +155,13 @@ export class MostrarActividadesComponent implements OnInit, AfterViewInit {
     })
   }
 
-  //FUncionalidad de la barra de bùsqueda
+  //Verificaciòn de rol
+  esCoordinador() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.COORDINADOR);
+  }
 
+  esAsistenteAcademico() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.ASISTENTE_ACADEMICO);
+  }
 
 }

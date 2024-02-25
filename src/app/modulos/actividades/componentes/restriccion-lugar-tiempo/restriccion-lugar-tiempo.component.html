@@ -108,10 +108,10 @@
 
             <!--BOTONES-->
             <div class="container-buttons">
-                <button *ngIf="restriccionesPorActividad.length === 0" (click)="crearRestriccion()" mat-raised-button
+                <button *ngIf="restriccionesPorActividad.length === 0 && esCoordinador()" (click)="crearRestriccion()" mat-raised-button
                     color="primary">
                     Crear restricción</button>
-                <button *ngIf="restriccionesPorActividad.length !== 0" (click)="eliminarRestriccion()" mat-raised-button
+                <button *ngIf="restriccionesPorActividad.length !== 0 && esCoordinador()" (click)="eliminarRestriccion()" mat-raised-button
                     color="warn">
                     Eliminar restricción</button>
                 <div class="button-spacing"></div>

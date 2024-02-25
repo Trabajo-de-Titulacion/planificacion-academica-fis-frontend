@@ -5,7 +5,6 @@ import { CrearTipoAulaDialogComponent } from './crear-tipo-aula-dialog/crear-tip
 import { EditarTipoAulaDialogComponent } from './editar-tipo-aula-dialog/editar-tipo-aula-dialog.component';
 import { TipoAula } from '../../models/tipo-aula.interface';
 import { TiposAulasApiService } from '../../services/tipos-aulas-api.service';
-
 import { Usuario } from 'src/app/servicios/auth/models/usuario.model';
 import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
 import { RolesEnum } from 'src/app/servicios/auth/enum/roles.enum';

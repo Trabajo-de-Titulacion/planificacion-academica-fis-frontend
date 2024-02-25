@@ -1,7 +1,7 @@
 <div class="header">
     <mat-card-title>Actualizar Actividad</mat-card-title>
 </div>
-<div class="activities" [formGroup]="formularioCrearActividad">
+<div class="activities" [formGroup]="formularioActualizarActividad">
     <div class="container">
         <section class="container-table-selection">
             <mat-card class="dialog">
@@ -224,8 +224,7 @@
                         </mat-form-field>
                     </mat-list-item>
                     <mat-list-item style="margin: 1rem 0rem 1rem 0rem;" class="send-form-button">
-                        <button [disabled]="!grupoSeleccionado || !asignaturaSeleccionada"
-                            (click)="actualizarActividad()" style="width: 100%; margin: auto;" mat-raised-button
+                        <button (click)="actualizarActividad()" style="width: 100%; margin: auto;" mat-raised-button
                             color="primary">Actualizar actividad</button>
                     </mat-list-item>
                 </mat-list>

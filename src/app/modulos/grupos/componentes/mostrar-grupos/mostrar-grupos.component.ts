@@ -9,6 +9,9 @@ import { Nivel } from '../../modelos/nivel.interface';
 import { GrupoApiService } from '../../servicios/grupo_api.service';
 import { NivelApiService } from '../../servicios/nivel_api.service';
 import { CrearGrupoDialogComponent } from '../crear-grupo-dialog/crear-grupo-dialog.component';
+import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
+import { Usuario } from 'src/app/servicios/auth/models/usuario.model';
+import { RolesEnum } from 'src/app/servicios/auth/enum/roles.enum';
 
 @Component({
     selector: 'app-mostrar-grupos',
@@ -23,8 +26,12 @@ export class MostrarGruposComponent implements OnInit, AfterViewInit {
     carreraSeleccionada?: Carrera;
     nivelSeleccionado?: Nivel;
 
+    //Rol de usuarios
+    usuario?: Usuario;
+
     constructor(
         public dialog: MatDialog,
+        private readonly usuarioService: UsuarioStorageService,
         private readonly carreraService: CarreraApiService,
         private readonly nivelesService: NivelApiService,
         private readonly gruposService: GrupoApiService,
@@ -215,5 +222,15 @@ export class MostrarGruposComponent implements OnInit, AfterViewInit {
             }
         })
     }
+
+    //Verificaciòn de rol
+    esCoordinador() {
+        return this.usuarioService.obtenerRoles().includes(RolesEnum.COORDINADOR);
+    }
+
+    esAsistenteAcademico() {
+        return this.usuarioService.obtenerRoles().includes(RolesEnum.ASISTENTE_ACADEMICO);
+    }
+
 
 }

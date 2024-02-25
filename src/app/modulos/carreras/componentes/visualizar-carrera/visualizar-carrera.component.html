@@ -47,12 +47,18 @@
             <mat-header-cell *matHeaderCellDef>Acciones </mat-header-cell>
             <mat-cell *matCellDef="let fila">
                 <!-- ACTUALIZAR CARRERA -->
-                <button mat-icon-button (click)="abrirActualizacionCarrera(fila)" matTooltip="Actualizar">
+                <button mat-icon-button *ngIf="esCoordinador()" (click)="abrirActualizacionCarrera(fila)" matTooltip="Actualizar">
                     <mat-icon color="primary">edit</mat-icon>
                 </button>
+                <button mat-icon-button disabled *ngIf="esAsistenteAcademico()">
+                    <mat-icon>edit</mat-icon>
+                </button>
                 <!-- ELIMINAR CARRERA -->
-                <button mat-icon-button (click)="eliminarCarrera(fila)" matTooltip="Eliminar">
+                <button mat-icon-button *ngIf="esCoordinador()" (click)="eliminarCarrera(fila)" matTooltip="Eliminar">
                     <mat-icon color="warn">delete</mat-icon>
+                </button>
+                <button mat-icon-button disabled *ngIf="esAsistenteAcademico()">
+                    <mat-icon>delete</mat-icon>
                 </button>
             </mat-cell>
         </ng-container>

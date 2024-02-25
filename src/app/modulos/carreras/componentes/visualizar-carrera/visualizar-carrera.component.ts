@@ -11,6 +11,9 @@ import { Carrera } from '../../modelos/carrera.interface';
 import { CarreraApiService } from '../../servicios/carreras_api.service';
 import { ActualizarCarreraComponent } from '../actualizar-carrera/actualizar-carrera.component';
 import { CrearCarreraComponent } from '../crear-carrera/crear-carrera.component';
+import { Usuario } from 'src/app/servicios/auth/models/usuario.model';
+import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
+import { RolesEnum } from 'src/app/servicios/auth/enum/roles.enum';
 
 @Component({
   selector: 'app-visualizar-carrera',
@@ -21,6 +24,7 @@ export class VisualizarCarreraComponent implements OnInit, AfterViewInit {
 
   constructor(
     private readonly carreraService: CarreraApiService,
+    private readonly usuarioService: UsuarioStorageService,
     private readonly router: Router,
     private readonly dialog: MatDialog
   ) { }
@@ -35,6 +39,9 @@ export class VisualizarCarreraComponent implements OnInit, AfterViewInit {
   @ViewChild('tablaSort') tablaSort = new MatSort();
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   rutaActual = this.router.url;
+
+  //Rol de usuarios
+  usuario?: Usuario;
 
   //Filtrar entre todos los elementos de la tabla
   filtrarTabla(event: Event) {
@@ -143,6 +150,15 @@ export class VisualizarCarreraComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(() => {
       this.cargarRegistros();
     })
+  }
+
+  //Verificaciòn de rol
+  esCoordinador() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.COORDINADOR);
+  }
+
+  esAsistenteAcademico() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.ASISTENTE_ACADEMICO);
   }
 
 }

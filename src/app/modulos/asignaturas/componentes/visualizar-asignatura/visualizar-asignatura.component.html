@@ -3,11 +3,11 @@
         <!-- BOTONES DE CREACIÓN -->
         <div>
             <!-- CREAR UNA ASIGNATURA -->
-            <button class="btnSuperior" mat-raised-button color="primary" (click)="abrirCreacionAsignatura()">
+            <button class="btnSuperior" *ngIf="esCoordinador()" mat-raised-button color="primary" (click)="abrirCreacionAsignatura()">
                 Crear nueva asignatura
             </button>
             <!-- CREAR VARIAS ASIGNATURAS -->
-            <button mat-raised-button color="accent" (click)="fileInput.click()">
+            <button mat-raised-button *ngIf="esCoordinador()" color="accent" (click)="fileInput.click()">
                 {{ archivoSeleccionado ? 'Cambiar archivo CSV' : 'Subir archivo CSV'}}
             </button>
             <input hidden (change)="seleccionarArchivo($event)" onclick="this.value = null;" #fileInput type="file">
@@ -47,12 +47,18 @@
             <mat-header-cell *matHeaderCellDef>Acciones </mat-header-cell>
             <mat-cell *matCellDef="let fila">
                 <!-- ACTUALIZAR ASIGNATURA -->
-                <button mat-icon-button (click)="abrirActualizacionAsignatura(fila)" matTooltip="Actualizar">
+                <button mat-icon-button *ngIf="esCoordinador()" (click)="abrirActualizacionAsignatura(fila)" matTooltip="Actualizar">
                     <mat-icon color="primary">edit</mat-icon>
                 </button>
+                <button mat-icon-button disabled *ngIf="esAsistenteAcademico()">
+                    <mat-icon>edit</mat-icon>
+                </button>
                 <!-- ELIMINAR ASIGNATURA -->
-                <button mat-icon-button (click)="eliminarAsignatura(fila)" matTooltip="Eliminar">
+                <button mat-icon-button *ngIf="esCoordinador()" (click)="eliminarAsignatura(fila)" matTooltip="Eliminar">
                     <mat-icon color="warn">delete</mat-icon>
+                </button>
+                <button mat-icon-button disabled *ngIf="esAsistenteAcademico()">
+                    <mat-icon>delete</mat-icon>
                 </button>
             </mat-cell>
         </ng-container>
