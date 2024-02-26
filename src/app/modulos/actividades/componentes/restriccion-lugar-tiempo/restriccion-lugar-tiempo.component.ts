@@ -56,6 +56,7 @@ export class RestriccionLugarTiempoComponent implements OnInit {
       hora:[this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].hora: "",[Validators.required]]
     });
     
+    console.log("Espacio fisico:", espacioFisicoInicial)
     //console.log("idRestricciòn:", this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].idRestriccion:"");
   }
 

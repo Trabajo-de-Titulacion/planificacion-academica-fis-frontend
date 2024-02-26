@@ -33,8 +33,12 @@
             <!-- Asignatura -->
             <ng-container matColumnDef="asignatura" matSort>
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Asignatura</mat-header-cell>
-                <mat-cell *matCellDef="let fila"> {{fila.asignatura.nombre}}
-                    ({{fila.asignatura.codigo}})</mat-cell>
+                <mat-cell  *matCellDef="let fila"> 
+                <div class="{{fila.restricciones.length ? 'activeRestriction': ''}}">
+                    {{fila.restricciones.length ? '*': ''}} {{fila.asignatura.nombre}}
+                    ({{fila.asignatura.codigo}})
+                </div>
+                </mat-cell>
             </ng-container>
 
             <!-- Número de estudiantes -->

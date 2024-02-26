@@ -32,8 +32,8 @@
             </p>
             <button class="seccion-agregar-nivel-boton" mat-raised-button
                 *ngIf="niveles.length === 0 && carrerasPoli.selectedOptions.hasValue()" color="primary"
-                class="buttonStyleConfirm" (click)="crearNiveles()">
-                Crear los {{carreraSeleccionada!!.duracion}} niveles de la carrera
+                (click)="crearNiveles()">
+                Crear los niveles de la carrera
             </button>
             <mat-selection-list #nivelesPoli *ngIf="niveles.length !== 0 && carrerasPoli.selectedOptions.hasValue()"
                 [multiple]="false" (selectionChange)="seleccionarNivel($event)">

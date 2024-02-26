@@ -76,7 +76,7 @@
             </mat-card>
         </section>
 
-        <section class="container-table-selection">
+        <section *ngIf="!mostrarSeccion" class="container-table-selection">
             <mat-card class="dialog">
                 <h3><strong>Selecciona un tipo de aula</strong></h3>
                 <mat-card-content>

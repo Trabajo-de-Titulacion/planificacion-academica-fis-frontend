@@ -78,14 +78,14 @@ export class MostrarGruposComponent implements OnInit, AfterViewInit {
 
 
     seleccionarSemestre(event: any) {
-        const idSemestre = event.option.value.id;
-        this.carreraSeleccionada = event.option.value as Carrera;
+        const idSemestre = event.options[0]._value.id;
+        this.carreraSeleccionada = event.options[0]._value as Carrera;
         this.cargarNiveles(idSemestre);
     }
 
     seleccionarNivel(event: any) {
-        const idSemestre = event.option.value.id;
-        this.nivelSeleccionado = event.option.value as Nivel;
+        const idSemestre = event.options[0]._value.id;
+        this.nivelSeleccionado = event.options[0]._value as Nivel;
         this.cargarGrupos(this.nivelSeleccionado.id!!);
     }
 
@@ -128,6 +128,7 @@ export class MostrarGruposComponent implements OnInit, AfterViewInit {
                 next: (data) => {
                     const niveles = data as Nivel[];
                     this.niveles = niveles;
+                    console.log('Niveeles --->', niveles)
                 },
                 error: (Err) => {
                     console.log("error: ", Err)

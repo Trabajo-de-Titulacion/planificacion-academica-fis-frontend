@@ -59,6 +59,7 @@ export class ActualizarActividadComponent implements OnInit {
   idActividadRuta: string = '';
   actividad: ActividadEntity = {};
   espaciosFisicosDisponibles: ObtenerEspacioFisico[] = []
+  mostrarSeccion = true;
 
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;
