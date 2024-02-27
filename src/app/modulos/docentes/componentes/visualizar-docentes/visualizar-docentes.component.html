@@ -3,11 +3,11 @@
         <!-- BOTONES DE CREACIÓN -->
         <div>
             <!-- CREAR UN DOCENTE -->
-            <button class="btnSuperior" mat-raised-button color="primary" (click)="abrirCreacionDocente()">
+            <button class="btnSuperior" *ngIf="esCoordinador()"  mat-raised-button color="primary" (click)="abrirCreacionDocente()">
                 Crear nuevo docente
             </button>
             <!-- CREAR VARIOS DOCENTES -->
-            <button mat-raised-button color="accent" (click)="fileInput.click()">
+            <button mat-raised-button *ngIf="esCoordinador()" color="accent" (click)="fileInput.click()">
                 {{ archivoSeleccionado ? 'Cambiar archivo CSV' : 'Subir archivo CSV'}}
             </button>
             <input hidden (change)="seleccionarArchivo($event)" onclick="this.value = null;" #fileInput type="file">
@@ -45,11 +45,11 @@
                     <mat-icon color="primary">edit_calendar</mat-icon>
                 </button>
                 <!-- ACTUALIZAR DOCENTE -->
-                <button mat-icon-button (click)="abrirActualizacionDocente(fila)" matTooltip="Actualizar">
+                <button mat-icon-button *ngIf="esCoordinador()" (click)="abrirActualizacionDocente(fila)" matTooltip="Actualizar">
                     <mat-icon color="primary">edit</mat-icon>
                 </button>
                 <!-- ELIMINAR DOCENTE -->
-                <button mat-icon-button (click)="eliminarDocente(fila)" matTooltip="Eliminar">
+                <button mat-icon-button *ngIf="esCoordinador()" (click)="eliminarDocente(fila)" matTooltip="Eliminar">
                     <mat-icon color="warn">delete</mat-icon>
                 </button>
             </mat-cell>
