@@ -27,6 +27,7 @@ export class TipoAulasComponent implements OnInit {
   // Table
   dataSource: TipoAula[] = []
   displayedColumns: string[] = ['Tipo de aula', 'Facultad', 'Acciones'];
+  mostrarSeccion = true;
 
   ngOnInit(): void {
     this.obtenerTipoAulas();

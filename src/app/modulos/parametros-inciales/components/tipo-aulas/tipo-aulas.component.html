@@ -27,7 +27,7 @@
         </ng-container>
 
         <!-- Acciones -->
-        <ng-container matColumnDef="Acciones">
+        <ng-container matColumnDef="Acciones" *ngIf="esCoordinador">
           <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
           <mat-cell *matCellDef="let data">
             <!-- Editar -->

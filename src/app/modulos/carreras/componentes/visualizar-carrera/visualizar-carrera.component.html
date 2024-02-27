@@ -3,7 +3,7 @@
         <!-- BOTONES DE CREACIÓN -->
         <div>
             <!-- CREAR UNA CARRERA -->
-            <button class="btnSuperior" mat-raised-button color="primary" (click)="abrirCreacionCarrera()">
+            <button *ngIf="esCoordinador()" class="btnSuperior" mat-raised-button color="primary" (click)="abrirCreacionCarrera()">
                 Crear nueva carrera
             </button>
         </div>

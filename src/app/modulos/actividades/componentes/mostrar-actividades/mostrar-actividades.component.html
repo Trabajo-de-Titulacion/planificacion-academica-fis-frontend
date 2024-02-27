@@ -35,7 +35,7 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Asignatura</mat-header-cell>
                 <mat-cell  *matCellDef="let fila"> 
                 <div class="{{fila.restricciones.length ? 'activeRestriction': ''}}">
-                    {{fila.restricciones.length ? '*': ''}} {{fila.asignatura.nombre}}
+                    {{fila.asignatura.nombre}}
                     ({{fila.asignatura.codigo}})
                 </div>
                 </mat-cell>
