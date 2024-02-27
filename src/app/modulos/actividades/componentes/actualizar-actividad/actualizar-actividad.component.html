@@ -1,7 +1,7 @@
 <div class="header">
     <mat-card-title>Actualizar Actividad</mat-card-title>
 </div>
-<div class="activities" [formGroup]="formularioCrearActividad">
+<div class="activities" [formGroup]="formularioActualizarActividad">
     <div class="container">
         <section class="container-table-selection">
             <mat-card class="dialog">
@@ -51,7 +51,6 @@
                     <div class="mat-elevation-z8 container-table">
                         <table mat-table [dataSource]="dataSourceAsignaturas" class="demo-table" matSort>
 
-
                             <!-- Name Column -->
                             <ng-container matColumnDef="asignatura">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Asignatura seleccionada:</th>
@@ -76,7 +75,7 @@
             </mat-card>
         </section>
 
-        <section class="container-table-selection">
+        <section *ngIf="!mostrarSeccion" class="container-table-selection">
             <mat-card class="dialog">
                 <h3><strong>Selecciona un tipo de aula</strong></h3>
                 <mat-card-content>
@@ -224,8 +223,7 @@
                         </mat-form-field>
                     </mat-list-item>
                     <mat-list-item style="margin: 1rem 0rem 1rem 0rem;" class="send-form-button">
-                        <button [disabled]="!grupoSeleccionado || !asignaturaSeleccionada"
-                            (click)="actualizarActividad()" style="width: 100%; margin: auto;" mat-raised-button
+                        <button (click)="actualizarActividad()" style="width: 100%; margin: auto;" mat-raised-button
                             color="primary">Actualizar actividad</button>
                     </mat-list-item>
                 </mat-list>

@@ -9,6 +9,9 @@ import { Nivel } from '../../modelos/nivel.interface';
 import { GrupoApiService } from '../../servicios/grupo_api.service';
 import { NivelApiService } from '../../servicios/nivel_api.service';
 import { CrearGrupoDialogComponent } from '../crear-grupo-dialog/crear-grupo-dialog.component';
+import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
+import { Usuario } from 'src/app/servicios/auth/models/usuario.model';
+import { RolesEnum } from 'src/app/servicios/auth/enum/roles.enum';
 
 @Component({
     selector: 'app-mostrar-grupos',
@@ -23,8 +26,12 @@ export class MostrarGruposComponent implements OnInit, AfterViewInit {
     carreraSeleccionada?: Carrera;
     nivelSeleccionado?: Nivel;
 
+    //Rol de usuarios
+    usuario?: Usuario;
+
     constructor(
         public dialog: MatDialog,
+        private readonly usuarioService: UsuarioStorageService,
         private readonly carreraService: CarreraApiService,
         private readonly nivelesService: NivelApiService,
         private readonly gruposService: GrupoApiService,
@@ -71,14 +78,14 @@ export class MostrarGruposComponent implements OnInit, AfterViewInit {
 
 
     seleccionarSemestre(event: any) {
-        const idSemestre = event.option.value.id;
-        this.carreraSeleccionada = event.option.value as Carrera;
+        const idSemestre = event.options[0]._value.id;
+        this.carreraSeleccionada = event.options[0]._value as Carrera;
         this.cargarNiveles(idSemestre);
     }
 
     seleccionarNivel(event: any) {
-        const idSemestre = event.option.value.id;
-        this.nivelSeleccionado = event.option.value as Nivel;
+        const idSemestre = event.options[0]._value.id;
+        this.nivelSeleccionado = event.options[0]._value as Nivel;
         this.cargarGrupos(this.nivelSeleccionado.id!!);
     }
 
@@ -121,6 +128,7 @@ export class MostrarGruposComponent implements OnInit, AfterViewInit {
                 next: (data) => {
                     const niveles = data as Nivel[];
                     this.niveles = niveles;
+                    console.log('Niveeles --->', niveles)
                 },
                 error: (Err) => {
                     console.log("error: ", Err)
@@ -215,5 +223,15 @@ export class MostrarGruposComponent implements OnInit, AfterViewInit {
             }
         })
     }
+
+    //Verificaciòn de rol
+    esCoordinador() {
+        return this.usuarioService.obtenerRoles().includes(RolesEnum.COORDINADOR);
+    }
+
+    esAsistenteAcademico() {
+        return this.usuarioService.obtenerRoles().includes(RolesEnum.ASISTENTE_ACADEMICO);
+    }
+
 
 }

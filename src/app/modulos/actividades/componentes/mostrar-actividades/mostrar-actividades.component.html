@@ -6,7 +6,7 @@
             </p>
         </div>
         <div class="header-operations">
-            <button class="seccion-agregar-nivel-boton" mat-raised-button color="primary"
+            <button class="seccion-agregar-nivel-boton" *ngIf="esCoordinador()" mat-raised-button color="primary"
                 [routerLink]="['crear-actividad']">
                 Crear una actividad
             </button>
@@ -33,8 +33,12 @@
             <!-- Asignatura -->
             <ng-container matColumnDef="asignatura" matSort>
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Asignatura</mat-header-cell>
-                <mat-cell *matCellDef="let fila"> {{fila.asignatura.nombre}}
-                    ({{fila.asignatura.codigo}})</mat-cell>
+                <mat-cell  *matCellDef="let fila"> 
+                <div class="{{fila.restricciones.length ? 'activeRestriction': ''}}">
+                    {{fila.asignatura.nombre}}
+                    ({{fila.asignatura.codigo}})
+                </div>
+                </mat-cell>
             </ng-container>
 
             <!-- Número de estudiantes -->
@@ -70,16 +74,16 @@
                 <mat-header-cell *matHeaderCellDef class="centerCell">Acciones</mat-header-cell>
                 <mat-cell *matCellDef="let fila">
                     <!-- AÑADIR RESTRICCIONES -->
-                    <button mat-icon-button [routerLink]="[fila.id,'restricciones']" matTooltip="Agregar restricciones">
+                    <button mat-icon-button [routerLink]="[fila.id,'restricciones']" matTooltip="Ver restriccion">
                         <mat-icon color="primary">work_off</mat-icon>
                     </button>
                     <!-- ACTUALIZAR ACTIVIDAD -->
-                    <button mat-icon-button [routerLink]="[fila.id,'actualizar-actividad']"
+                    <button mat-icon-button *ngIf="esCoordinador()" [routerLink]="[fila.id,'actualizar-actividad']"
                         matTooltip="Actualizar actividad">
                         <mat-icon color="primary">edit</mat-icon>
                     </button>
                     <!-- ELIMINAR ACTIVIDAD -->
-                    <button mat-icon-button (click)="eliminarActividad(fila.id)" matTooltip="Eliminar actividad">
+                    <button mat-icon-button *ngIf="esCoordinador()" (click)="eliminarActividad(fila.id)" matTooltip="Eliminar actividad">
                         <mat-icon color="warn">delete</mat-icon>
                     </button>
                 </mat-cell>

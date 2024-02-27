@@ -4,7 +4,7 @@ import { LoginComponent } from './modulos/login/login/login.component';
 import { BienvenidoComponent } from './modulos/main/bienvenido/bienvenido.component';
 import { MainComponent } from './modulos/main/main.component';
 import { EsCoordinadorGuard } from './servicios/auth/guards/es-coordinador.guard';
-import { EsDocenteGuard } from './servicios/auth/guards/es-docente.guard';
+import { EsAsistenteAcademicoGuard } from './servicios/auth/guards/es-asistente-academico.guard';
 import { EsGestorEspaciosFisicosGuard } from './servicios/auth/guards/es-gestor-espacios.guard';
 import { LoggedGuard } from './servicios/auth/guards/logged.guard';
 
@@ -29,53 +29,54 @@ const routes: Routes = [
       },
       {
         path: 'parametros-iniciales',
-        loadChildren: () => import('./modulos/parametros-inciales/paremetros-iniciales.module').then(m => m.ParametrosInicialesModule),
+        loadChildren: () => import('./modulos/parametros-inciales/paremetros-iniciales.module')
+          .then(m => m.ParametrosInicialesModule),
       },
       {
         path: 'espacios_fisicos',
-        canActivateChild: [EsGestorEspaciosFisicosGuard],
+        canActivateChild: [EsCoordinadorGuard, EsAsistenteAcademicoGuard],
         loadChildren: () => import("./modulos/espacios-fisicos/espacios-fisicos.module")
           .then(m => m.EspaciosFisicosModule)
       },
       {
         path: 'numero_estudiantes_por_semestre',
-        canActivateChild: [EsCoordinadorGuard],
+        canActivateChild: [EsCoordinadorGuard, EsAsistenteAcademicoGuard],
         loadChildren: () => import("./modulos/numero-estudiantes/numero-estudiantes.module")
           .then(m => m.NumeroEstudiantesModule)
       },
       {
         path: 'docentes',
-        canActivateChild: [EsCoordinadorGuard],
+        canActivateChild: [EsCoordinadorGuard, EsAsistenteAcademicoGuard],
         loadChildren: () => import("./modulos/docentes/docentes.module")
           .then(m => m.DocentesModule)
       },
       {
         path: 'asignaturas',
-        canActivateChild: [EsCoordinadorGuard],
+        canActivateChild: [EsCoordinadorGuard, EsAsistenteAcademicoGuard],
         loadChildren: () => import("./modulos/asignaturas/asignaturas.module")
           .then(m => m.AsignaturasModule)
       },
       {
         path: 'carreras',
-        canActivateChild: [EsCoordinadorGuard],
+        canActivateChild: [EsCoordinadorGuard, EsAsistenteAcademicoGuard],
         loadChildren: () => import("./modulos/carreras/carrera.module")
           .then(m => m.CarreraModule)
       },
       {
         path: 'grupos',
-        canActivateChild: [EsCoordinadorGuard],
+        canActivateChild: [EsCoordinadorGuard, EsAsistenteAcademicoGuard],
         loadChildren: () => import("./modulos/grupos/grupos.module")
           .then(m => m.GruposModule)
       },
       {
         path: 'actividades',
-        canActivateChild: [EsCoordinadorGuard],
+        canActivateChild: [EsCoordinadorGuard, EsAsistenteAcademicoGuard],
         loadChildren: () => import("./modulos/actividades/actividades.module")
           .then(m => m.ActividadesModule)
       },
       {
         path: 'horarios',
-        canActivateChild: [EsCoordinadorGuard],
+        canActivateChild: [EsCoordinadorGuard, EsAsistenteAcademicoGuard],
         loadChildren: () => import("./modulos/horarios/horario.module")
           .then(m => m.HorarioModule)
       },

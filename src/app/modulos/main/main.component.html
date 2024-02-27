@@ -50,14 +50,12 @@
                 </mat-list-item>
             </mat-nav-list>
 
-            <mat-divider *ngIf="esSubdecano() && (esCoordinador() || esDocente() || esGestorEspaciosFisicos())">
-            </mat-divider>
-
             <!-- Coordinador -->
             <div class="rol-section-label">
                 <h3 matSubheader *ngIf="esCoordinador()"><strong>Rol:</strong> Coordinador</h3>
+                <h3 matSubheader *ngIf="esAsistenteAcademico()"><strong>Rol:</strong> Asistente Académico</h3>
             </div>
-            <mat-nav-list *ngIf="esCoordinador()">
+            <mat-nav-list *ngIf="esCoordinador() || esAsistenteAcademico()">
                 <!-- Parámetros iniciales -->
                 <mat-list-item [ngClass]="mostrarRutaActiva('/spa/parametros-iniciales')"
                     [routerLink]="['/spa/parametros-iniciales']">
@@ -150,10 +148,8 @@
                 </mat-list-item>
             </mat-nav-list>
 
-            <mat-divider *ngIf="esCoordinador() && esGestorEspaciosFisicos()"></mat-divider>
-
             <!-- Gestor de espacios físicos -->
-            <h3 matSubheader *ngIf="esGestorEspaciosFisicos()">Gestor de espacios físicos</h3>
+            <h3 matSubheader *ngIf="esGestorEspaciosFisicos() ">Gestor de espacios físicos</h3>
             <mat-nav-list *ngIf="esGestorEspaciosFisicos()">
                 <!-- Gestionar aulas y laboratorios -->
                 <mat-list-item [ngClass]="mostrarRutaActiva('/spa/espacios_fisicos')"

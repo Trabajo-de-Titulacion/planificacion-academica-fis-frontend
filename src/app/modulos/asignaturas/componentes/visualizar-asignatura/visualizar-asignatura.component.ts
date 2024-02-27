@@ -11,6 +11,9 @@ import { Asignatura } from '../../modelos/asignatura.interface';
 import { AsignaturaApiService } from '../../servicios/asignaturas_api.service';
 import { ActualizarAsignaturaComponent } from '../actualizar-asignatura/actualizar-asignatura.component';
 import { CrearAsignaturaComponent } from '../crear-asignatura/crear-asignatura.component';
+import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
+import { Usuario } from 'src/app/servicios/auth/models/usuario.model';
+import { RolesEnum } from 'src/app/servicios/auth/enum/roles.enum';
 @Component({
   selector: 'app-visualizar-asignatura',
   templateUrl: './visualizar-asignatura.component.html',
@@ -20,6 +23,7 @@ export class VisualizarAsignaturaComponent implements OnInit, AfterViewInit {
 
   constructor(
     private readonly asignaturaService: AsignaturaApiService,
+    private readonly usuarioService: UsuarioStorageService,
     private readonly router: Router,
     private readonly dialog: MatDialog
   ) { }
@@ -34,6 +38,9 @@ export class VisualizarAsignaturaComponent implements OnInit, AfterViewInit {
   @ViewChild('tablaSort') tablaSort = new MatSort();
   @ViewChild(MatPaginator) paginador?: MatPaginator;
   rutaActual = this.router.url;
+
+  //Rol de usuarios
+  usuario?: Usuario;
 
   // Filtrar entre todos los elementos de la tabla
   filtrarTabla(event: Event) {
@@ -218,4 +225,13 @@ export class VisualizarAsignaturaComponent implements OnInit, AfterViewInit {
     }
   }
 
+
+  //Verificaciòn de rol
+  esCoordinador() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.COORDINADOR);
+  }
+
+  esAsistenteAcademico() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.ASISTENTE_ACADEMICO);
+  }
 }

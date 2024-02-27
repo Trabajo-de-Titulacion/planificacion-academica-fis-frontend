@@ -7,6 +7,9 @@ import { ObtenerEspacioFisico } from '../../modelos/espacios-fisicos.interface';
 import Swal from 'sweetalert2';
 import { obtenerRestriccion } from '../../modelos/restriccion-actividad.interface';
 import { MatTableDataSource } from '@angular/material/table';
+import { Usuario } from 'src/app/servicios/auth/models/usuario.model';
+import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
+import { RolesEnum } from 'src/app/servicios/auth/enum/roles.enum';
 
 @Component({
   selector: 'app-restriccion-lugar-tiempo',
@@ -25,12 +28,12 @@ export class RestriccionLugarTiempoComponent implements OnInit {
 
   restriccionesPorActividad :obtenerRestriccion[] = [];
 
-  //Referencias para tabla
-  datosRestriccionesTable = new MatTableDataSource<any>([]);
-  displayedColumns: string[] = ['aulaActividad', 'diaActividad', 'horaActividad', 'acciones'];
-  //@ViewChild('tablaSort') tablaSort = new MatSort();
+   //Rol de usuarios
+   usuario?: Usuario;
+
   constructor(
     private route:ActivatedRoute, 
+    private readonly usuarioService: UsuarioStorageService,
     private actividadService:ActividadesApiService,
     private formBuilder: FormBuilder
   ) { }
@@ -53,6 +56,8 @@ export class RestriccionLugarTiempoComponent implements OnInit {
       hora:[this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].hora: "",[Validators.required]]
     });
     
+    console.log("Espacio fisico:", espacioFisicoInicial)
+    //console.log("idRestricciòn:", this.restriccionesPorActividad.length ? this.restriccionesPorActividad[0].idRestriccion:"");
   }
 
 
@@ -152,13 +157,12 @@ export class RestriccionLugarTiempoComponent implements OnInit {
           this.restriccionesPorActividad = data;
         },
         complete:()=>{          
-          this.datosRestriccionesTable.data = this.restriccionesPorActividad;
           this.cargarFormulario()
         }
     }) 
   }
 
-  eliminarRestriccion(idRestriccion:number){
+  eliminarRestriccion(){
     Swal.fire({
       title: 'Esta seguro de eliminar esta restricción?',
       text: "No se podrá revertir estos cambios!",
@@ -170,6 +174,8 @@ export class RestriccionLugarTiempoComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
+        const idRestriccion = this.restriccionesPorActividad[0].idRestriccion;
+        console.log("idRestriccion",idRestriccion)
         this.actividadService
           .eliminarRestriccionPorId(idRestriccion)
           .subscribe({
@@ -194,6 +200,15 @@ export class RestriccionLugarTiempoComponent implements OnInit {
           })
       }
     })
+  }
+
+  //Verificaciòn de rol
+  esCoordinador() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.COORDINADOR);
+  }
+
+  esAsistenteAcademico() {
+    return this.usuarioService.obtenerRoles().includes(RolesEnum.ASISTENTE_ACADEMICO);
   }
 
 }

@@ -30,6 +30,7 @@ import { EsGestorEspaciosFisicosGuard } from './servicios/auth/guards/es-gestor-
 import { EsJefeDeDepartamentoGuard } from './servicios/auth/guards/es-jefe-de-departamento.guard';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { EsAsistenteAcademicoGuard } from './servicios/auth/guards/es-asistente-academico.guard';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     authInterceptorProviders,
     LoggedGuard,
     EsCoordinadorGuard,
+    EsAsistenteAcademicoGuard,
     EsDocenteGuard,
     EsSubdecanoGuard,
     EsGestorEspaciosFisicosGuard,

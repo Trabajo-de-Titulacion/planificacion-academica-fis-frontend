@@ -3,7 +3,7 @@
     <div>Aulas disponibles </div>
     <div>
       <div class="tab-titulo-acciones">
-        <button mat-raised-button (click)="abrirCrearTipoAulaDialog()" color="primary">Añadir aula</button>
+        <button mat-raised-button *ngIf="esCoordinador()" (click)="abrirCrearTipoAulaDialog()" color="primary">Añadir aula</button>
       </div>
     </div>
 
@@ -27,16 +27,22 @@
         </ng-container>
 
         <!-- Acciones -->
-        <ng-container matColumnDef="Acciones">
+        <ng-container matColumnDef="Acciones" *ngIf="esCoordinador">
           <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
           <mat-cell *matCellDef="let data">
             <!-- Editar -->
-            <button mat-icon-button (click)="abrirEditarTipoAulaDialog(data)">
+            <button mat-icon-button *ngIf="esCoordinador()" (click)="abrirEditarTipoAulaDialog(data)">
               <mat-icon color="primary">edit</mat-icon>
             </button>
+            <button mat-icon-button disabled *ngIf="esAsistenteAcademico()">
+              <mat-icon>edit</mat-icon>
+            </button>
             <!-- Eliminar -->
-            <button mat-icon-button (click)="eliminarTipoAula(data)">
+            <button mat-icon-button *ngIf="esCoordinador()" (click)="eliminarTipoAula(data)">
               <mat-icon color="warn">delete</mat-icon>
+            </button>
+            <button mat-icon-button disabled *ngIf="esAsistenteAcademico()">
+              <mat-icon>delete</mat-icon>
             </button>
           </mat-cell>
         </ng-container>

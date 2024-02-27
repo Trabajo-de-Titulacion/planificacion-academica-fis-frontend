@@ -10,6 +10,7 @@ import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.se
 import Swal from 'sweetalert2';
 import { Horario } from '../../modelos/horario.interface';
 import { HorarioApiService } from '../../servicios/horarios_api.service';
+import { RolesEnum } from 'src/app/servicios/auth/enum/roles.enum';
 
 @Component({
   selector: 'app-visualizar-lista-horarios',
@@ -156,5 +157,14 @@ export class VisualizarListaHorariosComponent implements OnInit {
       )
   
     }
+  }
+
+   //Verificaciòn de rol
+  esCoordinador() {
+    return this.usuarioStorageService.obtenerRoles().includes(RolesEnum.COORDINADOR);
+  }
+
+  esAsistenteAcademico() {
+    return this.usuarioStorageService.obtenerRoles().includes(RolesEnum.ASISTENTE_ACADEMICO);
   }
 }

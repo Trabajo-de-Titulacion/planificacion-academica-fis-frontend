@@ -11,6 +11,9 @@ import { DocenteApiService } from 'src/app/modulos/docentes/servicios/docentes_a
 import { Docente } from 'src/app/modulos/docentes/modelos/docente.interface';
 import { CrearDocenteComponent } from '../crear-docente/crear-docente.component';
 import { ActualizarDocenteComponent } from '../actualizar-docente/actualizar-docente.component';
+import { Usuario } from 'src/app/servicios/auth/models/usuario.model';
+import { UsuarioStorageService } from 'src/app/servicios/auth/usuario-storage.service';
+import { RolesEnum } from 'src/app/servicios/auth/enum/roles.enum';
 
 @Component({
   selector: 'app-visualizar-docentes',
@@ -21,6 +24,7 @@ export class VisualizarDocentesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private readonly docenteService: DocenteApiService,
+    private readonly usuarioService: UsuarioStorageService,
     private readonly router: Router,
     private readonly dialog: MatDialog,
   ) { }
@@ -35,6 +39,9 @@ export class VisualizarDocentesComponent implements OnInit, AfterViewInit {
   @ViewChild('tablaSort') tablaSort = new MatSort();
   @ViewChild(MatPaginator) paginador?: MatPaginator;
   rutaActual = this.router.url;
+
+  //Rol de usuarios
+  usuario?: Usuario;
 
   // Filtrar entre todos los elementos de la tabla
 
@@ -220,5 +227,14 @@ export class VisualizarDocentesComponent implements OnInit, AfterViewInit {
       this.crearVariosDocentes();
     }
   }
+
+    //Verificaciòn de rol
+    esCoordinador() {
+      return this.usuarioService.obtenerRoles().includes(RolesEnum.COORDINADOR);
+    }
+  
+    esAsistenteAcademico() {
+      return this.usuarioService.obtenerRoles().includes(RolesEnum.ASISTENTE_ACADEMICO);
+    }
 
 }
