@@ -13,13 +13,17 @@ import Swal from 'sweetalert2';
 import { Horario } from '../../modelos/horario.interface';
 import { HorarioGrupo } from '../../modelos/horarioGrupo.interface';
 import { HorarioDocente } from '../../modelos/horarioDocente.interface';
+import { HorarioAula } from '../../modelos/horarioAula.interface';
 import { HorarioApiService } from '../../servicios/horarios_api.service';
+import { EspacioFisico } from 'src/app/modulos/espacios-fisicos/modelos/espacio_fisico.interface';
+import { EspaciosFisicosApiService } from 'src/app/modulos/espacios-fisicos/servicios/espacios_fisicos_api.service';
 
 interface Hora {
   hora: number,
   rangoHoras: string,
   horarioFilaDocente: HorarioDocente[],
   horarioFilaGrupo: HorarioGrupo[],
+  horarioFilaAula: HorarioAula[]
 }
 
 @Component({
@@ -37,6 +41,7 @@ export class VisualizarHorarioComponent implements OnInit {
     private readonly docenteService: DocenteApiService,
     private readonly semestresService: SemestreService,
     private readonly grupoService: GrupoApiService,
+    private readonly aulaService: EspaciosFisicosApiService,
   ) { }
 
   columnasTabla: string[] = ['HORA'];
@@ -46,10 +51,12 @@ export class VisualizarHorarioComponent implements OnInit {
   horarioJSON?: Horario;
   arregloDocentes?: Docente[];
   arregloGrupos?: Grupo[];
+  arregloAulas?: EspacioFisico[];
 
   params$?: Subscription;
   filtroDocenteSuscripcion$?: Subscription;
   filtroGrupoSuscripcion$?: Subscription;
+  filtroAulaSuscripcion$?: Subscription;
   filtroSeleccionado?: string;
 
   cargando: boolean = false;
@@ -94,6 +101,7 @@ export class VisualizarHorarioComponent implements OnInit {
         this.idHorario = String(params['id']);
         this.obtenerDocentes();
         this.obtenerGrupos();
+        this.obtenerAulas();
       },
       error: (res) => {
         this.redireccionarTrasError(res);
@@ -121,6 +129,7 @@ export class VisualizarHorarioComponent implements OnInit {
         rangoHoras: `${hora}:00 - ${hora + 1}:00`,
         horarioFilaDocente: [],
         horarioFilaGrupo: [],
+        horarioFilaAula: [],
       };
       this.datoFilasTabla.data.push(horaSemana);
     }
@@ -136,16 +145,57 @@ export class VisualizarHorarioComponent implements OnInit {
       ),
       filtroGrupo: new FormControl(
         { value: '', disabled: false }
-      )
+      ),
+      filtroAula: new FormControl(
+        { value: '', disabled: false }
+      ),
     });
+
+    this.filtroAulaSuscripcion$ = this.formGroup.get('filtroAula')!.valueChanges
+      .subscribe({
+        next: (nombreAula) => {
+          if (this.formGroup!.get('filtroAula')!.value !== "") {
+            this.datoFilasTabla.data.forEach((fila) => {
+              fila.horarioFilaGrupo = [];
+              fila.horarioFilaDocente = [];
+              fila.horarioFilaAula = [];
+            });
+
+            Swal.showLoading();
+
+            this.horarioService.obtenerHorarioAula(nombreAula, this.idHorario!)
+              .subscribe({
+                next: (arregloAulas) => {
+                  for (let i = 0; i < this.datoFilasTabla.data.length; i++) {
+                    const filtroDeHorario = arregloAulas.filter(horario => {
+                      return Number(horario.horario.split(":")[0]) == this.datoFilasTabla.data[i].hora;
+                    });
+                    filtroDeHorario.forEach((h) => {
+                      this.datoFilasTabla.data[i].horarioFilaAula?.push(h);
+                    });
+                  }
+                },
+                error: (error) => {
+                  Swal.fire('Error', `${error.message}`, 'error')
+                },
+                complete: () => {
+                  Swal.close();
+                }
+              })
+              this.formGroup?.get('filtroDocente')!.setValue('');
+              this.formGroup?.get('filtroGrupo')!.setValue('');
+          }
+        }
+      })
 
     this.filtroDocenteSuscripcion$ = this.formGroup.get('filtroDocente')!.valueChanges
       .subscribe({
         next: (nombreDocente) => {
-          if (this.formGroup!.get('filtroDocente')!.value != "") {
+          if (this.formGroup!.get('filtroDocente')!.value !== "") {
             this.datoFilasTabla.data.forEach((fila) => {
               fila.horarioFilaGrupo = [];
               fila.horarioFilaDocente = [];
+              fila.horarioFilaAula = [];
             });
 
             Swal.showLoading();
@@ -157,6 +207,9 @@ export class VisualizarHorarioComponent implements OnInit {
                     const filtroDeHorario = arregloDocentes.filter(horario => {
                       return Number(horario.horario.split(":")[0]) == this.datoFilasTabla.data[i].hora;
                     });
+
+                    console.log("filtroDeHorario -- Docente ---->", filtroDeHorario)
+
                     filtroDeHorario.forEach((h) => {
                       this.datoFilasTabla.data[i].horarioFilaDocente?.push(h);
                     });
@@ -170,6 +223,7 @@ export class VisualizarHorarioComponent implements OnInit {
                 }
               })
             this.formGroup?.get('filtroGrupo')!.setValue('');
+            this.formGroup?.get('filtroAula')!.setValue('');
           }
         }
       })
@@ -181,6 +235,7 @@ export class VisualizarHorarioComponent implements OnInit {
             this.datoFilasTabla.data.forEach((fila) => {
               fila.horarioFilaGrupo = [];
               fila.horarioFilaDocente = [];
+              fila.horarioFilaAula = [];
             });
 
             Swal.showLoading();
@@ -206,6 +261,7 @@ export class VisualizarHorarioComponent implements OnInit {
               })
 
             this.formGroup?.get('filtroDocente')!.setValue('');
+            this.formGroup?.get('filtroAula')!.setValue('');
           }
         }
       })
@@ -221,6 +277,15 @@ export class VisualizarHorarioComponent implements OnInit {
   }
 
   obtenerHorarioPorDiaGrupo(arregloHorario: HorarioGrupo[], dia: string) {
+    if (arregloHorario) {
+      return arregloHorario.find((horario) => {
+        return horario.dia == dia;
+      })
+    }
+    return undefined;
+  }
+
+  obtenerHorarioPorDiaAula(arregloHorario: HorarioAula[], dia: string) {
     if (arregloHorario) {
       return arregloHorario.find((horario) => {
         return horario.dia == dia;
@@ -255,6 +320,22 @@ export class VisualizarHorarioComponent implements OnInit {
           Swal.fire(
             'Error',
             'No se pudo obtener los datos de los grupos.',
+            'error'
+          )
+        }
+      });
+  }
+
+  obtenerAulas(){
+    this.aulaService.obtenerEspaciosFisicos()
+      .subscribe({
+        next: (result) => {
+          this.arregloAulas = result as EspacioFisico[];
+        },
+        error: (error) => {
+          Swal.fire(
+            'Error',
+            'No se pudo obtener los datos de las aulas.',
             'error'
           )
         }

@@ -25,8 +25,8 @@
     
       <!-- Días -->
       <ng-container *ngFor="let dia of columnasTabla.slice(1, columnasTabla.length)"
-        [matColumnDef]="dia"
-      >
+        [matColumnDef]="dia">
+        
         <mat-header-cell *matHeaderCellDef>{{dia}}</mat-header-cell>
         <mat-cell *matCellDef="let fila">
           <!-- No hay hora que seleccionar -->
@@ -46,23 +46,4 @@
       <mat-header-row *matHeaderRowDef="columnasTabla"></mat-header-row>
       <mat-row *matRowDef="let fila; columns: columnasTabla;"></mat-row>
   </mat-table>
-
-  
-  <!-- Botones -->
-  <div class="parteInferior">
-    <!-- Botones -->
-    <div>
-      <!-- Desmarcar todas las opciones 
-      <button mat-raised-button color="warn" (click)="desmarcarTodo()"
-        [disabled]="!btnDesmarcarHabilitado">
-        Desmarcar todo
-      </button>-->
-
-      <!-- Guardar cambios 
-      <button mat-raised-button color="primary" (click)="guardarCambios()"
-        [disabled]="!btnGuardarHabilitado">
-        {{nombreBtnGuardar}}
-      </button>-->
-    </div>
-  </div>
 </div>

@@ -349,6 +349,7 @@ export class ModificarHorasNoDisponiblesComponent implements OnInit, OnDestroy {
       for (let index = 0; index < registrosACrear.length; index++) {
         const element = registrosACrear[index];
         try {
+          console.log("Datos que se envian ---> ", element)
           await lastValueFrom(this.horasNoDisponiblesService.crearHoraDiaNoDisponible(element))
           restriccionesQueSiSeGuardaron.push(element)
         } catch (error) {

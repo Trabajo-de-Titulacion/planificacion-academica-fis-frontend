@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { apiUrl } from 'src/environments/environment';
 import { HorarioDocente } from '../modelos/horarioDocente.interface';
 import { HorarioGrupo } from '../modelos/horarioGrupo.interface';
+import { HorarioAula } from '../modelos/horarioAula.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -31,6 +32,20 @@ export class HorarioApiService {
     obtenerHorarioGrupo(grupo: string, idHorario: string) {
         const url = apiUrl + `${this.ruta}/obtenerHorarioGrupo/${grupo}/${idHorario}`;
         return this.httpCliente.get<HorarioGrupo[]>(url);
+    }
+
+    /* ======================================================================================= */
+    /* =============================== OBTENER HORARIO AULA =============================== */
+    /* ======================================================================================= */
+
+    
+
+    obtenerHorarioAula(nombreAula: string, idHorario: string) {
+
+        nombreAula = encodeURIComponent(nombreAula); 
+
+        const url = apiUrl + `${this.ruta}/obtenerHorarioAula/${nombreAula}/${idHorario}`;
+        return this.httpCliente.get<HorarioAula[]>(url);
     }
 
     /* ======================================================================================= */
